@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Test": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\devenv.exe",
+      "commandLineArgs": "D:\\Projets\\DataViewModelLib\\TestGUI\\TestGUI.csproj"
+    },
+    "Debug": {
+      "commandName": "DebugRoslynComponent",
+      "targetProject": "..\\TestGUI\\TestGUI.csproj"
+    }
+  }
+}
