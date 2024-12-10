@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using DataModelGenerator;
+using DataModelLib.Common;
 
 namespace TestGUI.DataSources
 {

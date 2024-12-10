@@ -19,12 +19,14 @@ namespace DataViewModelLib.UnitTests
 
 			database = new Database("ns", "MyDB");
 			table = new Table("ns1", database.DatabaseName, "Personn1");
-			table = new Table("ns2", database.DatabaseName, "Personn2");
 			database.Tables.Add(table);
 
 			source = sourceGenerator.GenerateSource(table);
 
 			Assert.IsTrue(source.Contains("using System.Windows;"));
+			Assert.IsTrue(source.Contains("using DataModelLib.Common;"));
+			Assert.IsTrue(source.Contains("using ns1.Models;"));
+			
 
 		}
 
@@ -44,6 +46,7 @@ namespace DataViewModelLib.UnitTests
 
 			source = sourceGenerator.GenerateSource(table);
 
+			Assert.IsTrue(source.Contains("namespace ns.ViewModels"));
 			Assert.IsTrue(source.Contains("public partial class PersonnViewModel"));
 
 		}

@@ -23,8 +23,9 @@ namespace DataViewModelLib.UnitTests
 
 			source = sourceGenerator.GenerateSource(database);
 
-			Assert.IsTrue(source.Contains("using ns1"));
-			Assert.IsTrue(source.Contains("using ns2"));
+			Assert.IsTrue(source.Contains("using DataModelLib.Common;"));
+			Assert.IsTrue(source.Contains("using ns1.Models"));
+			Assert.IsTrue(source.Contains("using ns2.Models"));
 
 		}
 
@@ -41,7 +42,7 @@ namespace DataViewModelLib.UnitTests
 
 			source = sourceGenerator.GenerateSource(database);
 
-			Assert.IsTrue(source.Contains("namespace ns"));
+			Assert.IsTrue(source.Contains("namespace ns.ViewModels"));
 			Assert.IsTrue(source.Contains("public partial class MyDBViewModel"));
 		}
 

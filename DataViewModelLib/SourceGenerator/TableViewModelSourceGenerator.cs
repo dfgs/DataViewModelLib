@@ -20,8 +20,10 @@ namespace DataViewModelLib.SourceGenerator
 			using System.Linq;
 			using System.ComponentModel;
 			using System.Windows;
-									
-			namespace {{Table.Namespace}}
+			using DataModelLib.Common;
+			using {{Table.Namespace}}.Models;			
+			
+			namespace {{Table.Namespace}}.ViewModels
 			{
 				public partial class {{Table.TableName}}ViewModel : DependencyObject
 				{

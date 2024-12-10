@@ -18,7 +18,7 @@ namespace DataViewModelLib
 
 	
 	[Generator]
-	public class SchemaGenerator : BaseSchemaGenerator
+	public class CodeGenerator : BaseCodeGenerator
 	{
 
 

@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TestGUI.DataSources;
 
 namespace TestGUI
 {
@@ -16,9 +17,12 @@ namespace TestGUI
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		//private TestDatabaseViewModel testDatabaseViewModel;
+
 		public MainWindow()
 		{
 			InitializeComponent();
+			//testDatabaseViewModel = new TestDatabaseViewModel();
 		}
 	}
 }
