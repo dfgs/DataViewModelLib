@@ -66,7 +66,7 @@ namespace DataViewModelLib.UnitTests
 
 			source = sourceGenerator.GenerateSource(table);
 
-			Assert.IsTrue(source.Contains("public PersonnViewModelCollection(MyDBViewModel DatabaseViewModel,PersonnModel DataSource)"));
+			Assert.IsTrue(source.Contains("public PersonnViewModelCollection(MyDBViewModel DatabaseViewModel)"));
 
 		}
 

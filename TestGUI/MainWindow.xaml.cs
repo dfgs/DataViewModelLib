@@ -19,6 +19,12 @@ namespace TestGUI
 	{
 		//private TestDatabaseViewModel testDatabaseViewModel;
 
+
+
+
+		
+
+
 		public MainWindow()
 		{
 			InitializeComponent();

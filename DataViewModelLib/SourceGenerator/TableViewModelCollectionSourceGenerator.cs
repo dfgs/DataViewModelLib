@@ -28,17 +28,11 @@ namespace DataViewModelLib.SourceGenerator
 				public partial class {{Table.TableName}}ViewModelCollection : DependencyObject
 				{
 
-					private {{Table.TableName}}Model dataSource
-					{
-						get;
-						set;
-					}
-
 					private {{Table.DatabaseName}}ViewModel databaseViewModel;
 					
-					public {{Table.TableName}}ViewModelCollection({{Table.DatabaseName}}ViewModel DatabaseViewModel,{{Table.TableName}}Model DataSource)
+					public {{Table.TableName}}ViewModelCollection({{Table.DatabaseName}}ViewModel DatabaseViewModel)
 					{
-						this.databaseViewModel=DatabaseViewModel; this.dataSource=DataSource;
+						this.databaseViewModel=DatabaseViewModel; 
 					}
 			
 				}

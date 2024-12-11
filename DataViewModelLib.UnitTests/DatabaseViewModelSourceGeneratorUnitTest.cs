@@ -24,6 +24,7 @@ namespace DataViewModelLib.UnitTests
 			source = sourceGenerator.GenerateSource(database);
 
 			Assert.IsTrue(source.Contains("using DataModelLib.Common;"));
+			Assert.IsTrue(source.Contains("using System.Windows;"));
 			Assert.IsTrue(source.Contains("using ns1.Models"));
 			Assert.IsTrue(source.Contains("using ns2.Models"));
 
@@ -43,9 +44,26 @@ namespace DataViewModelLib.UnitTests
 			source = sourceGenerator.GenerateSource(database);
 
 			Assert.IsTrue(source.Contains("namespace ns.ViewModels"));
-			Assert.IsTrue(source.Contains("public partial class MyDBViewModel"));
+			Assert.IsTrue(source.Contains("public partial class MyDBViewModel:DependencyObject"));
 		}
+		[TestMethod]
+		public void ShouldGenerateProperties()
+		{
+			DatabaseViewModelSourceGenerator sourceGenerator;
+			Database database;
+			string source;
 
+			sourceGenerator = new DatabaseViewModelSourceGenerator();
+
+			database = new Database("ns", "MyDB");
+			database.Tables.Add(new Table("ns", database.DatabaseName, "Personn"));
+			database.Tables.Add(new Table("ns", database.DatabaseName, "Address"));
+
+			source = sourceGenerator.GenerateSource(database);
+
+			Assert.IsTrue(source.Contains("public PersonnViewModelCollection PersonnViewModelCollection"));
+			Assert.IsTrue(source.Contains("public AddressViewModelCollection AddressViewModelCollection"));
+		}
 		[TestMethod]
 		public void ShouldGenerateConstructor()
 		{
@@ -57,10 +75,13 @@ namespace DataViewModelLib.UnitTests
 
 			database = new Database("ns", "MyDB");
 			database.Tables.Add(new Table("ns", database.DatabaseName, "Personn"));
+			database.Tables.Add(new Table("ns", database.DatabaseName, "Address"));
 
 			source = sourceGenerator.GenerateSource(database);
 
 			Assert.IsTrue(source.Contains("public MyDBViewModel(MyDBModel DataSource)"));
+			Assert.IsTrue(source.Contains("PersonnViewModelCollection = new PersonnViewModelCollection(this)"));
+			Assert.IsTrue(source.Contains("AddressViewModelCollection = new AddressViewModelCollection(this)"));
 
 		}
 
