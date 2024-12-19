@@ -4,7 +4,7 @@ using System.Text;
 using DataModelLib.Common;
 using System.Diagnostics.CodeAnalysis;
 
-namespace TestGUI.DataSources
+namespace TestGUI.Data.DataSources
 {
 	[Table]
 	public class Pet

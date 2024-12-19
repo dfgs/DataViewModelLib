@@ -44,7 +44,7 @@ namespace DataViewModelLib.UnitTests
 			source = sourceGenerator.GenerateSource(database);
 
 			Assert.IsTrue(source.Contains("namespace ns.ViewModels"));
-			Assert.IsTrue(source.Contains("public partial class MyDBViewModel:DependencyObject"));
+			Assert.IsTrue(source.Contains("public partial class MyDBViewModel : DependencyObject"));
 		}
 		[TestMethod]
 		public void ShouldGenerateProperties()

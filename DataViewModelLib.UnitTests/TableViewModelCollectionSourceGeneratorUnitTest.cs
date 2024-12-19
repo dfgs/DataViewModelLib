@@ -46,7 +46,7 @@ namespace DataViewModelLib.UnitTests
 			source = sourceGenerator.GenerateSource(table);
 
 			Assert.IsTrue(source.Contains("namespace ns.ViewModels"));
-			Assert.IsTrue(source.Contains("public partial class PersonnViewModelCollection"));
+			Assert.IsTrue(source.Contains("public partial class PersonnViewModelCollection : DependencyObject, IEnumerable<PersonnViewModel>"));
 
 		}
 
@@ -70,7 +70,25 @@ namespace DataViewModelLib.UnitTests
 
 		}
 
+		[TestMethod]
+		public void ShouldGenerateIEnumerableMethods()
+		{
+			TableViewModelCollectionSourceGenerator sourceGenerator;
+			Database database;
+			Table table;
+			string source;
 
+			sourceGenerator = new TableViewModelCollectionSourceGenerator();
+
+			database = new Database("ns", "MyDB");
+			table = new Table("ns", database.DatabaseName, "Personn");
+			database.Tables.Add(table);
+
+			source = sourceGenerator.GenerateSource(table);
+
+			Assert.IsTrue(source.Contains("public IEnumerator<PersonnViewModel> GetEnumerator()"));
+
+		}
 
 
 

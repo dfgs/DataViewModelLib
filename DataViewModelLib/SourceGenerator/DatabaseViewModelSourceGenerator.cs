@@ -25,7 +25,7 @@ namespace DataViewModelLib.SourceGenerator
 
 			namespace {{Database.Namespace}}.ViewModels
 			{
-				public partial class {{Database.DatabaseName}}ViewModel:DependencyObject
+				public partial class {{Database.DatabaseName}}ViewModel : DependencyObject
 				{
 					private {{Database.DatabaseName}}Model dataSource;
 

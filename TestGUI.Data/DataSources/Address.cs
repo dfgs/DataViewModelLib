@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using DataModelLib.Common;
 
-namespace TestGUI.DataSources
+namespace TestGUI.Data.DataSources
 {
 	[Table]
 	public class Address 

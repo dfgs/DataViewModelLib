@@ -25,8 +25,9 @@ namespace DataViewModelLib.SourceGenerator
 			
 			namespace {{Table.Namespace}}.ViewModels
 			{
-				public partial class {{Table.TableName}}ViewModel : DependencyObject
+				public partial class {{Table.TableName}}ViewModel : DependencyObject, INotifyPropertyChanged
 				{
+					public event PropertyChangedEventHandler? PropertyChanged;
 
 					private {{Table.TableName}}Model dataSource
 					{
@@ -35,16 +36,36 @@ namespace DataViewModelLib.SourceGenerator
 					}
 
 					private {{Table.DatabaseName}}ViewModel databaseViewModel;
-					
+			
+			{{Table.Columns.Select(item => GenerateProperty(item)).Join().Indent(2)}}
+
 					public {{Table.TableName}}ViewModel({{Table.DatabaseName}}ViewModel DatabaseViewModel,{{Table.TableName}}Model DataSource)
 					{
 						this.databaseViewModel=DatabaseViewModel; this.dataSource=DataSource;
+					}
+
+					protected virtual void OnPropertyChanged(string PropertyName)
+					{
+						if (PropertyChanged!=null) PropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
 					}
 			
 				}
 			}
 			""";
 
+			return source;
+		}
+
+		private string GenerateProperty(Column Column)
+		{
+			string source =
+			$$"""
+			public {{Column.TypeName}} {{Column.ColumnName}}
+			{
+				get { return dataSource.{{Column.ColumnName}}; }
+				set { dataSource.{{Column.ColumnName}} = value; OnPropertyChanged("{{Column.ColumnName}}"); }
+			}
+			""";
 			return source;
 		}
 

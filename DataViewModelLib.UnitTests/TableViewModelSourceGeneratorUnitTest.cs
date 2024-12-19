@@ -47,7 +47,7 @@ namespace DataViewModelLib.UnitTests
 			source = sourceGenerator.GenerateSource(table);
 
 			Assert.IsTrue(source.Contains("namespace ns.ViewModels"));
-			Assert.IsTrue(source.Contains("public partial class PersonnViewModel"));
+			Assert.IsTrue(source.Contains("public partial class PersonnViewModel : DependencyObject, INotifyPropertyChanged"));
 
 		}
 
@@ -71,7 +71,47 @@ namespace DataViewModelLib.UnitTests
 
 		}
 
+		[TestMethod]
+		public void ShouldGenerateMethods()
+		{
+			TableViewModelSourceGenerator sourceGenerator;
+			Database database;
+			Table table;
+			string source;
 
+			sourceGenerator = new TableViewModelSourceGenerator();
+
+			database = new Database("ns", "MyDB");
+			table = new Table("ns", database.DatabaseName, "Personn");
+			database.Tables.Add(table);
+
+			source = sourceGenerator.GenerateSource(table);
+
+			Assert.IsTrue(source.Contains("protected virtual void OnPropertyChanged(string PropertyName)"));
+
+		}
+
+		[TestMethod]
+		public void ShouldGenerateProperties()
+		{
+			TableViewModelSourceGenerator sourceGenerator;
+			Database database;
+			Table table;
+			string source;
+
+			sourceGenerator = new TableViewModelSourceGenerator();
+
+			database = new Database("ns", "MyDB");
+			table = new Table("ns", database.DatabaseName, "Personn");
+			database.Tables.Add(table);
+			table.Columns.Add(new Column(table, "FirstName", "string", false));
+			table.Columns.Add(new Column(table, "MailID", "byte?", true));
+
+			source = sourceGenerator.GenerateSource(table);
+
+			Assert.IsTrue(source.Contains("public string FirstName"));
+			Assert.IsTrue(source.Contains("public byte? MailID"));
+		}
 
 
 
