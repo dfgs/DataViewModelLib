@@ -20,21 +20,20 @@ namespace DataViewModelLib.SourceGenerator
 			using System.Collections.Specialized;
 			using System.Linq;
 			using DataModelLib.Common;
-			using System.Windows;
 			{{Database.Tables.Select(item => $"using {item.Namespace}.Models;").Distinct().Join()}}
 
 			namespace {{Database.Namespace}}.ViewModels
 			{
-				public partial class {{Database.DatabaseName}}ViewModel : DependencyObject
+				public partial class {{Database.DatabaseName}}ViewModel
 				{
 					private {{Database.DatabaseName}}Model dataSource;
 
-			{{Database.Tables.Select(item=> GenerateDP(Database,item)).Join().Indent(2)}}
+			{{Database.Tables.Select(item=> GenerateProperties(Database,item)).Join().Indent(2)}}
 
 					public {{Database.DatabaseName}}ViewModel({{Database.DatabaseName}}Model DataSource)
 					{
 						this.dataSource=DataSource;
-			{{Database.Tables.Select(item => $"{item.TableName}ViewModelCollection = new {item.TableName}ViewModelCollection(this);").Join().Indent(3)}}
+			{{Database.Tables.Select(item => $"{item.TableName}ViewModelCollection = new {item.TableName}ViewModelCollection(dataSource, dataSource.Get{item.TableName}Table() );").Join().Indent(3)}}
 					}
 						
 				}
@@ -44,15 +43,14 @@ namespace DataViewModelLib.SourceGenerator
 			return source;
 		}
 
-		private string GenerateDP(Database Database,Table Table)
+		private string GenerateProperties(Database Database,Table Table)
 		{
 			string source =
 			$$"""
-			public static readonly DependencyProperty {{Table.TableName}}ViewModelCollectionProperty = DependencyProperty.Register("{{Table.TableName}}ViewModelCollection", typeof({{Table.TableName}}ViewModelCollection), typeof({{Database.DatabaseName}}ViewModel), new PropertyMetadata(null));
 			public {{Table.TableName}}ViewModelCollection {{Table.TableName}}ViewModelCollection
 			{
-				get { return ({{Table.TableName}}ViewModelCollection)GetValue({{Table.TableName}}ViewModelCollectionProperty); }
-				set { SetValue({{Table.TableName}}ViewModelCollectionProperty, value); }
+				get;
+				private set;
 			}
 			""";
 			return source;

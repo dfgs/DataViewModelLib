@@ -18,6 +18,7 @@ namespace DataViewModelLib.SourceGenerator
 			using System;
 			using System.Collections;
 			using System.Collections.Generic;
+			using System.Collections.Specialized;
 			using System.Linq;
 			using System.ComponentModel;
 			using System.Windows;
@@ -26,16 +27,27 @@ namespace DataViewModelLib.SourceGenerator
 										
 			namespace {{Table.Namespace}}.ViewModels
 			{
-				public partial class {{Table.TableName}}ViewModelCollection : DependencyObject, IEnumerable<{{Table.TableName}}ViewModel>
+				public partial class {{Table.TableName}}ViewModelCollection : IEnumerable<{{Table.TableName}}ViewModel>, INotifyCollectionChanged
 				{
-
-					private {{Table.DatabaseName}}ViewModel databaseViewModel;
+					#nullable enable
+					public event NotifyCollectionChangedEventHandler? CollectionChanged;
+					#nullable disable
+						
+					private {{Table.DatabaseName}}Model databaseModel;
 					private List<{{Table.TableName}}ViewModel> items;
 
-					public {{Table.TableName}}ViewModelCollection({{Table.DatabaseName}}ViewModel DatabaseViewModel)
+					public {{Table.TableName}}ViewModelCollection({{Table.DatabaseName}}Model DatabaseModel, IEnumerable<{{Table.TableName}}Model> Items)
 					{
-						this.databaseViewModel=DatabaseViewModel; 
+						this.databaseModel=DatabaseModel; 
 						this.items=new List<{{Table.TableName}}ViewModel>();
+						this.items.AddRange( Items.Select( item => new {{Table.TableName}}ViewModel(databaseModel, item) ));
+
+						this.databaseModel.{{Table.TableName}}TableChanged += On{{Table.TableName}}TableChanged;
+					}
+
+					protected virtual void On{{Table.TableName}}TableChanged({{Table.TableName}} Item,TableChangedActions Action, int Index)
+					{
+						// todo
 					}
 
 					#region IEnumerable
@@ -49,7 +61,12 @@ namespace DataViewModelLib.SourceGenerator
 					}
 					#endregion
 					
-
+					#region INotifyCollectionChanged
+					protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+					{
+						if (CollectionChanged != null) CollectionChanged(this, e);
+					}
+					#endregion
 			
 				}
 			}

@@ -47,7 +47,7 @@ namespace DataViewModelLib.UnitTests
 			source = sourceGenerator.GenerateSource(table);
 
 			Assert.IsTrue(source.Contains("namespace ns.ViewModels"));
-			Assert.IsTrue(source.Contains("public partial class PersonnViewModel : DependencyObject, INotifyPropertyChanged"));
+			Assert.IsTrue(source.Contains("public partial class PersonnViewModel : INotifyPropertyChanged"));
 
 		}
 
@@ -67,7 +67,7 @@ namespace DataViewModelLib.UnitTests
 
 			source = sourceGenerator.GenerateSource(table);
 
-			Assert.IsTrue(source.Contains("public PersonnViewModel(MyDBViewModel DatabaseViewModel,PersonnModel DataSource)"));
+			Assert.IsTrue(source.Contains("public PersonnViewModel(MyDBModel DatabaseModel,PersonnModel DataSource)"));
 
 		}
 

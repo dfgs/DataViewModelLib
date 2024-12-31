@@ -25,23 +25,31 @@ namespace DataViewModelLib.SourceGenerator
 			
 			namespace {{Table.Namespace}}.ViewModels
 			{
-				public partial class {{Table.TableName}}ViewModel : DependencyObject, INotifyPropertyChanged
+				public partial class {{Table.TableName}}ViewModel : INotifyPropertyChanged
 				{
+					#nullable enable
 					public event PropertyChangedEventHandler? PropertyChanged;
-
+					#nullable disable
+			
 					private {{Table.TableName}}Model dataSource
 					{
 						get;
 						set;
 					}
 
-					private {{Table.DatabaseName}}ViewModel databaseViewModel;
+					private {{Table.DatabaseName}}Model databaseModel;
 			
 			{{Table.Columns.Select(item => GenerateProperty(item)).Join().Indent(2)}}
 
-					public {{Table.TableName}}ViewModel({{Table.DatabaseName}}ViewModel DatabaseViewModel,{{Table.TableName}}Model DataSource)
+					public {{Table.TableName}}ViewModel({{Table.DatabaseName}}Model DatabaseModel,{{Table.TableName}}Model DataSource)
 					{
-						this.databaseViewModel=DatabaseViewModel; this.dataSource=DataSource;
+						this.databaseModel=DatabaseModel; this.dataSource=DataSource;
+						this.databaseModel.{{Table.TableName}}RowChanged += OnRowChanged;
+					}
+
+					private void OnRowChanged({{Table.TableName}} Item, string PropertyName, object OldValue, object NewValue)
+					{
+						if (dataSource.IsModelOf(Item)) OnPropertyChanged(PropertyName);
 					}
 
 					protected virtual void OnPropertyChanged(string PropertyName)
@@ -63,7 +71,7 @@ namespace DataViewModelLib.SourceGenerator
 			public {{Column.TypeName}} {{Column.ColumnName}}
 			{
 				get { return dataSource.{{Column.ColumnName}}; }
-				set { dataSource.{{Column.ColumnName}} = value; OnPropertyChanged("{{Column.ColumnName}}"); }
+				set { dataSource.{{Column.ColumnName}} = value; }
 			}
 			""";
 			return source;

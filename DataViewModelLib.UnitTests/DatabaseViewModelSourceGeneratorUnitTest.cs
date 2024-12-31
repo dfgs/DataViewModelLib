@@ -24,7 +24,6 @@ namespace DataViewModelLib.UnitTests
 			source = sourceGenerator.GenerateSource(database);
 
 			Assert.IsTrue(source.Contains("using DataModelLib.Common;"));
-			Assert.IsTrue(source.Contains("using System.Windows;"));
 			Assert.IsTrue(source.Contains("using ns1.Models"));
 			Assert.IsTrue(source.Contains("using ns2.Models"));
 
@@ -44,7 +43,7 @@ namespace DataViewModelLib.UnitTests
 			source = sourceGenerator.GenerateSource(database);
 
 			Assert.IsTrue(source.Contains("namespace ns.ViewModels"));
-			Assert.IsTrue(source.Contains("public partial class MyDBViewModel : DependencyObject"));
+			Assert.IsTrue(source.Contains("public partial class MyDBViewModel"));
 		}
 		[TestMethod]
 		public void ShouldGenerateProperties()
@@ -80,8 +79,8 @@ namespace DataViewModelLib.UnitTests
 			source = sourceGenerator.GenerateSource(database);
 
 			Assert.IsTrue(source.Contains("public MyDBViewModel(MyDBModel DataSource)"));
-			Assert.IsTrue(source.Contains("PersonnViewModelCollection = new PersonnViewModelCollection(this)"));
-			Assert.IsTrue(source.Contains("AddressViewModelCollection = new AddressViewModelCollection(this)"));
+			Assert.IsTrue(source.Contains("PersonnViewModelCollection = new PersonnViewModelCollection(dataSource, dataSource.GetPersonnTable() )"));
+			Assert.IsTrue(source.Contains("AddressViewModelCollection = new AddressViewModelCollection(dataSource, dataSource.GetAddressTable() )"));
 
 		}
 

@@ -46,7 +46,7 @@ namespace DataViewModelLib.UnitTests
 			source = sourceGenerator.GenerateSource(table);
 
 			Assert.IsTrue(source.Contains("namespace ns.ViewModels"));
-			Assert.IsTrue(source.Contains("public partial class PersonnViewModelCollection : DependencyObject, IEnumerable<PersonnViewModel>"));
+			Assert.IsTrue(source.Contains("public partial class PersonnViewModelCollection : IEnumerable<PersonnViewModel>, INotifyCollectionChanged"));
 
 		}
 
@@ -66,7 +66,7 @@ namespace DataViewModelLib.UnitTests
 
 			source = sourceGenerator.GenerateSource(table);
 
-			Assert.IsTrue(source.Contains("public PersonnViewModelCollection(MyDBViewModel DatabaseViewModel)"));
+			Assert.IsTrue(source.Contains("public PersonnViewModelCollection(MyDBModel DatabaseModel, IEnumerable<PersonnModel> Items)"));
 
 		}
 
@@ -87,10 +87,28 @@ namespace DataViewModelLib.UnitTests
 			source = sourceGenerator.GenerateSource(table);
 
 			Assert.IsTrue(source.Contains("public IEnumerator<PersonnViewModel> GetEnumerator()"));
-
+			Assert.IsTrue(source.Contains("protected virtual void OnPersonnTableChanged(Personn Item,TableChangedActions Action, int Index)"));
 		}
 
+		[TestMethod]
+		public void ShouldGenerateINotifyCollectionChangedMethods()
+		{
+			TableViewModelCollectionSourceGenerator sourceGenerator;
+			Database database;
+			Table table;
+			string source;
 
+			sourceGenerator = new TableViewModelCollectionSourceGenerator();
+
+			database = new Database("ns", "MyDB");
+			table = new Table("ns", database.DatabaseName, "Personn");
+			database.Tables.Add(table);
+
+			source = sourceGenerator.GenerateSource(table);
+
+			Assert.IsTrue(source.Contains("protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)"));
+
+		}
 
 
 
