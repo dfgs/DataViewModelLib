@@ -7,10 +7,8 @@
 		<OutputType>Library</OutputType>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="DataModelLib" Version="1.0.6" />
-	</ItemGroup>
-	<ItemGroup>
 	  <ProjectReference Include="..\DataViewModelLib\DataViewModelLib.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 		<ProjectReference Include="..\..\DataModelLib\DataModelLib.Common\DataModelLib.Common.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\..\DataModelLib\DataModelLib\DataModelLib.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 </Project>

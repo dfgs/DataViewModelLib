@@ -57,6 +57,11 @@ namespace DataViewModelLib.SourceGenerator
 						if (PropertyChanged!=null) PropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
 					}
 			
+					public void Delete()
+					{
+						this.databaseModel.Remove{{Table.TableName}}(dataSource);
+					}
+
 				}
 			}
 			""";

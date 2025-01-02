@@ -88,6 +88,8 @@ namespace DataViewModelLib.UnitTests
 
 			Assert.IsTrue(source.Contains("public IEnumerator<PersonnViewModel> GetEnumerator()"));
 			Assert.IsTrue(source.Contains("protected virtual void OnPersonnTableChanged(Personn Item,TableChangedActions Action, int Index)"));
+			Assert.IsTrue(source.Contains("public void Remove(PersonnViewModel Item)"));
+			Assert.IsTrue(source.Contains("public void Add(Personn Item)"));
 		}
 
 		[TestMethod]

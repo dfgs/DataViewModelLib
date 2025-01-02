@@ -47,7 +47,23 @@ namespace DataViewModelLib.SourceGenerator
 
 					protected virtual void On{{Table.TableName}}TableChanged({{Table.TableName}} Item,TableChangedActions Action, int Index)
 					{
-						// todo
+						{{Table.TableName}}ViewModel item;
+						
+						switch(Action)
+						{
+							case TableChangedActions.Remove:
+								item=items[Index];		
+								items.RemoveAt(Index);
+								OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, Index));
+								break;
+							case TableChangedActions.Add:
+								item = new {{Table.TableName}}ViewModel(databaseModel, new {{Table.TableName}}Model(databaseModel, Item));
+								items.Insert(Index,item);
+								OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, Index));
+								break;
+							default:
+								break;
+						}
 					}
 
 					#region IEnumerable
@@ -68,6 +84,16 @@ namespace DataViewModelLib.SourceGenerator
 					}
 					#endregion
 			
+					public void Remove({{Table.TableName}}ViewModel Item)
+					{
+						Item.Delete();
+					}
+
+					public void Add({{Table.TableName}} Item)
+					{
+						databaseModel.Add{{Table.TableName}}(Item);
+					}
+
 				}
 			}
 			""";

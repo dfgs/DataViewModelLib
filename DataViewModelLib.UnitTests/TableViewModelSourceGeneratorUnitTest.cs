@@ -88,6 +88,7 @@ namespace DataViewModelLib.UnitTests
 			source = sourceGenerator.GenerateSource(table);
 
 			Assert.IsTrue(source.Contains("protected virtual void OnPropertyChanged(string PropertyName)"));
+			Assert.IsTrue(source.Contains("public void Delete()"));    
 
 		}
 
