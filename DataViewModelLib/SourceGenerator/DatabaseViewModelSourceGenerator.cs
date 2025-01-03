@@ -33,7 +33,7 @@ namespace DataViewModelLib.SourceGenerator
 					public {{Database.DatabaseName}}ViewModel({{Database.DatabaseName}}Model DataSource)
 					{
 						this.dataSource=DataSource;
-			{{Database.Tables.Select(item => $"{item.TableName}ViewModelCollection = new {item.TableName}ViewModelCollection(dataSource, dataSource.Get{item.TableName}Table() );").Join().Indent(3)}}
+			{{Database.Tables.Select(item => $"{item.TableName}ViewModelCollection = new {item.TableName}ViewModelCollection(dataSource);").Join().Indent(3)}}
 					}
 						
 				}

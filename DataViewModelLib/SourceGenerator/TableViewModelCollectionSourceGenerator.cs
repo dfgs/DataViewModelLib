@@ -27,7 +27,7 @@ namespace DataViewModelLib.SourceGenerator
 										
 			namespace {{Table.Namespace}}.ViewModels
 			{
-				public partial class {{Table.TableName}}ViewModelCollection : IEnumerable<{{Table.TableName}}ViewModel>, INotifyCollectionChanged
+				public partial class {{Table.TableName}}ViewModelCollection : IViewModelCollection, IEnumerable<{{Table.TableName}}ViewModel>, INotifyCollectionChanged
 				{
 					#nullable enable
 					public event NotifyCollectionChangedEventHandler? CollectionChanged;
@@ -36,11 +36,11 @@ namespace DataViewModelLib.SourceGenerator
 					private {{Table.DatabaseName}}Model databaseModel;
 					private List<{{Table.TableName}}ViewModel> items;
 
-					public {{Table.TableName}}ViewModelCollection({{Table.DatabaseName}}Model DatabaseModel, IEnumerable<{{Table.TableName}}Model> Items)
+					public {{Table.TableName}}ViewModelCollection({{Table.DatabaseName}}Model DatabaseModel)
 					{
 						this.databaseModel=DatabaseModel; 
 						this.items=new List<{{Table.TableName}}ViewModel>();
-						this.items.AddRange( Items.Select( item => new {{Table.TableName}}ViewModel(databaseModel, item) ));
+						this.items.AddRange( databaseModel.Get{{Table.TableName}}Table().Select( item => new {{Table.TableName}}ViewModel(databaseModel, item) ));
 
 						this.databaseModel.{{Table.TableName}}TableChanged += On{{Table.TableName}}TableChanged;
 					}
@@ -92,6 +92,14 @@ namespace DataViewModelLib.SourceGenerator
 					public void Add({{Table.TableName}} Item)
 					{
 						databaseModel.Add{{Table.TableName}}(Item);
+					}
+
+					void IViewModelCollection.Add(object Item)
+					{
+						{{Table.TableName}}? convertedItem;
+						convertedItem = Item as {{Table.TableName}};
+						if (convertedItem==null) return;
+						Add(convertedItem);
 					}
 
 				}

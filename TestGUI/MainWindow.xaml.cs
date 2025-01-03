@@ -46,6 +46,13 @@ namespace TestGUI
 			this.DataContext= testDatabaseViewModel;
 		}
 
+		private void PersonnCollectionView_Insert(object sender, InsertEventArg e)
+		{
+			byte id;
+			id = (byte)( testDatabaseViewModel.PersonnViewModelCollection.Select(item => item.PersonnID).Max() + 1);
+			e.Item = new Personn( id, "First name", "Last name", 30);
+			e.Canceled = false;
+        }
 
-	}
+    }
 }

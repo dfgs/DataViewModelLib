@@ -8,13 +8,13 @@
         Title="MainWindow" Height="450" Width="800">
     <TabControl>
 		<TabItem Header="Personn">
-			<local:PersonnView DataContext="{Binding PersonnViewModelCollection}"/>
+			<local:CollectionView DataContext="{Binding PersonnViewModelCollection}" Insert="PersonnCollectionView_Insert"	 />
 		</TabItem>
 		<TabItem Header="Address">
-			<local:PersonnView DataContext="{Binding AddressViewModelCollection}"/>
+			<local:CollectionView DataContext="{Binding AddressViewModelCollection}"/>
 		</TabItem>
 		<TabItem Header="Pet">
-			<local:PersonnView DataContext="{Binding PetViewModelCollection}"/>
+			<local:CollectionView DataContext="{Binding PetViewModelCollection}"/>
 		</TabItem>
 	</TabControl>
 </Window>

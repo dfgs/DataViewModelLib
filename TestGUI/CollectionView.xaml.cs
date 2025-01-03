@@ -20,9 +20,11 @@ namespace TestGUI
 	/// <summary>
 	/// Logique d'interaction pour PersonnView.xaml
 	/// </summary>
-	public partial class PersonnView : UserControl
+	public partial class CollectionView : UserControl
 	{
-		public PersonnView()
+		public event InsertEventHandler? Insert;
+
+		public CollectionView()
 		{
 			InitializeComponent();
 		}
@@ -41,5 +43,25 @@ namespace TestGUI
 			item.Delete();
         }
 
-    }
+		private void InsertCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = Insert!= null;
+		}
+
+		private void InsertCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			InsertEventArg insertEvent;
+
+			insertEvent = new InsertEventArg();
+			if (Insert!= null) Insert(this,insertEvent);
+
+			if ((insertEvent.Canceled) || (insertEvent.Item == null)) return;
+
+			IViewModelCollection? collection;
+			collection=DataContext as IViewModelCollection;
+			if (collection == null) return;
+			collection.Add(insertEvent.Item);
+		}
+
+	}
 }
