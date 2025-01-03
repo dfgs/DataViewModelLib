@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using DataModelLib.Common;
 using System.Diagnostics.CodeAnalysis;
+using System.Xml.Linq;
 
 namespace TestGUI.Data.DataSources
 {
@@ -35,6 +36,10 @@ namespace TestGUI.Data.DataSources
 		{
 			this.PersonnID = PersonnID; this.FirstName = FirstName;	this.LastName = LastName;this.Age = Age;
 		}
-		
+		public override string ToString()
+		{
+			return $"{FirstName} {LastName}";
+		}
+
 	}
 }

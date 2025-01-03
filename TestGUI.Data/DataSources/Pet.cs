@@ -20,5 +20,9 @@ namespace TestGUI.Data.DataSources
 			this.PetID = PetID;this.Name = Name;
 		}
 
+		public override string ToString()
+		{
+			return $"{Name}";
+		}
 	}
 }

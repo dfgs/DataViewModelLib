@@ -6,7 +6,15 @@
         xmlns:local="clr-namespace:TestGUI"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+    <TabControl>
+		<TabItem Header="Personn">
+			<local:PersonnView DataContext="{Binding PersonnViewModelCollection}"/>
+		</TabItem>
+		<TabItem Header="Address">
+			<local:PersonnView DataContext="{Binding AddressViewModelCollection}"/>
+		</TabItem>
+		<TabItem Header="Pet">
+			<local:PersonnView DataContext="{Binding PetViewModelCollection}"/>
+		</TabItem>
+	</TabControl>
 </Window>

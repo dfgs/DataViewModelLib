@@ -47,7 +47,7 @@ namespace DataViewModelLib.UnitTests
 			source = sourceGenerator.GenerateSource(table);
 
 			Assert.IsTrue(source.Contains("namespace ns.ViewModels"));
-			Assert.IsTrue(source.Contains("public partial class PersonnViewModel : INotifyPropertyChanged"));
+			Assert.IsTrue(source.Contains("public partial class PersonnViewModel : IViewModel, INotifyPropertyChanged"));
 
 		}
 
@@ -88,7 +88,8 @@ namespace DataViewModelLib.UnitTests
 			source = sourceGenerator.GenerateSource(table);
 
 			Assert.IsTrue(source.Contains("protected virtual void OnPropertyChanged(string PropertyName)"));
-			Assert.IsTrue(source.Contains("public void Delete()"));    
+			Assert.IsTrue(source.Contains("public void Delete()"));
+			Assert.IsTrue(source.Contains("public override string ToString()"));
 
 		}
 

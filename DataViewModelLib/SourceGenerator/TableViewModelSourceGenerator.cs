@@ -22,10 +22,10 @@ namespace DataViewModelLib.SourceGenerator
 			using System.Windows;
 			using DataModelLib.Common;
 			using {{Table.Namespace}}.Models;			
-			
+						
 			namespace {{Table.Namespace}}.ViewModels
 			{
-				public partial class {{Table.TableName}}ViewModel : INotifyPropertyChanged
+				public partial class {{Table.TableName}}ViewModel : IViewModel, INotifyPropertyChanged
 				{
 					#nullable enable
 					public event PropertyChangedEventHandler? PropertyChanged;
@@ -61,7 +61,10 @@ namespace DataViewModelLib.SourceGenerator
 					{
 						this.databaseModel.Remove{{Table.TableName}}(dataSource);
 					}
-
+					public override string ToString()
+					{
+						return dataSource.ToString();
+					}
 				}
 			}
 			""";

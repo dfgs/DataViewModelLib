@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Xml.Linq;
 using DataModelLib.Common;
 
 namespace TestGUI.Data.DataSources
@@ -22,7 +23,11 @@ namespace TestGUI.Data.DataSources
 			this.AddressID = AddressID; this.Street = Street;
 		}
 
+		public override string ToString()
+		{
+			return $"{Number} {Street}";
+		}
 
-		
+
 	}
 }
