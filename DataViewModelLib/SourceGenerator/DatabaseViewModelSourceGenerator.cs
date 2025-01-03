@@ -73,7 +73,7 @@ namespace DataViewModelLib.SourceGenerator
 			
 				if (!{{Table.TableName}}Dictionary.TryGetValue(Item,out viewModel))
 				{
-					viewModel=new {{Table.TableName}}ViewModel(dataSource, Item);
+					viewModel=new {{Table.TableName}}ViewModel(this, dataSource, Item);
 					{{Table.TableName}}Dictionary.Add(Item,viewModel);
 				}
 			

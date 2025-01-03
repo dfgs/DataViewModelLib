@@ -38,12 +38,19 @@ namespace DataViewModelLib.SourceGenerator
 					}
 
 					private {{Table.DatabaseName}}Model databaseModel;
-			
+					private {{Table.DatabaseName}}ViewModel databaseViewModel;
+						
 			{{Table.Columns.Select(item => GenerateProperty(item)).Join().Indent(2)}}
-
-					public {{Table.TableName}}ViewModel({{Table.DatabaseName}}Model DatabaseModel,{{Table.TableName}}Model DataSource)
+			{{Table.Relations.Select(item => GenerateProperty(Table, item)).Join().Indent(2)}}
+			
+					public {{Table.TableName}}ViewModel({{Table.DatabaseName}}ViewModel DatabaseViewModel, {{Table.DatabaseName}}Model DatabaseModel, {{Table.TableName}}Model DataSource)
 					{
-						this.databaseModel=DatabaseModel; this.dataSource=DataSource;
+						this.databaseModel=DatabaseModel; 
+						this.databaseViewModel=DatabaseViewModel; 
+						this.dataSource=DataSource;
+
+						{{Table.Relations.Where(item => item.PrimaryTable == Table).Select(item => $"_{item.PrimaryPropertyName} = new {item.PrimaryPropertyName}ViewModelCollection(databaseViewModel, databaseModel, dataSource);").Join().Indent(3)}}
+									
 						DataSource.PropertyChanged += OnModelPropertyChanged;
 					}
 
@@ -84,6 +91,22 @@ namespace DataViewModelLib.SourceGenerator
 			""";
 			return source;
 		}
+		private string GenerateProperty(Table Table, Relation Relation)
+		{
+			string source;
+			if (Relation.ForeignTable == Table) return "";
+			
+			source =
+			$$"""
+			private {{Relation.PrimaryPropertyName}}ViewModelCollection _{{Relation.PrimaryPropertyName}};
+			public {{Relation.PrimaryPropertyName}}ViewModelCollection {{Relation.PrimaryPropertyName}}
+			{
+				get { return this._{{Relation.PrimaryPropertyName}}; }
+			}
+			""";
+			return source;
+		}
+
 
 	}
 }

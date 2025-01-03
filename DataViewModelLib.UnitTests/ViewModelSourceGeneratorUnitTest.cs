@@ -67,7 +67,7 @@ namespace DataViewModelLib.UnitTests
 
 			source = sourceGenerator.GenerateSource(table);
 
-			Assert.IsTrue(source.Contains("public PersonnViewModel(MyDBModel DatabaseModel,PersonnModel DataSource)"));
+			Assert.IsTrue(source.Contains("public PersonnViewModel(MyDBViewModel DatabaseViewModel, MyDBModel DatabaseModel, PersonnModel DataSource)"));
 
 		}
 
@@ -113,6 +113,8 @@ namespace DataViewModelLib.UnitTests
 
 			Assert.IsTrue(source.Contains("public string FirstName"));
 			Assert.IsTrue(source.Contains("public byte? MailID"));
+
+			Assert.Fail("Should test relation properties");
 		}
 
 

@@ -123,5 +123,13 @@ namespace TestGUI.UnitTests
 			Assert.AreEqual("Home2", viewModel.Street);
 			Assert.AreEqual("Street", propertyName);
 		}
+
+
+		[TestMethod]
+		public void ShouldGetOwners()
+		{
+			Assert.Fail();
+		}
+
 	}
 }
