@@ -8,7 +8,7 @@ using System.Text;
 
 namespace DataViewModelLib.SourceGenerator
 {
-	public class TableViewModelCollectionSourceGenerator : SourceGenerator<Table>
+	public class ViewModelCollectionSourceGenerator : SourceGenerator<Table>
 	{
 		public override string GenerateSource(Table Table)
 		{
@@ -34,14 +34,18 @@ namespace DataViewModelLib.SourceGenerator
 					#nullable disable
 						
 					private {{Table.DatabaseName}}Model databaseModel;
+					private {{Table.DatabaseName}}ViewModel databaseViewModel;
+			
 					private List<{{Table.TableName}}ViewModel> items;
-
-					public {{Table.TableName}}ViewModelCollection({{Table.DatabaseName}}Model DatabaseModel)
+								
+					public {{Table.TableName}}ViewModelCollection({{Table.DatabaseName}}ViewModel DatabaseViewModel, {{Table.DatabaseName}}Model DatabaseModel)
 					{
 						this.databaseModel=DatabaseModel; 
+						this.databaseViewModel=DatabaseViewModel; 
+			
 						this.items=new List<{{Table.TableName}}ViewModel>();
-						this.items.AddRange( databaseModel.Get{{Table.TableName}}Table().Select( item => new {{Table.TableName}}ViewModel(databaseModel, item) ));
-
+						this.items.AddRange( databaseModel.Get{{Table.TableName}}Table().Select( item => databaseViewModel.Create{{Table.TableName}}ViewModel(item) ));
+			
 						this.databaseModel.{{Table.TableName}}TableChanged += On{{Table.TableName}}TableChanged;
 					}
 
@@ -57,7 +61,7 @@ namespace DataViewModelLib.SourceGenerator
 								OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, Index));
 								break;
 							case TableChangedActions.Add:
-								item = new {{Table.TableName}}ViewModel(databaseModel, new {{Table.TableName}}Model(databaseModel, Item));
+								item = databaseViewModel.Create{{Table.TableName}}ViewModel(databaseModel.Create{{Table.TableName}}Model(Item));
 								items.Insert(Index,item);
 								OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, Index));
 								break;
@@ -96,7 +100,10 @@ namespace DataViewModelLib.SourceGenerator
 
 					void IViewModelCollection.Add(object Item)
 					{
+						#nullable enable
 						{{Table.TableName}}? convertedItem;
+						#nullable disable
+			
 						convertedItem = Item as {{Table.TableName}};
 						if (convertedItem==null) return;
 						Add(convertedItem);

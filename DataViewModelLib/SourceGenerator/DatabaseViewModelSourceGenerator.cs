@@ -3,6 +3,7 @@ using DataModelLib.Common.Schema;
 using DataModelLib.Common.SourceGenerator;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -26,6 +27,8 @@ namespace DataViewModelLib.SourceGenerator
 			{
 				public partial class {{Database.DatabaseName}}ViewModel
 				{
+			{{Database.Tables.Select(item => $"private Dictionary<{item.TableName}Model,{item.TableName}ViewModel> {item.TableName}Dictionary;").Join().Indent(2)}}
+			
 					private {{Database.DatabaseName}}Model dataSource;
 
 			{{Database.Tables.Select(item=> GenerateProperties(Database,item)).Join().Indent(2)}}
@@ -33,9 +36,12 @@ namespace DataViewModelLib.SourceGenerator
 					public {{Database.DatabaseName}}ViewModel({{Database.DatabaseName}}Model DataSource)
 					{
 						this.dataSource=DataSource;
-			{{Database.Tables.Select(item => $"{item.TableName}ViewModelCollection = new {item.TableName}ViewModelCollection(dataSource);").Join().Indent(3)}}
+			{{Database.Tables.Select(item => $"{item.TableName}Dictionary =  new Dictionary<{item.TableName}Model,{item.TableName}ViewModel>() ;").Join().Indent(3)}}
+			{{Database.Tables.Select(item => $"{item.TableName}ViewModelCollection = new {item.TableName}ViewModelCollection(this, dataSource);").Join().Indent(3)}}
 					}
-						
+
+			{{Database.Tables.Select(item => GenerateMethods(item)).Join().Indent(2)}}
+									
 				}
 			}
 			""";
@@ -56,6 +62,27 @@ namespace DataViewModelLib.SourceGenerator
 			return source;
 		}
 
+		private string GenerateMethods(Table Table)
+		{
+			string source;
+
+			source = $$"""
+			public {{Table.TableName}}ViewModel Create{{Table.TableName}}ViewModel({{Table.TableName}}Model Item)
+			{
+				{{Table.TableName}}ViewModel viewModel;
+			
+				if (!{{Table.TableName}}Dictionary.TryGetValue(Item,out viewModel))
+				{
+					viewModel=new {{Table.TableName}}ViewModel(dataSource, Item);
+					{{Table.TableName}}Dictionary.Add(Item,viewModel);
+				}
+			
+				return viewModel;
+			}
+			""";
+
+			return source;
+		}
 
 
 

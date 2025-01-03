@@ -8,7 +8,7 @@ using System.Text;
 
 namespace DataViewModelLib.SourceGenerator
 {
-	public class TableViewModelSourceGenerator : SourceGenerator<Table>
+	public class ViewModelSourceGenerator : SourceGenerator<Table>
 	{
 		public override string GenerateSource(Table Table)
 		{
@@ -44,12 +44,12 @@ namespace DataViewModelLib.SourceGenerator
 					public {{Table.TableName}}ViewModel({{Table.DatabaseName}}Model DatabaseModel,{{Table.TableName}}Model DataSource)
 					{
 						this.databaseModel=DatabaseModel; this.dataSource=DataSource;
-						this.databaseModel.{{Table.TableName}}RowChanged += OnRowChanged;
+						DataSource.PropertyChanged += OnModelPropertyChanged;
 					}
 
-					private void OnRowChanged({{Table.TableName}} Item, string PropertyName, object OldValue, object NewValue)
+					private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
 					{
-						if (dataSource.IsModelOf(Item)) OnPropertyChanged(PropertyName);
+						OnPropertyChanged(e.PropertyName);
 					}
 
 					protected virtual void OnPropertyChanged(string PropertyName)

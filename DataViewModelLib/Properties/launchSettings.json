@@ -7,7 +7,7 @@
     },
     "Debug": {
       "commandName": "DebugRoslynComponent",
-      "targetProject": "..\\TestGUI\\TestGUI.csproj"
+      "targetProject": "..\\TestGUI.Data\\TestGUI.Data.csproj"
     }
   }
 }

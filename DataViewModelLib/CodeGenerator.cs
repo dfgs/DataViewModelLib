@@ -59,21 +59,34 @@ namespace DataViewModelLib
 		{
 			string source;
 			DatabaseViewModelSourceGenerator databaseSourceViewModelGenerator;
-			TableViewModelSourceGenerator tableViewModelSourceGenerator;
-			TableViewModelCollectionSourceGenerator tableViewModelCollectionSourceGenerator;
+			ViewModelSourceGenerator tableViewModelSourceGenerator;
+			ViewModelCollectionSourceGenerator tableViewModelCollectionSourceGenerator;
+			RelationViewModelCollectionSourceGenerator foreignTableViewModelCollectionSourceGenerator;
 
 			databaseSourceViewModelGenerator = new DatabaseViewModelSourceGenerator();	
-			tableViewModelSourceGenerator = new TableViewModelSourceGenerator();
-			tableViewModelCollectionSourceGenerator=new TableViewModelCollectionSourceGenerator();
+			tableViewModelSourceGenerator = new ViewModelSourceGenerator();
+			tableViewModelCollectionSourceGenerator=new ViewModelCollectionSourceGenerator();
+			foreignTableViewModelCollectionSourceGenerator = new RelationViewModelCollectionSourceGenerator();
 
 			source = databaseSourceViewModelGenerator.GenerateSource(database);
 			context.AddSource($"ViewModels/{database.DatabaseName}ViewModel.g.cs", SourceText.From(source, Encoding.UTF8));
 
-			
-			// On ajoute le code source des tables
-			for (int i = 0; i < database.Tables.Count; i++)
+			// On ajoute le code source des relations
+			foreach (Table table in database.Tables)
 			{
-				Table table = database.Tables[i];
+				foreach (Relation relation in table.Relations)
+				{
+					if (relation.PrimaryTable == table)
+					{
+						source = foreignTableViewModelCollectionSourceGenerator.GenerateSource(relation);
+						context.AddSource($"ViewModels/{relation.PrimaryPropertyName}ViewModelCollection.g.cs", SourceText.From(source, Encoding.UTF8));
+					}
+				}
+			}
+
+			// On ajoute le code source des tables
+			foreach(Table table in database.Tables)
+			{
 				source = tableViewModelSourceGenerator.GenerateSource(table);
 				context.AddSource($"ViewModels/{table.TableName}ViewModel.g.cs", SourceText.From(source, Encoding.UTF8));
 				source = tableViewModelCollectionSourceGenerator.GenerateSource(table);

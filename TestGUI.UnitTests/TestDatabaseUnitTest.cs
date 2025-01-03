@@ -13,7 +13,28 @@ namespace TestGUI.UnitTests
 	public class TestDatabaseUnitTest
 	{
 
-		//#region AddressTable
+		#region AddressTable
+		[TestMethod]
+		public void ShouldCreateUniqueAddressViewModel()
+		{
+			TestDatabaseViewModel testDatabaseViewModel;
+			TestDatabaseModel testDatabaseModel;
+			AddressModel item12, item3;
+			AddressViewModel viewModel1, viewModel2, viewModel3;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			item12 = testDatabaseModel.CreateAddressModel(new Address(55, "Street12"));
+			item3 = testDatabaseModel.CreateAddressModel(new Address(66, "Street3"));
+			viewModel1 = testDatabaseViewModel.CreateAddressViewModel(item12);
+			viewModel2 = testDatabaseViewModel.CreateAddressViewModel(item12);
+			viewModel3 = testDatabaseViewModel.CreateAddressViewModel(item3);
+			Assert.AreEqual(viewModel1, viewModel2);
+			Assert.AreNotEqual(viewModel1, viewModel3);
+			Assert.AreNotEqual(viewModel2, viewModel3);
+		}
+
 		[TestMethod]
 		public void ShouldGetAddressTable()
 		{
@@ -30,282 +51,88 @@ namespace TestGUI.UnitTests
 			Assert.AreEqual("School", viewModels[1].Street);
 			Assert.AreEqual("Work", viewModels[2].Street);
 		}
-		/*[TestMethod]
-		public void ShouldGetAddressTableByPredicate()
-		{
-			TestDatabaseModel testDatabaseModel;
-			AddressModel[] models;
-
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			models = testDatabaseModel.GetAddressTable(item => item.Street == "Home").ToArray();
-			Assert.AreEqual(1, models.Length);
-			Assert.AreEqual("Home", models[0].Street);
-		}
-		[TestMethod]
-		public void ShouldGetAddressByPK()
-		{
-			TestDatabaseModel testDatabaseModel;
-			AddressModel model;
-
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			model = testDatabaseModel.GetAddress(1);
-			Assert.AreEqual("Home", model.Street);
-			model = testDatabaseModel.GetAddress(2);
-			Assert.AreEqual("School", model.Street);
-			model = testDatabaseModel.GetAddress(3);
-			Assert.AreEqual("Work", model.Street);
-		}
-		[TestMethod]
-		public void ShouldGetAddressByPredicate()
-		{
-			TestDatabaseModel testDatabaseModel;
-			AddressModel model;
-
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			model = testDatabaseModel.GetAddress(item => item.Street == "Home");
-			Assert.AreEqual("Home", model.Street);
-			model = testDatabaseModel.GetAddress(item => item.Street == "School");
-			Assert.AreEqual("School", model.Street);
-			model = testDatabaseModel.GetAddress(item => item.Street == "Work");
-			Assert.AreEqual("Work", model.Street);
-		}
-		[TestMethod]
-		public void ShouldAddAddress()
-		{
-			TestDatabaseModel testDatabaseModel;
-			AddressModel[] models;
-
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-
-			testDatabaseModel.AddAddress(new Address(3, "UnitTest"));
-			models = testDatabaseModel.GetAddressTable().ToArray();
-			Assert.AreEqual(4, models.Length);
-			Assert.AreEqual("Home", models[0].Street);
-			Assert.AreEqual("School", models[1].Street);
-			Assert.AreEqual("Work", models[2].Street);
-			Assert.AreEqual("UnitTest", models[3].Street);
-		}
-
-		[TestMethod]
-		public void ShouldRemoveAddress()
-		{
-			TestDatabaseModel testDatabaseModel;
-			AddressModel[] models;
-			Address? changedItem = null;
-			int changedIndex = -1;
-			TableChangedActions? changedAction = null;
-
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			testDatabaseModel.AddressTableChanged += (item, action, index) => { changedItem = item; changedAction = action; changedIndex = index; };
-
-			testDatabaseModel.RemoveAddress(testDatabaseModel.GetAddressTable().ElementAt(1));
-			models = testDatabaseModel.GetAddressTable().ToArray();
-			Assert.AreEqual(2, models.Length);
-			Assert.AreEqual("Home", models[0].Street);
-			Assert.AreEqual("Work", models[1].Street);
-
-			Assert.IsNotNull(changedItem);
-			Assert.AreEqual("School", changedItem.Street);
-			Assert.AreEqual(TableChangedActions.Remove, changedAction);
-			Assert.AreEqual(1, changedIndex);
-		}
 		#endregion
 
 		#region PersonnTable
+		[TestMethod]
+		public void ShouldCreateUniquePersonnViewModel()
+		{
+			TestDatabaseViewModel testDatabaseViewModel;
+			TestDatabaseModel testDatabaseModel;
+			PersonnModel item12, item3;
+			PersonnViewModel viewModel1, viewModel2, viewModel3;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			item12 = testDatabaseModel.CreatePersonnModel(new Personn(55, "FN12","LN12",55));
+			item3 = testDatabaseModel.CreatePersonnModel(new Personn(66, "FN3", "LN3", 66));
+			viewModel1 = testDatabaseViewModel.CreatePersonnViewModel(item12);
+			viewModel2 = testDatabaseViewModel.CreatePersonnViewModel(item12);
+			viewModel3 = testDatabaseViewModel.CreatePersonnViewModel(item3);
+			Assert.AreEqual(viewModel1, viewModel2);
+			Assert.AreNotEqual(viewModel1, viewModel3);
+			Assert.AreNotEqual(viewModel2, viewModel3);
+		}
 
 		[TestMethod]
 		public void ShouldGetPersonnTable()
 		{
+			TestDatabaseViewModel testDatabaseViewModel;
 			TestDatabaseModel testDatabaseModel;
-			PersonnModel[] models;
+			PersonnViewModel[] viewModels;
 
 			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			models = testDatabaseModel.GetPersonnTable().ToArray();
-			Assert.AreEqual(4, models.Length);
-			Assert.AreEqual("Homer", models[0].FirstName);
-			Assert.AreEqual("Marje", models[1].FirstName);
-			Assert.AreEqual("Bart", models[2].FirstName);
-			Assert.AreEqual("Liza", models[3].FirstName);
-		}
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
 
-		[TestMethod]
-		public void ShouldGetPersonnTableByPredicate()
-		{
-			TestDatabaseModel testDatabaseModel;
-			PersonnModel[] models;
-
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			models = testDatabaseModel.GetPersonnTable(item => item.FirstName == "Homer").ToArray();
-			Assert.AreEqual(1, models.Length);
-			Assert.AreEqual("Homer", models[0].FirstName);
-		}
-		[TestMethod]
-		public void ShouldGetPersonnByPK()
-		{
-			TestDatabaseModel testDatabaseModel;
-			PersonnModel model;
-
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			model = testDatabaseModel.GetPersonn(1);
-			Assert.AreEqual("Homer", model.FirstName);
-			model = testDatabaseModel.GetPersonn(2);
-			Assert.AreEqual("Marje", model.FirstName);
-			model = testDatabaseModel.GetPersonn(3);
-			Assert.AreEqual("Bart", model.FirstName);
-			model = testDatabaseModel.GetPersonn(4);
-			Assert.AreEqual("Liza", model.FirstName);
-		}
-		[TestMethod]
-		public void ShouldGetPersonnByPredicate()
-		{
-			TestDatabaseModel testDatabaseModel;
-			PersonnModel model;
-
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			model = testDatabaseModel.GetPersonn(item => item.FirstName == "Homer");
-			Assert.AreEqual("Homer", model.FirstName);
-			model = testDatabaseModel.GetPersonn(item => item.FirstName == "Marje");
-			Assert.AreEqual("Marje", model.FirstName);
-			model = testDatabaseModel.GetPersonn(item => item.FirstName == "Bart");
-			Assert.AreEqual("Bart", model.FirstName);
-			model = testDatabaseModel.GetPersonn(item => item.FirstName == "Liza");
-			Assert.AreEqual("Liza", model.FirstName);
-		}
-		[TestMethod]
-		public void ShouldAddPersonn()
-		{
-			TestDatabaseModel testDatabaseModel;
-			PersonnModel[] models;
-
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			testDatabaseModel.AddPersonn(new Personn(4, "Maggy", "Simpson", 4));
-			models = testDatabaseModel.GetPersonnTable().ToArray();
-			Assert.AreEqual(5, models.Length);
-			Assert.AreEqual("Homer", models[0].FirstName);
-			Assert.AreEqual("Marje", models[1].FirstName);
-			Assert.AreEqual("Bart", models[2].FirstName);
-			Assert.AreEqual("Liza", models[3].FirstName);
-			Assert.AreEqual("Maggy", models[4].FirstName);
-		}
-		[TestMethod]
-		public void ShouldRemovePersonn()
-		{
-			TestDatabaseModel testDatabaseModel;
-			PersonnModel[] models;
-			Personn? changedItem = null;
-			int changedIndex = -1;
-			TableChangedActions? changedAction = null;
-
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			testDatabaseModel.PersonnTableChanged += (item, action, index) => { changedItem = item; changedAction = action; changedIndex = index; };
-
-			testDatabaseModel.RemovePersonn(testDatabaseModel.GetPersonnTable().ElementAt(2));
-			models = testDatabaseModel.GetPersonnTable().ToArray();
-			Assert.AreEqual(3, models.Length);
-			Assert.AreEqual("Homer", models[0].FirstName);
-			Assert.AreEqual("Marje", models[1].FirstName);
-			Assert.AreEqual("Liza", models[2].FirstName);
-
-			Assert.IsNotNull(changedItem);
-			Assert.AreEqual("Bart", changedItem.FirstName);
-			Assert.AreEqual(TableChangedActions.Remove, changedAction);
-			Assert.AreEqual(2, changedIndex);
+			viewModels = testDatabaseViewModel.PersonnViewModelCollection.ToArray();
+			Assert.AreEqual(4, viewModels.Length);
+			Assert.AreEqual("Homer", viewModels[0].FirstName);
+			Assert.AreEqual("Marje", viewModels[1].FirstName);
+			Assert.AreEqual("Bart", viewModels[2].FirstName);
+			Assert.AreEqual("Liza", viewModels[3].FirstName);
 		}
 		#endregion
 
 		#region PetTable
 		[TestMethod]
+		public void ShouldCreateUniquePetViewModel()
+		{
+			TestDatabaseViewModel testDatabaseViewModel;
+			TestDatabaseModel testDatabaseModel;
+			PetModel item12, item3;
+			PetViewModel viewModel1, viewModel2, viewModel3;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			item12 = testDatabaseModel.CreatePetModel(new Pet(55, "Pet12"));
+			item3 = testDatabaseModel.CreatePetModel(new Pet(66, "Pet3"));
+			viewModel1 = testDatabaseViewModel.CreatePetViewModel(item12);
+			viewModel2 = testDatabaseViewModel.CreatePetViewModel(item12);
+			viewModel3 = testDatabaseViewModel.CreatePetViewModel(item3);
+			Assert.AreEqual(viewModel1, viewModel2);
+			Assert.AreNotEqual(viewModel1, viewModel3);
+			Assert.AreNotEqual(viewModel2, viewModel3);
+		}
+
+		[TestMethod]
 		public void ShouldGetPetTable()
 		{
+			TestDatabaseViewModel testDatabaseViewModel;
 			TestDatabaseModel testDatabaseModel;
-			PetModel[] models;
+			PetViewModel[] viewModels;
 
 			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			models = testDatabaseModel.GetPetTable().ToArray();
-			Assert.AreEqual(3, models.Length);
-			Assert.AreEqual("Cat", models[0].Name);
-			Assert.AreEqual("Dog", models[1].Name);
-			Assert.AreEqual("Turtle", models[2].Name);
-		}
-		[TestMethod]
-		public void ShouldGetPetTableByPredicate()
-		{
-			TestDatabaseModel testDatabaseModel;
-			PetModel[] models;
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
 
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			models = testDatabaseModel.GetPetTable(item => item.Name == "Cat").ToArray();
-			Assert.AreEqual(1, models.Length);
-			Assert.AreEqual("Cat", models[0].Name);
-		}
-		[TestMethod]
-		public void ShouldGetPetByPK()
-		{
-			TestDatabaseModel testDatabaseModel;
-			PetModel model;
-
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			model = testDatabaseModel.GetPet(1);
-			Assert.AreEqual("Cat", model.Name);
-			model = testDatabaseModel.GetPet(2);
-			Assert.AreEqual("Dog", model.Name);
-			model = testDatabaseModel.GetPet(3);
-			Assert.AreEqual("Turtle", model.Name);
-		}
-		[TestMethod]
-		public void ShouldGetPetByPredicate()
-		{
-			TestDatabaseModel testDatabaseModel;
-			PetModel model;
-
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			model = testDatabaseModel.GetPet(item => item.Name == "Cat");
-			Assert.AreEqual("Cat", model.Name);
-			model = testDatabaseModel.GetPet(item => item.Name == "Dog");
-			Assert.AreEqual("Dog", model.Name);
-			model = testDatabaseModel.GetPet(item => item.Name == "Turtle");
-			Assert.AreEqual("Turtle", model.Name);
-		}
-		[TestMethod]
-		public void ShouldAddPet()
-		{
-			TestDatabaseModel testDatabaseModel;
-			PetModel[] models;
-
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			testDatabaseModel.AddPet(new Pet(3, "Bird"));
-			models = testDatabaseModel.GetPetTable().ToArray();
-			Assert.AreEqual(4, models.Length);
-			Assert.AreEqual("Cat", models[0].Name);
-			Assert.AreEqual("Dog", models[1].Name);
-			Assert.AreEqual("Turtle", models[2].Name);
-			Assert.AreEqual("Bird", models[3].Name);
-		}
-		[TestMethod]
-		public void ShouldRemovePet()
-		{
-			TestDatabaseModel testDatabaseModel;
-			PetModel[] models;
-			Pet? changedItem = null;
-			int changedIndex = -1;
-			TableChangedActions? changedAction = null;
-
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			testDatabaseModel.PetTableChanged += (item, action, index) => { changedItem = item; changedAction = action; changedIndex = index; };
-
-			testDatabaseModel.RemovePet(testDatabaseModel.GetPetTable().ElementAt(1));
-			models = testDatabaseModel.GetPetTable().ToArray();
-			Assert.AreEqual(2, models.Length);
-			Assert.AreEqual("Cat", models[0].Name);
-			Assert.AreEqual("Turtle", models[1].Name);
-
-			Assert.IsNotNull(changedItem);
-			Assert.AreEqual("Dog", changedItem.Name);
-			Assert.AreEqual(TableChangedActions.Remove, changedAction);
-			Assert.AreEqual(1, changedIndex);
+			viewModels = testDatabaseViewModel.PetViewModelCollection.ToArray();
+			Assert.AreEqual(3, viewModels.Length);
+			Assert.AreEqual("Cat", viewModels[0].Name);
+			Assert.AreEqual("Dog", viewModels[1].Name);
+			Assert.AreEqual("Turtle", viewModels[2].Name);
 		}
 		#endregion
-		*/
 	}
 
 }
