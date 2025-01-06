@@ -98,23 +98,39 @@ namespace DataViewModelLib.UnitTests
 		{
 			ViewModelSourceGenerator sourceGenerator;
 			Database database;
-			Table table;
+			Table parentTable;
+			Table childTable;
+			Column column1, primaryColumn,foreignColumn;
 			string source;
+			Relation relation;
 
 			sourceGenerator = new ViewModelSourceGenerator();
 
 			database = new Database("ns", "MyDB");
-			table = new Table("ns", database.DatabaseName, "Personn");
-			database.Tables.Add(table);
-			table.Columns.Add(new Column(table, "FirstName", "string", false));
-			table.Columns.Add(new Column(table, "MailID", "byte?", true));
 
-			source = sourceGenerator.GenerateSource(table);
+			childTable = new Table("ns", database.DatabaseName, "Child");
+			database.Tables.Add(childTable);
+			foreignColumn = new Column(childTable, "PersonnID", "byte", false);
+			childTable.Columns.Add(foreignColumn);
+
+			parentTable = new Table("ns", database.DatabaseName, "Personn");
+			database.Tables.Add(parentTable);
+			column1 = new Column(parentTable, "FirstName", "string", false);
+			primaryColumn = new Column(parentTable, "PersonnID", "byte?", true);
+			parentTable.Columns.Add(column1);
+			parentTable.Columns.Add(primaryColumn);
+
+			relation = new Relation("Childs", primaryColumn, "Parent", foreignColumn, CascadeTriggers.None);
+			parentTable.Relations.Add(relation);
+			childTable.Relations.Add(relation);
+
+			source = sourceGenerator.GenerateSource(parentTable);
 
 			Assert.IsTrue(source.Contains("public string FirstName"));
-			Assert.IsTrue(source.Contains("public byte? MailID"));
+			Assert.IsTrue(source.Contains("public byte? PersonnID"));
 
-			Assert.Fail("Should test relation properties");
+			Assert.IsTrue(source.Contains("public ChildsViewModelCollection Childs"));
+
 		}
 
 

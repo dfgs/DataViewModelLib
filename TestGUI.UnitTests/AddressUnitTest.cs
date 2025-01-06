@@ -126,10 +126,49 @@ namespace TestGUI.UnitTests
 
 
 		[TestMethod]
-		public void ShouldGetOwners()
+		public void ShouldGetBilledPeople()
 		{
-			Assert.Fail();
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			PersonnViewModel[] billedPeople;
+	
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+
+			billedPeople = testDatabaseViewModel.AddressViewModelCollection.ElementAt(1).BilledPeople.ToArray();
+			Assert.AreEqual(2, billedPeople.Length);
+			Assert.AreEqual("Homer", billedPeople[0].FirstName);
+			Assert.AreEqual("Marje", billedPeople[1].FirstName);
+
+			billedPeople = testDatabaseViewModel.AddressViewModelCollection.ElementAt(2).BilledPeople.ToArray();
+			Assert.AreEqual(0, billedPeople.Length);
+
 		}
+		[TestMethod]
+		public void ShouldGetDeliveredPeople()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			PersonnViewModel[] billedPeople;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+
+			billedPeople = testDatabaseViewModel.AddressViewModelCollection.ElementAt(0).DeliveredPeople.ToArray();
+			Assert.AreEqual(4, billedPeople.Length);
+			Assert.AreEqual("Homer", billedPeople[0].FirstName);
+			Assert.AreEqual("Marje", billedPeople[1].FirstName);
+			Assert.AreEqual("Bart", billedPeople[2].FirstName);
+			Assert.AreEqual("Liza", billedPeople[3].FirstName);
+
+			billedPeople = testDatabaseViewModel.AddressViewModelCollection.ElementAt(2).DeliveredPeople.ToArray();
+			Assert.AreEqual(0, billedPeople.Length);
+
+		}
+
+
 
 	}
 }

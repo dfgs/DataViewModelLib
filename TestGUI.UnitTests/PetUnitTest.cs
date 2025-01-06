@@ -127,7 +127,22 @@ namespace TestGUI.UnitTests
 		[TestMethod]
 		public void ShouldGetOwners()
 		{
-			Assert.Fail();
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			PersonnViewModel[] owners;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			owners = testDatabaseViewModel.PetViewModelCollection.ElementAt(0).Owners.ToArray();
+			Assert.AreEqual(2, owners.Length);
+			Assert.AreEqual("Homer", owners[0].FirstName);
+			Assert.AreEqual("Marje", owners[1].FirstName);
+
+			owners = testDatabaseViewModel.PetViewModelCollection.ElementAt(1).Owners.ToArray();
+			Assert.AreEqual(2, owners.Length);
+			Assert.AreEqual("Bart", owners[0].FirstName);
+			Assert.AreEqual("Liza", owners[1].FirstName);
 		}
 
 	}
