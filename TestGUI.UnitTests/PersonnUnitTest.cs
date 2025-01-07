@@ -206,5 +206,59 @@ namespace TestGUI.UnitTests
 			Assert.AreEqual("Homer", testDatabaseViewModel.PersonnViewModelCollection.SelectedItem.FirstName);
 			Assert.AreEqual("SelectedItem", propertyName);
 		}
+
+		[TestMethod]
+		public void ShouldGetBillingAddress()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			PersonnViewModel viewModel;
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			viewModel = testDatabaseViewModel.PersonnViewModelCollection.First();
+			Assert.IsNotNull(viewModel.BillingAddress);
+			Assert.AreEqual("School", viewModel.BillingAddress.Street);
+		}
+		[TestMethod]
+		public void ShouldNotGetBillingAddress()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			PersonnViewModel viewModel;
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			viewModel = testDatabaseViewModel.PersonnViewModelCollection.ElementAt(2);
+			Assert.IsNull(viewModel.BillingAddress);
+		}
+
+		[TestMethod]
+		public void ShouldGetDeliveryAddress()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			PersonnViewModel viewModel;
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			viewModel = testDatabaseViewModel.PersonnViewModelCollection.First();
+			Assert.IsNotNull(viewModel.DeliveryAddress);
+			Assert.AreEqual("Home", viewModel.DeliveryAddress.Street);
+		}
+		[TestMethod]
+		public void ShouldGetPreferedPetAddress()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			PersonnViewModel viewModel;
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			viewModel = testDatabaseViewModel.PersonnViewModelCollection.First();
+			Assert.IsNotNull(viewModel.PreferedPet);
+			Assert.AreEqual("Cat", viewModel.PreferedPet.Name);
+		}
+
 	}
 }

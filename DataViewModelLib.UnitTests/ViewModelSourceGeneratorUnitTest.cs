@@ -120,7 +120,7 @@ namespace DataViewModelLib.UnitTests
 			parentTable.Columns.Add(column1);
 			parentTable.Columns.Add(primaryColumn);
 
-			relation = new Relation("Childs", primaryColumn, "Parent", foreignColumn, CascadeTriggers.None);
+			relation = new Relation("Childs", primaryColumn, "MyParent", foreignColumn, CascadeTriggers.None);
 			parentTable.Relations.Add(relation);
 			childTable.Relations.Add(relation);
 
@@ -128,8 +128,11 @@ namespace DataViewModelLib.UnitTests
 
 			Assert.IsTrue(source.Contains("public string FirstName"));
 			Assert.IsTrue(source.Contains("public byte? PersonnID"));
-
 			Assert.IsTrue(source.Contains("public ChildsViewModelCollection Childs"));
+
+			source = sourceGenerator.GenerateSource(childTable);
+			Assert.IsTrue(source.Contains("public byte PersonnID"));
+			Assert.IsTrue(source.Contains("public PersonnViewModel MyParent"));
 
 		}
 

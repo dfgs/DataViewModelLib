@@ -49,8 +49,8 @@ namespace DataViewModelLib.SourceGenerator
 						this.databaseViewModel=DatabaseViewModel; 
 						this.dataSource=DataSource;
 
-						{{Table.Relations.Where(item => item.PrimaryTable == Table).Select(item => $"_{item.PrimaryPropertyName} = new {item.PrimaryPropertyName}ViewModelCollection(databaseViewModel, databaseModel, dataSource);").Join().Indent(3)}}
-									
+						{{Table.Relations.Where(item => item.PrimaryTable == Table).Select(item => $"this._{item.PrimaryPropertyName} = new {item.PrimaryPropertyName}ViewModelCollection(databaseViewModel, databaseModel, dataSource);").Join().Indent(3)}}
+
 						DataSource.PropertyChanged += OnModelPropertyChanged;
 					}
 
@@ -94,16 +94,37 @@ namespace DataViewModelLib.SourceGenerator
 		private string GenerateProperty(Table Table, Relation Relation)
 		{
 			string source;
-			if (Relation.ForeignTable == Table) return "";
-			
-			source =
-			$$"""
-			private {{Relation.PrimaryPropertyName}}ViewModelCollection _{{Relation.PrimaryPropertyName}};
-			public {{Relation.PrimaryPropertyName}}ViewModelCollection {{Relation.PrimaryPropertyName}}
+			if (Relation.ForeignTable == Table)
 			{
-				get { return this._{{Relation.PrimaryPropertyName}}; }
+				source =
+				$$"""
+				private {{Relation.PrimaryTable.TableName}}ViewModel _{{Relation.ForeignPropertyName}};
+				public {{Relation.PrimaryTable.TableName}}ViewModel {{Relation.ForeignPropertyName}}
+				{
+					get 
+					{
+						if (this._{{Relation.ForeignPropertyName}}==null)
+						{
+							{{Relation.PrimaryTable.TableName}}Model model = dataSource.Get{{Relation.ForeignPropertyName}}();
+							if (model==null) return null;
+							this._{{Relation.ForeignPropertyName}} = databaseViewModel.Create{{Relation.PrimaryTable.TableName}}ViewModel(model);
+						}
+						return this._{{Relation.ForeignPropertyName}}; 
+					}
+				}
+				""";
 			}
-			""";
+			else
+			{
+				source =
+				$$"""
+				private {{Relation.PrimaryPropertyName}}ViewModelCollection _{{Relation.PrimaryPropertyName}};
+				public {{Relation.PrimaryPropertyName}}ViewModelCollection {{Relation.PrimaryPropertyName}}
+				{
+					get { return this._{{Relation.PrimaryPropertyName}}; }
+				}
+				""";
+			}
 			return source;
 		}
 

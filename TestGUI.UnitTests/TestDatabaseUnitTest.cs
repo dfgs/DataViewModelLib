@@ -15,6 +15,18 @@ namespace TestGUI.UnitTests
 
 		#region AddressTable
 		[TestMethod]
+		public void ShouldNotCreateUniqueAddressViewModel()
+		{
+			TestDatabaseViewModel testDatabaseViewModel;
+			TestDatabaseModel testDatabaseModel;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			Assert.ThrowsException<ArgumentNullException>(()=> testDatabaseViewModel.CreateAddressViewModel(null));
+		}
+
+		[TestMethod]
 		public void ShouldCreateUniqueAddressViewModel()
 		{
 			TestDatabaseViewModel testDatabaseViewModel;
@@ -54,6 +66,19 @@ namespace TestGUI.UnitTests
 		#endregion
 
 		#region PersonnTable
+		[TestMethod]
+		public void ShouldNotCreateUniquePersonnViewModel()
+		{
+			TestDatabaseViewModel testDatabaseViewModel;
+			TestDatabaseModel testDatabaseModel;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			Assert.ThrowsException<ArgumentNullException>(() => testDatabaseViewModel.CreatePersonnViewModel(null));
+		}
+
+
 		[TestMethod]
 		public void ShouldCreateUniquePersonnViewModel()
 		{
@@ -95,6 +120,17 @@ namespace TestGUI.UnitTests
 		#endregion
 
 		#region PetTable
+		[TestMethod]
+		public void ShouldNotCreateUniquePetViewModel()
+		{
+			TestDatabaseViewModel testDatabaseViewModel;
+			TestDatabaseModel testDatabaseModel;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			Assert.ThrowsException<ArgumentNullException>(() => testDatabaseViewModel.CreatePetViewModel(null));
+		}
 		[TestMethod]
 		public void ShouldCreateUniquePetViewModel()
 		{

@@ -71,6 +71,8 @@ namespace DataViewModelLib.SourceGenerator
 			{
 				{{Table.TableName}}ViewModel viewModel;
 			
+				if (Item==null) throw new ArgumentNullException(nameof(Item));
+
 				if (!{{Table.TableName}}Dictionary.TryGetValue(Item,out viewModel))
 				{
 					viewModel=new {{Table.TableName}}ViewModel(this, dataSource, Item);
