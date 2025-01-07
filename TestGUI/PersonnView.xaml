@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="TestGUI.PersonnView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TestGUI"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="1*"/>
+			<ColumnDefinition Width="5"/>
+			<ColumnDefinition Width="3*"/>
+		</Grid.ColumnDefinitions>
+		<GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+		<local:CollectionView Grid.Column="0" DataContext="{Binding}" Insert="CollectionView_Insert"	/>
+		<TabControl Grid.Column="2">
+			<TabItem Header="Properties" DataContext="{Binding SelectedItem}">
+				<StackPanel>
+					<TextBox Text="{Binding FirstName}"/>
+					<TextBox Text="{Binding LastName}"/>
+					<TextBox Text="{Binding Age}"/>
+					<ComboBox SelectedValue="{Binding BillingAddressID}" SelectedValuePath="AddressID" ItemsSource="{Binding Source={x:Static local:ViewModels.TestDatabaseViewModel}, Path=AddressViewModelCollection}"/>
+					<ComboBox SelectedValue="{Binding DeliveryAddressID}" SelectedValuePath="AddressID" ItemsSource="{Binding Source={x:Static local:ViewModels.TestDatabaseViewModel}, Path=AddressViewModelCollection}"/>
+					<ComboBox SelectedValue="{Binding PetID}" SelectedValuePath="PetID" ItemsSource="{Binding Source={x:Static local:ViewModels.TestDatabaseViewModel}, Path=PetViewModelCollection}"/>
+				</StackPanel>
+			</TabItem>
+		</TabControl>
+	</Grid>
+</UserControl>
