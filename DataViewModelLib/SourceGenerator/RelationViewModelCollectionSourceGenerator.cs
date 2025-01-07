@@ -27,10 +27,18 @@ namespace DataViewModelLib.SourceGenerator
 										
 			namespace {{Relation.PrimaryTable.Namespace}}.ViewModels
 			{
-				public partial class {{Relation.PrimaryPropertyName}}ViewModelCollection :  IEnumerable<{{Relation.ForeignTable.TableName}}ViewModel>, INotifyCollectionChanged
+				public partial class {{Relation.PrimaryPropertyName}}ViewModelCollection : IViewModelCollection, IEnumerable<{{Relation.ForeignTable.TableName}}ViewModel>, INotifyPropertyChanged, INotifyCollectionChanged
 				{
 					#nullable enable
+					public event PropertyChangedEventHandler? PropertyChanged;
 					public event NotifyCollectionChangedEventHandler? CollectionChanged;
+
+					private {{Relation.ForeignTable.TableName}}ViewModel? selectedItem;
+					public {{Relation.ForeignTable.TableName}}ViewModel? SelectedItem
+					{
+						get => selectedItem;
+						set { selectedItem=value; OnPropertyChanged("SelectedItem"); }
+					}
 					#nullable disable
 						
 					private {{Relation.PrimaryTable.DatabaseName}}Model databaseModel;
@@ -50,6 +58,11 @@ namespace DataViewModelLib.SourceGenerator
 						
 						this.primaryRow.{{Relation.PrimaryPropertyName}}Changed += On{{Relation.PrimaryPropertyName}}Changed;
 
+					}
+
+					protected virtual void OnPropertyChanged(string PropertyName)
+					{
+						if (PropertyChanged!=null) PropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
 					}
 
 					#region IEnumerable
@@ -89,6 +102,23 @@ namespace DataViewModelLib.SourceGenerator
 							default:
 								break;
 						}
+					}
+
+					public void Add({{Relation.ForeignTable.TableName}} Item)
+					{
+						Item.{{Relation.ForeignKey.ColumnName}} = primaryRow.{{Relation.PrimaryKey.ColumnName}};
+						databaseModel.Add{{Relation.ForeignTable.TableName}}(Item);
+					}
+			
+					void IViewModelCollection.Add(object Item)
+					{
+						#nullable enable
+						{{Relation.ForeignTable.TableName}}? convertedItem;
+						#nullable disable
+			
+						convertedItem = Item as {{Relation.ForeignTable.TableName}};
+						if (convertedItem==null) return;
+						Add(convertedItem);
 					}
 
 				}

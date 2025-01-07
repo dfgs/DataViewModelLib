@@ -10,6 +10,7 @@ namespace TestGUI.UnitTests
 	public class BilledPeopleUnitTest
 	{
 
+	
 
 		[TestMethod]
 		public void ShouldRaiseTableChangedOnRemove()
@@ -93,6 +94,22 @@ namespace TestGUI.UnitTests
 		}
 
 		[TestMethod]
+		public void ShouldAdd()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			PersonnViewModel[] viewModels;
+	
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			testDatabaseViewModel.PersonnViewModelCollection.Add(new Personn(5, "Ned", "Flanders", 55) { BillingAddressID = 2 });
+
+			viewModels = testDatabaseViewModel.AddressViewModelCollection.ElementAt(1).BilledPeople.ToArray();
+			Assert.AreEqual(3, viewModels.Length);
+		}
+
+		[TestMethod]
 		public void ShouldRaiseTableChangedOnAdd()
 		{
 			TestDatabaseModel testDatabaseModel;
@@ -116,6 +133,31 @@ namespace TestGUI.UnitTests
 			Assert.AreEqual(NotifyCollectionChangedAction.Add, changedAction);
 			Assert.AreEqual(2, changedIndex);
 		}
+
+		[TestMethod]
+		public void ShouldGetSetSelectedItem()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			BilledPeopleViewModelCollection collection;
+
+
+			string? propertyName = null;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			collection = testDatabaseViewModel.AddressViewModelCollection.ElementAt(1).BilledPeople;
+			collection.PropertyChanged += (_, e) => { propertyName = e.PropertyName; };
+
+			Assert.IsNull(collection.SelectedItem);
+			collection.SelectedItem = collection.First();
+			Assert.IsNotNull(collection.SelectedItem);
+			Assert.AreEqual("Homer", collection.SelectedItem.FirstName);
+			Assert.AreEqual("SelectedItem", propertyName);
+		}
+
+
 
 	}
 }

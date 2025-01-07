@@ -188,5 +188,23 @@ namespace TestGUI.UnitTests
 		}
 
 
+		[TestMethod]
+		public void ShouldGetSetSelectedItem()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			string? propertyName = null;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			testDatabaseViewModel.PersonnViewModelCollection.PropertyChanged += (_, e) => { propertyName = e.PropertyName; };
+
+			Assert.IsNull(testDatabaseViewModel.PersonnViewModelCollection.SelectedItem);
+			testDatabaseViewModel.PersonnViewModelCollection.SelectedItem = testDatabaseViewModel.PersonnViewModelCollection.First();
+			Assert.IsNotNull(testDatabaseViewModel.PersonnViewModelCollection.SelectedItem);
+			Assert.AreEqual("Homer", testDatabaseViewModel.PersonnViewModelCollection.SelectedItem.FirstName);
+			Assert.AreEqual("SelectedItem", propertyName);
+		}
 	}
 }

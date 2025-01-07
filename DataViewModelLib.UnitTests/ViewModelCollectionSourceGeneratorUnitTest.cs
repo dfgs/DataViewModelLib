@@ -51,6 +51,27 @@ namespace DataViewModelLib.UnitTests
 		}
 
 		[TestMethod]
+		public void ShouldGenerateProperties()
+		{ 
+			ViewModelCollectionSourceGenerator sourceGenerator;
+			Database database;
+			Table table;
+			string source;
+
+			sourceGenerator = new ViewModelCollectionSourceGenerator();
+
+			database = new Database("ns", "MyDB");
+			table = new Table("ns", database.DatabaseName, "Personn");
+			database.Tables.Add(table);
+
+			source = sourceGenerator.GenerateSource(table);
+
+			Assert.IsTrue(source.Contains("public PersonnViewModel? SelectedItem"));
+
+		}
+
+
+		[TestMethod]
 		public void ShouldGenerateConstructor()
 		{
 			ViewModelCollectionSourceGenerator sourceGenerator;

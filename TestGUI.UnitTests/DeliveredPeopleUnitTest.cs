@@ -114,6 +114,29 @@ namespace TestGUI.UnitTests
 			Assert.AreEqual(NotifyCollectionChangedAction.Add, changedAction);
 			Assert.AreEqual(4, changedIndex);
 		}
+		[TestMethod]
+		public void ShouldGetSetSelectedItem()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			DeliveredPeopleViewModelCollection collection;
+
+
+			string? propertyName = null;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			collection = testDatabaseViewModel.AddressViewModelCollection.ElementAt(0).DeliveredPeople;
+			collection.PropertyChanged += (_, e) => { propertyName = e.PropertyName; };
+
+			Assert.IsNull(collection.SelectedItem);
+			collection.SelectedItem = collection.First();
+			Assert.IsNotNull(collection.SelectedItem);
+			Assert.AreEqual("Homer", collection.SelectedItem.FirstName);
+			Assert.AreEqual("SelectedItem", propertyName);
+		}
+
 
 	}
 }

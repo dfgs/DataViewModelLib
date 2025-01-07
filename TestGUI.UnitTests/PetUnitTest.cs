@@ -211,5 +211,26 @@ namespace TestGUI.UnitTests
 			Assert.AreEqual("Liza", owners[1].FirstName);
 		}
 
+		[TestMethod]
+		public void ShouldGetSetSelectedItem()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			string? propertyName = null;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			testDatabaseViewModel.PetViewModelCollection.PropertyChanged += (_, e) => { propertyName = e.PropertyName; };
+
+			Assert.IsNull(testDatabaseViewModel.PetViewModelCollection.SelectedItem);
+			testDatabaseViewModel.PetViewModelCollection.SelectedItem = testDatabaseViewModel.PetViewModelCollection.First();
+			Assert.IsNotNull(testDatabaseViewModel.PetViewModelCollection.SelectedItem);
+			Assert.AreEqual("Cat", testDatabaseViewModel.PetViewModelCollection.SelectedItem.Name);
+			Assert.AreEqual("SelectedItem", propertyName);
+		}
+
+
+
 	}
 }
