@@ -50,10 +50,14 @@ namespace DataViewModelLib.SourceGenerator
 						this.dataSource=DataSource;
 
 						{{Table.Relations.Where(item => item.PrimaryTable == Table).Select(item => $"this._{item.PrimaryPropertyName} = new {item.PrimaryPropertyName}ViewModelCollection(databaseViewModel, databaseModel, dataSource);").Join().Indent(3)}}
+						
+						{{Table.Relations.Where(item => item.ForeignTable == Table).Select(item => $"this.dataSource.{item.ForeignPropertyName}Changed += On{item.ForeignPropertyName}Changed;").Join().Indent(3)}}
 
 						DataSource.PropertyChanged += OnModelPropertyChanged;
 					}
 
+			{{Table.Relations.Select(item => GenerateMethod(Table, item)).Join().Indent(2)}}
+			
 					private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
 					{
 						OnPropertyChanged(e.PropertyName);
@@ -127,6 +131,23 @@ namespace DataViewModelLib.SourceGenerator
 			}
 			return source;
 		}
+
+		private string GenerateMethod(Table Table, Relation Relation)
+		{
+			string source;
+			if (Relation.PrimaryTable == Table) return "";
+
+			source =
+			$$"""
+			private void On{{Relation.ForeignPropertyName}}Changed(object sender, EventArgs e)
+			{
+				this._{{Relation.ForeignPropertyName}} = null;
+				OnPropertyChanged(nameof({{Relation.ForeignPropertyName}}));
+			}
+			""";
+			return source;
+		}
+
 
 
 	}

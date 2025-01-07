@@ -260,5 +260,60 @@ namespace TestGUI.UnitTests
 			Assert.AreEqual("Cat", viewModel.PreferedPet.Name);
 		}
 
+		[TestMethod]
+		public void ShouldRaiseBillingAddressPropertyChanged()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			PersonnViewModel viewModel;
+			string? propertyName = null;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			viewModel = testDatabaseViewModel.PersonnViewModelCollection.First();
+			viewModel.PropertyChanged += (_, e) => { propertyName = e.PropertyName; };
+
+			viewModel.BillingAddressID = 3;
+			Assert.AreEqual("BillingAddress", propertyName);
+			Assert.AreEqual("Work", viewModel.BillingAddress.Street);
+		}
+		[TestMethod]
+		public void ShouldRaiseDeliveryAddressPropertyChanged()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			PersonnViewModel viewModel;
+			string? propertyName = null;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			viewModel = testDatabaseViewModel.PersonnViewModelCollection.First();
+			viewModel.PropertyChanged += (_, e) => { propertyName = e.PropertyName; };
+
+			viewModel.DeliveryAddressID = 3;
+			Assert.AreEqual("DeliveryAddress", propertyName);
+			Assert.AreEqual("Work", viewModel.DeliveryAddress.Street);
+		}
+		[TestMethod]
+		public void ShouldRaisePreferedPetPropertyChanged()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			PersonnViewModel viewModel;
+			string? propertyName = null;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			viewModel = testDatabaseViewModel.PersonnViewModelCollection.First();
+			viewModel.PropertyChanged += (_, e) => { propertyName = e.PropertyName; };
+
+			viewModel.PetID = 3;
+			Assert.AreEqual("PreferedPet", propertyName);
+			Assert.AreEqual("Turtle", viewModel.PreferedPet.Name);
+		}
+
 	}
 }

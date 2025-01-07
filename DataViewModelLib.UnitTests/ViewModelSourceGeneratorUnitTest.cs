@@ -76,20 +76,38 @@ namespace DataViewModelLib.UnitTests
 		{
 			ViewModelSourceGenerator sourceGenerator;
 			Database database;
-			Table table;
+			Table parentTable;
+			Table childTable;
+			Column column1, primaryColumn, foreignColumn;
+			Relation relation;
 			string source;
 
 			sourceGenerator = new ViewModelSourceGenerator();
 
 			database = new Database("ns", "MyDB");
-			table = new Table("ns", database.DatabaseName, "Personn");
-			database.Tables.Add(table);
 
-			source = sourceGenerator.GenerateSource(table);
+			childTable = new Table("ns", database.DatabaseName, "Child");
+			database.Tables.Add(childTable);
+			foreignColumn = new Column(childTable, "PersonnID", "byte", false);
+			childTable.Columns.Add(foreignColumn);
+
+			parentTable = new Table("ns", database.DatabaseName, "Personn");
+			database.Tables.Add(parentTable);
+			column1 = new Column(parentTable, "FirstName", "string", false);
+			primaryColumn = new Column(parentTable, "PersonnID", "byte?", true);
+			parentTable.Columns.Add(column1);
+			parentTable.Columns.Add(primaryColumn);
+
+			relation = new Relation("Childs", primaryColumn, "MyParent", foreignColumn, CascadeTriggers.None);
+			parentTable.Relations.Add(relation);
+			childTable.Relations.Add(relation); 
+			
+			source = sourceGenerator.GenerateSource(childTable);
 
 			Assert.IsTrue(source.Contains("protected virtual void OnPropertyChanged(string PropertyName)"));
 			Assert.IsTrue(source.Contains("public void Delete()"));
 			Assert.IsTrue(source.Contains("public override string ToString()"));
+			Assert.IsTrue(source.Contains("private void OnMyParentChanged(object sender, EventArgs e)"));
 
 		}
 
@@ -101,8 +119,8 @@ namespace DataViewModelLib.UnitTests
 			Table parentTable;
 			Table childTable;
 			Column column1, primaryColumn,foreignColumn;
-			string source;
 			Relation relation;
+			string source;
 
 			sourceGenerator = new ViewModelSourceGenerator();
 
