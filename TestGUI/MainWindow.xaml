@@ -11,10 +11,10 @@
 			<local:CollectionView DataContext="{Binding PersonnViewModelCollection}" Insert="PersonnCollectionView_Insert"	 />
 		</TabItem>
 		<TabItem Header="Address">
-			<local:CollectionView DataContext="{Binding AddressViewModelCollection}"/>
+			<local:AddressView DataContext="{Binding AddressViewModelCollection}"/>
 		</TabItem>
 		<TabItem Header="Pet">
-			<local:CollectionView DataContext="{Binding PetViewModelCollection}"/>
+			<local:PetView DataContext="{Binding PetViewModelCollection}"/>
 		</TabItem>
 	</TabControl>
 </Window>

@@ -2,6 +2,7 @@ using TestGUI.Data.DataSources;
 using TestGUI.Data.DataSources.Models;
 using TestGUI.Data.DataSources.ViewModels;
 using DataModelLib.Common;
+using System.Collections.Specialized;
 
 namespace TestGUI.UnitTests
 {
@@ -31,12 +32,8 @@ namespace TestGUI.UnitTests
 			TestDatabaseModel testDatabaseModel;
 			TestDatabaseViewModel testDatabaseViewModel;
 			PetViewModel[] viewModels;
-			Pet? changedItem = null;
-			int changedIndex = -1;
-			TableChangedActions? changedAction = null;
 
 			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			testDatabaseModel.PetTableChanged += (item, action, index) => { changedItem = item; changedAction = action; changedIndex = index; };
 			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
 
 			testDatabaseViewModel.PetViewModelCollection.ElementAt(1).Delete();
@@ -44,11 +41,32 @@ namespace TestGUI.UnitTests
 			Assert.AreEqual(2, viewModels.Length);
 			Assert.AreEqual("Cat", viewModels[0].Name);
 
+		}
+
+		[TestMethod]
+		public void ShouldRaiseTableChangedOnDelete()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			PetViewModel[] viewModels;
+			object? changedItem = null;
+			int changedIndex = -1;
+			NotifyCollectionChangedAction? changedAction = null;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseViewModel.PetViewModelCollection.CollectionChanged += (sender, e) => { changedItem = e.OldItems?[0]; changedAction = e.Action; changedIndex = e.OldStartingIndex; }; ;
+
+			testDatabaseViewModel.PetViewModelCollection.ElementAt(1).Delete();
+			viewModels = testDatabaseViewModel.PetViewModelCollection.ToArray();
+			Assert.AreEqual(2, viewModels.Length);
+
 			Assert.IsNotNull(changedItem);
-			Assert.AreEqual("Dog", changedItem.Name);
-			Assert.AreEqual(TableChangedActions.Remove, changedAction);
+			Assert.AreEqual("Dog", ((PetViewModel)changedItem).Name);
+			Assert.AreEqual(NotifyCollectionChangedAction.Remove, changedAction);
 			Assert.AreEqual(1, changedIndex);
 		}
+
 
 		[TestMethod]
 		public void ShouldRemove()
@@ -57,25 +75,42 @@ namespace TestGUI.UnitTests
 			TestDatabaseViewModel testDatabaseViewModel;
 			PetViewModel[] viewModels;
 			PetViewModel item;
-			Pet? changedItem = null;
-			int changedIndex = -1;
-			TableChangedActions? changedAction = null;
-
+	
 			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			testDatabaseModel.PetTableChanged += (item, action, index) => { changedItem = item; changedAction = action; changedIndex = index; };
 			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
 
-			item=testDatabaseViewModel.PetViewModelCollection.ElementAt(1);
+			item = testDatabaseViewModel.PetViewModelCollection.ElementAt(1);
 			testDatabaseViewModel.PetViewModelCollection.Remove(item);
 
 			viewModels = testDatabaseViewModel.PetViewModelCollection.ToArray();
 			Assert.AreEqual(2, viewModels.Length);
 			Assert.AreEqual("Cat", viewModels[0].Name);
+		}
+		[TestMethod]
+		public void ShouldRaiseTableChangedOnRemove()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			PetViewModel[] viewModels;
+			object? changedItem = null;
+			int changedIndex = -1;
+			NotifyCollectionChangedAction? changedAction = null;
+			PetViewModel item;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseViewModel.PetViewModelCollection.CollectionChanged += (sender, e) => { changedItem = e.OldItems?[0]; changedAction = e.Action; changedIndex = e.OldStartingIndex; }; ;
+
+			item = testDatabaseViewModel.PetViewModelCollection.ElementAt(1);
+			testDatabaseViewModel.PetViewModelCollection.Remove(item);
+			viewModels = testDatabaseViewModel.PetViewModelCollection.ToArray();
+			Assert.AreEqual(2, viewModels.Length);
 
 			Assert.IsNotNull(changedItem);
-			Assert.AreEqual("Dog", changedItem.Name);
-			Assert.AreEqual(TableChangedActions.Remove, changedAction);
+			Assert.AreEqual("Dog", ((PetViewModel)changedItem).Name);
+			Assert.AreEqual(NotifyCollectionChangedAction.Remove, changedAction);
 			Assert.AreEqual(1, changedIndex);
+			
 		}
 
 		[TestMethod]
@@ -84,12 +119,8 @@ namespace TestGUI.UnitTests
 			TestDatabaseModel testDatabaseModel;
 			TestDatabaseViewModel testDatabaseViewModel;
 			PetViewModel[] viewModels;
-			Pet? changedItem = null;
-			int changedIndex = -1;
-			TableChangedActions? changedAction = null;
 
 			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			testDatabaseModel.PetTableChanged += (item, action, index) => { changedItem = item; changedAction = action; changedIndex = index; };
 			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
 
 			testDatabaseViewModel.PetViewModelCollection.Add(new Pet(4,"Pet1"));
@@ -98,14 +129,51 @@ namespace TestGUI.UnitTests
 			Assert.AreEqual(4, viewModels.Length);
 			Assert.AreEqual("Pet1", viewModels[3].Name);
 
+		}
+
+		[TestMethod]
+		public void ShouldRaiseTableChangedOnAdd()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			PetViewModel[] viewModels;
+			object? changedItem = null;
+			int changedIndex = -1;
+			NotifyCollectionChangedAction? changedAction = null;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseViewModel.PetViewModelCollection.CollectionChanged += (sender, e) => { changedItem = e.NewItems?[0]; changedAction = e.Action; changedIndex = e.NewStartingIndex; }; ;
+
+			testDatabaseViewModel.PetViewModelCollection.Add(new Pet(4, "Pet1"));
+
+			viewModels = testDatabaseViewModel.PetViewModelCollection.ToArray();
+			Assert.AreEqual(4, viewModels.Length);
+
 			Assert.IsNotNull(changedItem);
-			Assert.AreEqual("Pet1", changedItem.Name);
-			Assert.AreEqual(TableChangedActions.Add, changedAction);
+			Assert.AreEqual("Pet1", ((PetViewModel)changedItem).Name);
+			Assert.AreEqual(NotifyCollectionChangedAction.Add, changedAction);
 			Assert.AreEqual(3, changedIndex);
 		}
 
 		[TestMethod]
 		public void ShouldGetSetProperty()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			PetViewModel viewModel;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			viewModel = testDatabaseViewModel.PetViewModelCollection.First();
+
+			Assert.AreEqual("Cat", viewModel.Name);
+			viewModel.Name = "Pet2";
+			Assert.AreEqual("Pet2", viewModel.Name);
+		}
+		[TestMethod]
+		public void ShouldRaisePropertyChanged()
 		{
 			TestDatabaseModel testDatabaseModel;
 			TestDatabaseViewModel testDatabaseViewModel;
@@ -118,9 +186,7 @@ namespace TestGUI.UnitTests
 			viewModel = testDatabaseViewModel.PetViewModelCollection.First();
 			viewModel.PropertyChanged += (_, e) => { propertyName = e.PropertyName; };
 
-			Assert.AreEqual("Cat", viewModel.Name);
 			viewModel.Name = "Pet2";
-			Assert.AreEqual("Pet2", viewModel.Name);
 			Assert.AreEqual("Name", propertyName);
 		}
 

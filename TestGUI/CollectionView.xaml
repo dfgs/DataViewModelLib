@@ -22,7 +22,7 @@
 			<Button Width="16" Content="+" Command="{StaticResource Insert}"/>
 			<Button Width="16" Content="-" Command="Delete"/>
 		</StackPanel>
-		<ListBox ItemsSource="{Binding}" x:Name="listBox"/>
+		<ListBox ItemsSource="{Binding}" x:Name="listBox" SelectedItem="{Binding SelectedItem}"/>
 
 	</DockPanel>
 </UserControl>

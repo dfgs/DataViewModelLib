@@ -47,7 +47,9 @@ namespace DataViewModelLib.SourceGenerator
 			
 						this.items=new List<{{Relation.ForeignTable.TableName}}ViewModel>();
 						this.items.AddRange( PrimaryRow.Get{{Relation.PrimaryPropertyName}}().Select( item => databaseViewModel.Create{{Relation.ForeignTable.TableName}}ViewModel(item) ));
-			
+						
+						this.primaryRow.{{Relation.PrimaryPropertyName}}Changed += On{{Relation.PrimaryPropertyName}}Changed;
+
 					}
 
 					#region IEnumerable
@@ -68,7 +70,26 @@ namespace DataViewModelLib.SourceGenerator
 					}
 					#endregion
 			
-					
+					private void On{{Relation.PrimaryPropertyName}}Changed({{Relation.ForeignTable.TableName}} Item,TableChangedActions Action, int Index)
+					{
+						{{Relation.ForeignTable.TableName}}ViewModel item;
+
+						switch(Action)
+						{
+							case TableChangedActions.Remove:
+								item=items[Index];		
+								items.RemoveAt(Index);
+								OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, Index));
+								break;
+							case TableChangedActions.Add:
+								item = databaseViewModel.Create{{Relation.ForeignTable.TableName}}ViewModel(databaseModel.Create{{Relation.ForeignTable.TableName}}Model(Item));
+								items.Insert(Index,item);
+								OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, Index));
+								break;
+							default:
+								break;
+						}
+					}
 
 				}
 			}

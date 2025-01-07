@@ -2,6 +2,7 @@ using TestGUI.Data.DataSources;
 using TestGUI.Data.DataSources.Models;
 using TestGUI.Data.DataSources.ViewModels;
 using DataModelLib.Common;
+using System.Collections.Specialized;
 
 namespace TestGUI.UnitTests
 {
@@ -31,22 +32,37 @@ namespace TestGUI.UnitTests
 			TestDatabaseModel testDatabaseModel;
 			TestDatabaseViewModel testDatabaseViewModel;
 			AddressViewModel[] viewModels;
-			Address? changedItem = null;
-			int changedIndex = -1;
-			TableChangedActions? changedAction = null;
 
 			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			testDatabaseModel.AddressTableChanged += (item, action, index) => { changedItem = item; changedAction = action; changedIndex = index; };
 			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
 
 			testDatabaseViewModel.AddressViewModelCollection.ElementAt(1).Delete();
 			viewModels = testDatabaseViewModel.AddressViewModelCollection.ToArray();
 			Assert.AreEqual(2, viewModels.Length);
 			Assert.AreEqual("Home", viewModels[0].Street);
+		}
+
+		[TestMethod]
+		public void ShouldRaiseTableChangedOnDelete()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			AddressViewModel[] viewModels;
+			object? changedItem = null;
+			int changedIndex = -1;
+			NotifyCollectionChangedAction? changedAction = null;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseViewModel.AddressViewModelCollection.CollectionChanged += (sender, e) => { changedItem = e.OldItems?[0]; changedAction = e.Action; changedIndex = e.OldStartingIndex; }; ;
+
+			testDatabaseViewModel.AddressViewModelCollection.ElementAt(1).Delete();
+			viewModels = testDatabaseViewModel.AddressViewModelCollection.ToArray();
+			Assert.AreEqual(2, viewModels.Length);
 
 			Assert.IsNotNull(changedItem);
-			Assert.AreEqual("School", changedItem.Street);
-			Assert.AreEqual(TableChangedActions.Remove, changedAction);
+			Assert.AreEqual("School", ((AddressViewModel)changedItem).Street);
+			Assert.AreEqual(NotifyCollectionChangedAction.Remove, changedAction);
 			Assert.AreEqual(1, changedIndex);
 		}
 
@@ -57,12 +73,9 @@ namespace TestGUI.UnitTests
 			TestDatabaseViewModel testDatabaseViewModel;
 			AddressViewModel[] viewModels;
 			AddressViewModel item;
-			Address? changedItem = null;
-			int changedIndex = -1;
-			TableChangedActions? changedAction = null;
+			
 
 			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			testDatabaseModel.AddressTableChanged += (item, action, index) => { changedItem = item; changedAction = action; changedIndex = index; };
 			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
 
 			item=testDatabaseViewModel.AddressViewModelCollection.ElementAt(1);
@@ -72,11 +85,36 @@ namespace TestGUI.UnitTests
 			Assert.AreEqual(2, viewModels.Length);
 			Assert.AreEqual("Home", viewModels[0].Street);
 
+		}
+
+		[TestMethod]
+		public void ShouldRaiseTableChangedOnRemove()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			AddressViewModel[] viewModels;
+			object? changedItem = null;
+			int changedIndex = -1;
+			NotifyCollectionChangedAction? changedAction = null;
+			AddressViewModel item;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseViewModel.AddressViewModelCollection.CollectionChanged += (sender, e) => { changedItem = e.OldItems?[0]; changedAction = e.Action; changedIndex = e.OldStartingIndex; }; ;
+
+
+			item = testDatabaseViewModel.AddressViewModelCollection.ElementAt(1);
+			testDatabaseViewModel.AddressViewModelCollection.Remove(item);
+
+			viewModels = testDatabaseViewModel.AddressViewModelCollection.ToArray();
+			Assert.AreEqual(2, viewModels.Length);
+
 			Assert.IsNotNull(changedItem);
-			Assert.AreEqual("School", changedItem.Street);
-			Assert.AreEqual(TableChangedActions.Remove, changedAction);
+			Assert.AreEqual("School", ((AddressViewModel)changedItem).Street);
+			Assert.AreEqual(NotifyCollectionChangedAction.Remove, changedAction);
 			Assert.AreEqual(1, changedIndex);
 		}
+
 
 		[TestMethod]
 		public void ShouldAdd()
@@ -84,12 +122,8 @@ namespace TestGUI.UnitTests
 			TestDatabaseModel testDatabaseModel;
 			TestDatabaseViewModel testDatabaseViewModel;
 			AddressViewModel[] viewModels;
-			Address? changedItem = null;
-			int changedIndex = -1;
-			TableChangedActions? changedAction = null;
 
 			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			testDatabaseModel.AddressTableChanged += (item, action, index) => { changedItem = item; changedAction = action; changedIndex = index; };
 			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
 
 			testDatabaseViewModel.AddressViewModelCollection.Add(new Address(4,"Street1"));
@@ -98,14 +132,53 @@ namespace TestGUI.UnitTests
 			Assert.AreEqual(4, viewModels.Length);
 			Assert.AreEqual("Street1", viewModels[3].Street);
 
-			Assert.IsNotNull(changedItem);
-			Assert.AreEqual("Street1", changedItem.Street);
-			Assert.AreEqual(TableChangedActions.Add, changedAction);
-			Assert.AreEqual(3, changedIndex);
 		}
 
 		[TestMethod]
+		public void ShouldRaiseTableChangedOnAdd()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			AddressViewModel[] viewModels;
+			object? changedItem = null;
+			int changedIndex = -1;
+			NotifyCollectionChangedAction? changedAction = null;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseViewModel.AddressViewModelCollection.CollectionChanged += (sender, e) => { changedItem = e.NewItems?[0]; changedAction = e.Action; changedIndex = e.NewStartingIndex; }; ;
+
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseViewModel.AddressViewModelCollection.Add(new Address(4, "Street1"));
+
+			viewModels = testDatabaseViewModel.AddressViewModelCollection.ToArray();
+			Assert.AreEqual(4, viewModels.Length);
+
+			Assert.IsNotNull(changedItem);
+			Assert.AreEqual("Street1", ((AddressViewModel)changedItem).Street);
+			Assert.AreEqual(NotifyCollectionChangedAction.Add, changedAction);
+			Assert.AreEqual(3, changedIndex);
+		}
+
+
+		[TestMethod]
 		public void ShouldGetSetProperty()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			AddressViewModel viewModel;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			viewModel = testDatabaseViewModel.AddressViewModelCollection.First();
+
+			Assert.AreEqual("Home", viewModel.Street);
+			viewModel.Street = "Home2";
+			Assert.AreEqual("Home2", viewModel.Street);
+		}
+		[TestMethod]
+		public void ShouldRaisePropertyChanged()
 		{
 			TestDatabaseModel testDatabaseModel;
 			TestDatabaseViewModel testDatabaseViewModel;
@@ -118,12 +191,29 @@ namespace TestGUI.UnitTests
 			viewModel = testDatabaseViewModel.AddressViewModelCollection.First();
 			viewModel.PropertyChanged += (_, e) => { propertyName = e.PropertyName; };
 
-			Assert.AreEqual("Home", viewModel.Street);
 			viewModel.Street = "Home2";
-			Assert.AreEqual("Home2", viewModel.Street);
 			Assert.AreEqual("Street", propertyName);
 		}
 
+
+		[TestMethod]
+		public void ShouldGetSetSelectedItem()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			string? propertyName = null;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			testDatabaseViewModel.AddressViewModelCollection.PropertyChanged += (_, e) => { propertyName = e.PropertyName; };
+
+			Assert.IsNull(testDatabaseViewModel.AddressViewModelCollection.SelectedItem);
+			testDatabaseViewModel.AddressViewModelCollection.SelectedItem = testDatabaseViewModel.AddressViewModelCollection.First();
+			Assert.IsNotNull(testDatabaseViewModel.AddressViewModelCollection.SelectedItem);
+			Assert.AreEqual("Home", testDatabaseViewModel.AddressViewModelCollection.SelectedItem.Street);
+			Assert.AreEqual("SelectedItem", propertyName);
+		}
 
 		[TestMethod]
 		public void ShouldGetBilledPeople()

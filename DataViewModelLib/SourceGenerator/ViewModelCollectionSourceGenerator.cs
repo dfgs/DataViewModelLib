@@ -27,10 +27,18 @@ namespace DataViewModelLib.SourceGenerator
 										
 			namespace {{Table.Namespace}}.ViewModels
 			{
-				public partial class {{Table.TableName}}ViewModelCollection : IViewModelCollection, IEnumerable<{{Table.TableName}}ViewModel>, INotifyCollectionChanged
+				public partial class {{Table.TableName}}ViewModelCollection : IViewModelCollection, IEnumerable<{{Table.TableName}}ViewModel>, INotifyPropertyChanged, INotifyCollectionChanged
 				{
 					#nullable enable
+					public event PropertyChangedEventHandler? PropertyChanged;
 					public event NotifyCollectionChangedEventHandler? CollectionChanged;
+
+					private {{Table.TableName}}ViewModel? selectedItem;
+					public {{Table.TableName}}ViewModel? SelectedItem
+					{
+						get => selectedItem;
+						set { selectedItem=value; OnPropertyChanged("SelectedItem"); }
+					}
 					#nullable disable
 						
 					private {{Table.DatabaseName}}Model databaseModel;
@@ -69,6 +77,12 @@ namespace DataViewModelLib.SourceGenerator
 								break;
 						}
 					}
+			
+					protected virtual void OnPropertyChanged(string PropertyName)
+					{
+						if (PropertyChanged!=null) PropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
+					}
+			
 
 					#region IEnumerable
 					public IEnumerator<{{Table.TableName}}ViewModel> GetEnumerator()
