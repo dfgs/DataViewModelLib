@@ -157,7 +157,26 @@ namespace TestGUI.UnitTests
 			Assert.AreEqual("SelectedItem", propertyName);
 		}
 
+		[TestMethod]
+		public void ShouldRemove()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			PersonnViewModel item;
+			BilledPeopleViewModelCollection billedPeople;
 
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			billedPeople = testDatabaseViewModel.AddressViewModelCollection.ElementAt(1).BilledPeople;
+			item = billedPeople.First();
+			Assert.AreEqual(2, billedPeople.Count);
+			Assert.AreEqual(4, testDatabaseViewModel.PersonnViewModelCollection.Count);
+			billedPeople.Remove(item);
+			Assert.AreEqual(1, billedPeople.Count);	// should remove from foreign collection
+			Assert.AreEqual(4, testDatabaseViewModel.PersonnViewModelCollection.Count);	// should not remove from personn table
+			Assert.IsNull(item.BillingAddressID);
+		}
 
 	}
 }

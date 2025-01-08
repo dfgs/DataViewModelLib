@@ -57,8 +57,8 @@ namespace TestGUI
 
 			if ((insertEvent.Canceled) || (insertEvent.Item == null)) return;
 
-			IViewModelCollection? collection;
-			collection=DataContext as IViewModelCollection;
+			IAddViewModelCollection? collection;
+			collection=DataContext as IAddViewModelCollection;
 			if (collection == null) return;
 			collection.Add(insertEvent.Item);
 		}

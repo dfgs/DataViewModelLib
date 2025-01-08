@@ -27,7 +27,7 @@ namespace DataViewModelLib.SourceGenerator
 										
 			namespace {{Table.Namespace}}.ViewModels
 			{
-				public partial class {{Table.TableName}}ViewModelCollection : IViewModelCollection, IEnumerable<{{Table.TableName}}ViewModel>, INotifyPropertyChanged, INotifyCollectionChanged
+				public partial class {{Table.TableName}}ViewModelCollection : IViewModelCollection, IAddViewModelCollection, IRemoveViewModelCollection, IEnumerable<{{Table.TableName}}ViewModel>, INotifyPropertyChanged, INotifyCollectionChanged
 				{
 					#nullable enable
 					public event PropertyChangedEventHandler? PropertyChanged;
@@ -45,7 +45,11 @@ namespace DataViewModelLib.SourceGenerator
 					private {{Table.DatabaseName}}ViewModel databaseViewModel;
 			
 					private List<{{Table.TableName}}ViewModel> items;
-								
+					public int Count
+					{
+						get => items.Count;
+					}
+
 					public {{Table.TableName}}ViewModelCollection({{Table.DatabaseName}}ViewModel DatabaseViewModel, {{Table.DatabaseName}}Model DatabaseModel)
 					{
 						this.databaseModel=DatabaseModel; 
@@ -112,7 +116,7 @@ namespace DataViewModelLib.SourceGenerator
 						databaseModel.Add{{Table.TableName}}(Item);
 					}
 
-					void IViewModelCollection.Add(object Item)
+					void IAddViewModelCollection.Add(object Item)
 					{
 						#nullable enable
 						{{Table.TableName}}? convertedItem;
@@ -122,6 +126,18 @@ namespace DataViewModelLib.SourceGenerator
 						if (convertedItem==null) return;
 						Add(convertedItem);
 					}
+
+					void IRemoveViewModelCollection.Remove(object Item)
+					{
+						#nullable enable
+						{{Table.TableName}}ViewModel? convertedItem;
+						#nullable disable
+			
+						convertedItem = Item as {{Table.TableName}}ViewModel;
+						if (convertedItem==null) return;
+						Remove(convertedItem);
+					}
+			
 
 				}
 			}

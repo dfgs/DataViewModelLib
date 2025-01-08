@@ -46,7 +46,7 @@ namespace DataViewModelLib.UnitTests
 			source = sourceGenerator.GenerateSource(table);
 
 			Assert.IsTrue(source.Contains("namespace ns.ViewModels"));
-			Assert.IsTrue(source.Contains("public partial class PersonnViewModelCollection : IViewModelCollection, IEnumerable<PersonnViewModel>, INotifyPropertyChanged, INotifyCollectionChanged"));
+			Assert.IsTrue(source.Contains("public partial class PersonnViewModelCollection : IViewModelCollection, IAddViewModelCollection, IRemoveViewModelCollection, IEnumerable<PersonnViewModel>, INotifyPropertyChanged, INotifyCollectionChanged"));
 
 		}
 
@@ -111,7 +111,8 @@ namespace DataViewModelLib.UnitTests
 			Assert.IsTrue(source.Contains("protected virtual void OnPersonnTableChanged(Personn Item,TableChangedActions Action, int Index)"));
 			Assert.IsTrue(source.Contains("public void Remove(PersonnViewModel Item)"));
 			Assert.IsTrue(source.Contains("public void Add(Personn Item)"));
-			Assert.IsTrue(source.Contains("void IViewModelCollection.Add(object Item)"));
+			Assert.IsTrue(source.Contains("void IAddViewModelCollection.Add(object Item)"));
+			Assert.IsTrue(source.Contains("void IRemoveViewModelCollection.Remove(object Item)"));
 		}
 
 		[TestMethod]

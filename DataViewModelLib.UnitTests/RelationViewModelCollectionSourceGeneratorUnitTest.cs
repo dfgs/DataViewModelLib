@@ -74,7 +74,7 @@ namespace DataViewModelLib.UnitTests
 			source = sourceGenerator.GenerateSource(relation);
 
 			Assert.IsTrue(source.Contains("namespace ns.ViewModels"));
-			Assert.IsTrue(source.Contains("public partial class ChildsViewModelCollection : IViewModelCollection, IEnumerable<ChildViewModel>, INotifyPropertyChanged, INotifyCollectionChanged"));
+			Assert.IsTrue(source.Contains("public partial class ChildsViewModelCollection : IViewModelCollection, IAddViewModelCollection, IEnumerable<ChildViewModel>, INotifyPropertyChanged, INotifyCollectionChanged"));
 
 		}
 
@@ -177,9 +177,8 @@ namespace DataViewModelLib.UnitTests
 			source = sourceGenerator.GenerateSource(relation);
 
 			Assert.IsTrue(source.Contains("public IEnumerator<ChildViewModel> GetEnumerator()"));
-			//Assert.IsTrue(source.Contains("public void Remove(PersonnViewModel Item)"));
 			Assert.IsTrue(source.Contains("public void Add(Child Item)"));
-			Assert.IsTrue(source.Contains("void IViewModelCollection.Add(object Item)"));
+			Assert.IsTrue(source.Contains("void IAddViewModelCollection.Add(object Item)"));
 
 		}
 
@@ -217,7 +216,72 @@ namespace DataViewModelLib.UnitTests
 
 		}
 
+		[TestMethod]
+		public void ShouldGenerateRemoveMethods()
+		{
+			RelationViewModelCollectionSourceGenerator sourceGenerator;
+			Database database;
+			Table foreignTable, primaryTable;
+			Column foreignColumn, primaryColumn;
+			Relation relation;
+			string source;
 
+			sourceGenerator = new RelationViewModelCollectionSourceGenerator();
+
+			database = new Database("ns", "MyDB");
+
+			foreignTable = new Table("ns", database.DatabaseName, "Child");
+			foreignColumn = new Column(foreignTable, "ParentID", "byte?", true); // nullable foreign key
+			foreignTable.Columns.Add(foreignColumn);
+			database.Tables.Add(foreignTable);
+
+			primaryTable = new Table("ns", database.DatabaseName, "Parent");
+			primaryColumn = new Column(primaryTable, "ParentID", "byte", false); 
+			primaryTable.Columns.Add(primaryColumn);
+			database.Tables.Add(primaryTable);
+
+			relation = new Relation("Childs", primaryColumn, "Parent", foreignColumn, CascadeTriggers.None);
+			primaryTable.Relations.Add(relation);
+			foreignTable.Relations.Add(relation);
+
+			source = sourceGenerator.GenerateSource(relation);
+
+			Assert.IsTrue(source.Contains("public void Remove(ChildViewModel Item)"));
+
+		}
+		[TestMethod]
+		public void ShouldNotGenerateRemoveMethods()
+		{
+			RelationViewModelCollectionSourceGenerator sourceGenerator;
+			Database database;
+			Table foreignTable, primaryTable;
+			Column foreignColumn, primaryColumn;
+			Relation relation;
+			string source;
+
+			sourceGenerator = new RelationViewModelCollectionSourceGenerator();
+
+			database = new Database("ns", "MyDB");
+
+			foreignTable = new Table("ns", database.DatabaseName, "Child");
+			foreignColumn = new Column(foreignTable, "ParentID", "byte", false); // not nullable foreign key
+			foreignTable.Columns.Add(foreignColumn);
+			database.Tables.Add(foreignTable);
+
+			primaryTable = new Table("ns", database.DatabaseName, "Parent");
+			primaryColumn = new Column(primaryTable, "ParentID", "byte", false);
+			primaryTable.Columns.Add(primaryColumn);
+			database.Tables.Add(primaryTable);
+
+			relation = new Relation("Childs", primaryColumn, "Parent", foreignColumn, CascadeTriggers.None);
+			primaryTable.Relations.Add(relation);
+			foreignTable.Relations.Add(relation);
+
+			source = sourceGenerator.GenerateSource(relation);
+
+			Assert.IsFalse(source.Contains("public void Remove(ChildViewModel Item)"));
+
+		}
 
 
 	}

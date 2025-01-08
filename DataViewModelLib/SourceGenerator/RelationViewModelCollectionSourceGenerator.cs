@@ -27,7 +27,7 @@ namespace DataViewModelLib.SourceGenerator
 										
 			namespace {{Relation.PrimaryTable.Namespace}}.ViewModels
 			{
-				public partial class {{Relation.PrimaryPropertyName}}ViewModelCollection : IViewModelCollection, IEnumerable<{{Relation.ForeignTable.TableName}}ViewModel>, INotifyPropertyChanged, INotifyCollectionChanged
+				public partial class {{Relation.PrimaryPropertyName}}ViewModelCollection : IViewModelCollection, IAddViewModelCollection, IEnumerable<{{Relation.ForeignTable.TableName}}ViewModel>, INotifyPropertyChanged, INotifyCollectionChanged
 				{
 					#nullable enable
 					public event PropertyChangedEventHandler? PropertyChanged;
@@ -46,7 +46,11 @@ namespace DataViewModelLib.SourceGenerator
 					private {{Relation.PrimaryTable.TableName}}Model primaryRow;
 
 					private List<{{Relation.ForeignTable.TableName}}ViewModel> items;
-					
+					public int Count
+					{
+						get => items.Count;
+					}
+
 					public {{Relation.PrimaryPropertyName}}ViewModelCollection({{Relation.PrimaryTable.DatabaseName}}ViewModel DatabaseViewModel, {{Relation.PrimaryTable.DatabaseName}}Model DatabaseModel, {{Relation.PrimaryTable.TableName}}Model PrimaryRow)
 					{
 						this.databaseModel=DatabaseModel; 
@@ -110,7 +114,7 @@ namespace DataViewModelLib.SourceGenerator
 						databaseModel.Add{{Relation.ForeignTable.TableName}}(Item);
 					}
 			
-					void IViewModelCollection.Add(object Item)
+					void IAddViewModelCollection.Add(object Item)
 					{
 						#nullable enable
 						{{Relation.ForeignTable.TableName}}? convertedItem;
@@ -120,8 +124,26 @@ namespace DataViewModelLib.SourceGenerator
 						if (convertedItem==null) return;
 						Add(convertedItem);
 					}
+			{{GenerateRemoveMethod(Relation).Indent(2)}}
 
 				}
+			}
+			""";
+
+			return source;
+		}
+
+		public string GenerateRemoveMethod(Relation Relation)
+		{
+			string source;
+			
+			if (!Relation.ForeignKey.IsNullable) return ""; // cannot generate remove method if foreign key is not nullable
+			
+			source =
+			$$"""
+			public void Remove({{Relation.ForeignTable.TableName}}ViewModel Item)
+			{
+				Item.{{Relation.ForeignKey.ColumnName}} = null;
 			}
 			""";
 
