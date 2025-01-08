@@ -27,7 +27,7 @@ namespace DataViewModelLib.SourceGenerator
 										
 			namespace {{Relation.PrimaryTable.Namespace}}.ViewModels
 			{
-				public partial class {{Relation.PrimaryPropertyName}}ViewModelCollection : IViewModelCollection, IAddViewModelCollection, IEnumerable<{{Relation.ForeignTable.TableName}}ViewModel>, INotifyPropertyChanged, INotifyCollectionChanged
+				public partial class {{Relation.PrimaryPropertyName}}ViewModelCollection : IViewModelCollection, IAddViewModelCollection,{{(Relation.ForeignKey.IsNullable?" IRemoveViewModelCollection,":"")}} IEnumerable<{{Relation.ForeignTable.TableName}}ViewModel>, INotifyPropertyChanged, INotifyCollectionChanged
 				{
 					#nullable enable
 					public event PropertyChangedEventHandler? PropertyChanged;
@@ -144,6 +144,16 @@ namespace DataViewModelLib.SourceGenerator
 			public void Remove({{Relation.ForeignTable.TableName}}ViewModel Item)
 			{
 				Item.{{Relation.ForeignKey.ColumnName}} = null;
+			}
+			void IRemoveViewModelCollection.Remove(object Item)
+			{
+				#nullable enable
+				{{Relation.ForeignTable.TableName}}ViewModel? convertedItem;
+				#nullable disable
+			
+				convertedItem = Item as {{Relation.ForeignTable.TableName}}ViewModel;
+				if (convertedItem==null) return;
+				Remove(convertedItem);
 			}
 			""";
 

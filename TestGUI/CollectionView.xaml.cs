@@ -31,16 +31,16 @@ namespace TestGUI
 
 		private void DeleteCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute=listBox?.SelectedItem!=null;
+			e.CanExecute=(DataContext is IRemoveViewModelCollection) && (listBox?.SelectedItem!=null);
         }
 
 		private void DeleteCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			IViewModel? item;
+			IRemoveViewModelCollection? collection;
 
-			item=listBox?.SelectedItem as IViewModel;
-			if (item==null) return;
-			item.Delete();
+			collection=DataContext as IRemoveViewModelCollection;
+			if (collection==null) return;
+			collection.Remove(listBox.SelectedItem);
         }
 
 		private void InsertCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)

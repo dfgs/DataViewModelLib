@@ -44,7 +44,42 @@ namespace DataViewModelLib.UnitTests
 		}
 
 		[TestMethod]
-		public void ShouldGenerateClass()
+		public void ShouldGenerateClassWithNullableForeignKey()
+		{
+			RelationViewModelCollectionSourceGenerator sourceGenerator;
+			Database database;
+			Table foreignTable, primaryTable;
+			Column foreignColumn, primaryColumn;
+			Relation relation;
+			string source;
+
+			sourceGenerator = new RelationViewModelCollectionSourceGenerator();
+
+			database = new Database("ns", "MyDB");
+
+			foreignTable = new Table("ns", database.DatabaseName, "Child");
+			foreignColumn = new Column(foreignTable, "ParentID", "byte?", true);
+			foreignTable.Columns.Add(foreignColumn);
+			database.Tables.Add(foreignTable);
+
+			primaryTable = new Table("ns", database.DatabaseName, "Parent");
+			primaryColumn = new Column(primaryTable, "ParentID", "byte", false);
+			primaryTable.Columns.Add(primaryColumn);
+			database.Tables.Add(primaryTable);
+
+			relation = new Relation("Childs", primaryColumn, "Parent", foreignColumn, CascadeTriggers.None);
+			primaryTable.Relations.Add(relation);
+			foreignTable.Relations.Add(relation);
+
+			source = sourceGenerator.GenerateSource(relation);
+
+			Assert.IsTrue(source.Contains("namespace ns.ViewModels"));
+			Assert.IsTrue(source.Contains("public partial class ChildsViewModelCollection : IViewModelCollection, IAddViewModelCollection, IRemoveViewModelCollection, IEnumerable<ChildViewModel>, INotifyPropertyChanged, INotifyCollectionChanged"));
+
+		}
+
+		[TestMethod]
+		public void ShouldGenerateClassWithNotNullableForeignKey()
 		{
 			RelationViewModelCollectionSourceGenerator sourceGenerator;
 			Database database;
@@ -77,6 +112,8 @@ namespace DataViewModelLib.UnitTests
 			Assert.IsTrue(source.Contains("public partial class ChildsViewModelCollection : IViewModelCollection, IAddViewModelCollection, IEnumerable<ChildViewModel>, INotifyPropertyChanged, INotifyCollectionChanged"));
 
 		}
+
+
 
 		[TestMethod]
 		public void ShouldGenerateProperties()
