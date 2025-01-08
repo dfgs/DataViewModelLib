@@ -4,8 +4,32 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestGUI"
-        mc:Ignorable="d" DataContext="{x:Static local:ViewModels.TestDatabaseViewModel}"
+        xmlns:viewModels="clr-namespace:TestGUI.Data.DataSources.ViewModels;assembly=TestGUI.Data"
+         mc:Ignorable="d" DataContext="{x:Static local:ViewModels.TestDatabaseViewModel}"
         Title="MainWindow" Height="450" Width="800">
+
+	<Window.Resources>
+		<DataTemplate DataType="{x:Type viewModels:PersonnViewModel}">
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="{Binding FirstName}"/>
+				<TextBlock Text=" "/>
+				<TextBlock Text="{Binding LastName}"/>
+			</StackPanel>
+		</DataTemplate>
+		<DataTemplate DataType="{x:Type viewModels:AddressViewModel}">
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="{Binding Number}"/>
+				<TextBlock Text=" "/>
+				<TextBlock Text="{Binding Street}"/>
+			</StackPanel>
+		</DataTemplate>
+		<DataTemplate DataType="{x:Type viewModels:PetViewModel}">
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="{Binding Name}"/>
+			</StackPanel>
+		</DataTemplate>
+	</Window.Resources>
+
     <TabControl>
 		<TabItem Header="Personn">
 			<local:PersonnView DataContext="{Binding PersonnViewModelCollection}"  />

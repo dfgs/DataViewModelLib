@@ -55,7 +55,7 @@ namespace DataViewModelLib.SourceGenerator
 						this.databaseViewModel=DatabaseViewModel; 
 						this.dataSource=DataSource;
 						this.properties=new List<IViewModelProperty>();
-			{{Table.Columns.Select(item => GenerateAddViewModelProperty(item)).Join().Indent(3)}}
+			{{Table.Columns.Select(item => GenerateAddViewModelProperty(Table, item)).Join().Indent(3)}}
 			
 			{{Table.Relations.Where(item => item.PrimaryTable == Table).Select(item => $"this._{item.PrimaryPropertyName} = new {item.PrimaryPropertyName}ViewModelCollection(databaseViewModel, databaseModel, dataSource);").Join().Indent(3)}}
 						
@@ -90,12 +90,30 @@ namespace DataViewModelLib.SourceGenerator
 
 			return source;
 		}
-		private string GenerateAddViewModelProperty(Column Column)
+		private string GenerateAddViewModelProperty(Table Table, Column Column)
 		{
-			string source =
-			$$"""
-			properties.Add( new TextViewModelProperty<{{Column.TypeName}}>("{{Column.DisplayName}}", () => this.{{Column.ColumnName}}, (val) => this.{{Column.ColumnName}}=val ) );
-			""";
+			string source;
+			Relation relation;
+			string readOnly;
+
+
+			readOnly = (Column == Table.PrimaryKey ? "true" : "false");
+
+			relation =Table.Relations.FirstOrDefault(item=>item.ForeignKey==Column);
+			if (relation == null)
+			{
+				source =
+				$$"""
+				properties.Add( new TextViewModelProperty<{{Column.TypeName}}>("{{Column.DisplayName}}", {{readOnly}}, () => this.{{Column.ColumnName}}, (val) => this.{{Column.ColumnName}}=val ) );
+				""";
+			}
+			else
+			{
+				source =
+				$$"""
+				properties.Add( new ComboBoxViewModelProperty<{{Column.TypeName}}>("{{Column.DisplayName}}", {{readOnly}}, ()=>databaseViewModel.{{relation.PrimaryTable.TableName}}ViewModelCollection ,"{{relation.PrimaryKey.ColumnName}}" , () => this.{{Column.ColumnName}}, (val) => this.{{Column.ColumnName}}=val ) );
+				""";
+			}
 			return source;
 		}
 

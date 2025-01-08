@@ -4,21 +4,31 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TestGUI"
+             xmlns:common="clr-namespace:DataModelLib.Common;assembly=TestGUI.Data"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+	<UserControl.Resources>
+		<DataTemplate DataType="{x:Type common:TextViewModelProperty}">
+			<StackPanel Orientation="Vertical">
+				<TextBlock Text="{Binding Name,StringFormat={}{0}:}" FontWeight="Bold"/>
+				<TextBox Text="{Binding Value}" IsReadOnly="{Binding IsReadOnly}"/>
+			</StackPanel>
+		</DataTemplate>
+		<DataTemplate DataType="{x:Type common:ComboBoxViewModelProperty}">
+			<StackPanel Orientation="Vertical">
+				<TextBlock Text="{Binding Name,StringFormat={}{0}:}" FontWeight="Bold"/>
+				<ComboBox SelectedValue="{Binding Value}"  ItemsSource="{Binding ItemsSource}" SelectedValuePath="{Binding SelectedValuePath}" IsReadOnly="{Binding IsReadOnly}"/>
+			</StackPanel>
+		</DataTemplate>
+	</UserControl.Resources>
+
     <ItemsControl ItemsSource="{Binding Properties}">
 		<ItemsControl.ItemsPanel>
 			<ItemsPanelTemplate>
 				<StackPanel/>
 			</ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
-		<ItemsControl.ItemTemplate>
-			<ItemContainerTemplate>
-				<StackPanel Orientation="Vertical">
-					<TextBlock Text="{Binding Name,StringFormat={}{0}:}" FontWeight="Bold"/>
-					<TextBox Text="{Binding Value}"/>
-				</StackPanel>
-            </ItemContainerTemplate>
-        </ItemsControl.ItemTemplate>
+		
     </ItemsControl>
 </UserControl>
