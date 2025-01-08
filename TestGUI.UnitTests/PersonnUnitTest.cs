@@ -328,13 +328,13 @@ namespace TestGUI.UnitTests
 			properties = testDatabaseViewModel.PersonnViewModelCollection.First().Properties.ToArray();
 
 			Assert.AreEqual(7, properties.Length);
-			Assert.AreEqual("PersonnID", properties[0].Name);
-			Assert.AreEqual("FirstName", properties[1].Name);
-			Assert.AreEqual("LastName", properties[2].Name);
+			Assert.AreEqual("Personn id", properties[0].Name);
+			Assert.AreEqual("First name", properties[1].Name);
+			Assert.AreEqual("Last name", properties[2].Name);
 			Assert.AreEqual("Age", properties[3].Name);
-			Assert.AreEqual("DeliveryAddressID", properties[4].Name);
-			Assert.AreEqual("BillingAddressID", properties[5].Name);
-			Assert.AreEqual("PetID", properties[6].Name);
+			Assert.AreEqual("Delivery address id", properties[4].Name);
+			Assert.AreEqual("Billing address id", properties[5].Name);
+			Assert.AreEqual("Pet id", properties[6].Name);
 		}
 
 

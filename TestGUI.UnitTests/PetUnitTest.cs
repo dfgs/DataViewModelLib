@@ -243,7 +243,7 @@ namespace TestGUI.UnitTests
 			properties = testDatabaseViewModel.PetViewModelCollection.First().Properties.ToArray();
 
 			Assert.AreEqual(2, properties.Length);
-			Assert.AreEqual("PetID", properties[0].Name);
+			Assert.AreEqual("Pet id", properties[0].Name);
 			Assert.AreEqual("Name", properties[1].Name);
 		}
 

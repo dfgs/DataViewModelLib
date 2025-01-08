@@ -88,13 +88,13 @@ namespace DataViewModelLib.UnitTests
 
 			childTable = new Table("ns", database.DatabaseName, "Child");
 			database.Tables.Add(childTable);
-			foreignColumn = new Column(childTable, "PersonnID", "byte", false);
+			foreignColumn = new Column(childTable, "PersonnID", "DisplayName", "byte", false);
 			childTable.Columns.Add(foreignColumn);
 
 			parentTable = new Table("ns", database.DatabaseName, "Personn");
 			database.Tables.Add(parentTable);
-			column1 = new Column(parentTable, "FirstName", "string", false);
-			primaryColumn = new Column(parentTable, "PersonnID", "byte?", true);
+			column1 = new Column(parentTable, "FirstName", "DisplayName", "string", false);
+			primaryColumn = new Column(parentTable, "PersonnID", "DisplayName", "byte?", true);
 			parentTable.Columns.Add(column1);
 			parentTable.Columns.Add(primaryColumn);
 
@@ -128,13 +128,13 @@ namespace DataViewModelLib.UnitTests
 
 			childTable = new Table("ns", database.DatabaseName, "Child");
 			database.Tables.Add(childTable);
-			foreignColumn = new Column(childTable, "PersonnID", "byte", false);
+			foreignColumn = new Column(childTable, "PersonnID", "DisplayName", "byte", false);
 			childTable.Columns.Add(foreignColumn);
 
 			parentTable = new Table("ns", database.DatabaseName, "Personn");
 			database.Tables.Add(parentTable);
-			column1 = new Column(parentTable, "FirstName", "string", false);
-			primaryColumn = new Column(parentTable, "PersonnID", "byte?", true);
+			column1 = new Column(parentTable, "FirstName", "DisplayName", "string", false);
+			primaryColumn = new Column(parentTable, "PersonnID", "DisplayName", "byte?", true);
 			parentTable.Columns.Add(column1);
 			parentTable.Columns.Add(primaryColumn);
 

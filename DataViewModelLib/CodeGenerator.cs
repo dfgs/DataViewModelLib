@@ -103,7 +103,7 @@ namespace DataViewModelLib
 		
 		namespace {{Namespace}}
 		{
-			public class ViewModelProperty<PropertyT> : IViewModelProperty
+			public class TextViewModelProperty<PropertyT> : IViewModelProperty
 			{
 				private Func<PropertyT> getter;
 				private Action<PropertyT> setter;
@@ -120,7 +120,7 @@ namespace DataViewModelLib
 					set => setter(value);
 				}
 
-				public ViewModelProperty(string Name, Func<PropertyT> Getter, Action<PropertyT> Setter)
+				public TextViewModelProperty(string Name, Func<PropertyT> Getter, Action<PropertyT> Setter)
 				{
 					this.Name = Name;
 					this.getter = Getter;

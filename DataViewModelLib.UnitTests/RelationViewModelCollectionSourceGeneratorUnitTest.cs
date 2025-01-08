@@ -22,12 +22,12 @@ namespace DataViewModelLib.UnitTests
 			database =  new Database("ns", "MyDB");
 
 			foreignTable = new Table("ns", database.DatabaseName, "Child");
-			foreignColumn = new Column(foreignTable, "ParentID", "byte", false);
+			foreignColumn = new Column(foreignTable, "ParentID", "DisplayName", "byte", false);
 			foreignTable.Columns.Add(foreignColumn);	
 			database.Tables.Add(foreignTable);
 
 			primaryTable = new Table("ns", database.DatabaseName, "Parent");
-			primaryColumn = new Column(primaryTable, "ParentID", "byte", false);
+			primaryColumn = new Column(primaryTable, "ParentID", "DisplayName", "byte", false);
 			primaryTable.Columns.Add(primaryColumn);
 			database.Tables.Add(primaryTable);
 
@@ -58,12 +58,12 @@ namespace DataViewModelLib.UnitTests
 			database = new Database("ns", "MyDB");
 
 			foreignTable = new Table("ns", database.DatabaseName, "Child");
-			foreignColumn = new Column(foreignTable, "ParentID", "byte?", true);
+			foreignColumn = new Column(foreignTable, "ParentID", "DisplayName", "byte?", true);
 			foreignTable.Columns.Add(foreignColumn);
 			database.Tables.Add(foreignTable);
 
 			primaryTable = new Table("ns", database.DatabaseName, "Parent");
-			primaryColumn = new Column(primaryTable, "ParentID", "byte", false);
+			primaryColumn = new Column(primaryTable, "ParentID", "DisplayName", "byte", false);
 			primaryTable.Columns.Add(primaryColumn);
 			database.Tables.Add(primaryTable);
 
@@ -93,12 +93,12 @@ namespace DataViewModelLib.UnitTests
 			database = new Database("ns", "MyDB");
 
 			foreignTable = new Table("ns", database.DatabaseName, "Child");
-			foreignColumn = new Column(foreignTable, "ParentID", "byte", false);
+			foreignColumn = new Column(foreignTable, "ParentID", "DisplayName", "byte", false);
 			foreignTable.Columns.Add(foreignColumn);
 			database.Tables.Add(foreignTable);
 
 			primaryTable = new Table("ns", database.DatabaseName, "Parent");
-			primaryColumn = new Column(primaryTable, "ParentID", "byte", false);
+			primaryColumn = new Column(primaryTable, "ParentID", "DisplayName", "byte", false);
 			primaryTable.Columns.Add(primaryColumn);
 			database.Tables.Add(primaryTable);
 
@@ -130,12 +130,12 @@ namespace DataViewModelLib.UnitTests
 			database = new Database("ns", "MyDB");
 
 			foreignTable = new Table("ns", database.DatabaseName, "Child");
-			foreignColumn = new Column(foreignTable, "ParentID", "byte", false);
+			foreignColumn = new Column(foreignTable, "ParentID", "DisplayName", "byte", false);
 			foreignTable.Columns.Add(foreignColumn);
 			database.Tables.Add(foreignTable);
 
 			primaryTable = new Table("ns", database.DatabaseName, "Parent");
-			primaryColumn = new Column(primaryTable, "ParentID", "byte", false);
+			primaryColumn = new Column(primaryTable, "ParentID", "DisplayName", "byte", false);
 			primaryTable.Columns.Add(primaryColumn);
 			database.Tables.Add(primaryTable);
 
@@ -164,12 +164,12 @@ namespace DataViewModelLib.UnitTests
 			database = new Database("ns", "MyDB");
 
 			foreignTable = new Table("ns", database.DatabaseName, "Child");
-			foreignColumn = new Column(foreignTable, "ParentID", "byte", false);
+			foreignColumn = new Column(foreignTable, "ParentID", "DisplayName", "byte", false);
 			foreignTable.Columns.Add(foreignColumn);
 			database.Tables.Add(foreignTable);
 
 			primaryTable = new Table("ns", database.DatabaseName, "Parent");
-			primaryColumn = new Column(primaryTable, "ParentID", "byte", false);
+			primaryColumn = new Column(primaryTable, "ParentID", "DisplayName", "byte", false);
 			primaryTable.Columns.Add(primaryColumn);
 			database.Tables.Add(primaryTable);
 
@@ -198,12 +198,12 @@ namespace DataViewModelLib.UnitTests
 			database = new Database("ns", "MyDB");
 
 			foreignTable = new Table("ns", database.DatabaseName, "Child");
-			foreignColumn = new Column(foreignTable, "ParentID", "byte", false);
+			foreignColumn = new Column(foreignTable, "ParentID", "DisplayName", "byte", false);
 			foreignTable.Columns.Add(foreignColumn);
 			database.Tables.Add(foreignTable);
 
 			primaryTable = new Table("ns", database.DatabaseName, "Parent");
-			primaryColumn = new Column(primaryTable, "ParentID", "byte", false);
+			primaryColumn = new Column(primaryTable, "ParentID", "DisplayName", "byte", false);
 			primaryTable.Columns.Add(primaryColumn);
 			database.Tables.Add(primaryTable);
 
@@ -234,12 +234,12 @@ namespace DataViewModelLib.UnitTests
 			database = new Database("ns", "MyDB");
 
 			foreignTable = new Table("ns", database.DatabaseName, "Child");
-			foreignColumn = new Column(foreignTable, "ParentID", "byte", false);
+			foreignColumn = new Column(foreignTable, "ParentID", "DisplayName", "byte", false);
 			foreignTable.Columns.Add(foreignColumn);
 			database.Tables.Add(foreignTable);
 
 			primaryTable = new Table("ns", database.DatabaseName, "Parent");
-			primaryColumn = new Column(primaryTable, "ParentID", "byte", false);
+			primaryColumn = new Column(primaryTable, "ParentID", "DisplayName", "byte", false);
 			primaryTable.Columns.Add(primaryColumn);
 			database.Tables.Add(primaryTable);
 
@@ -268,12 +268,12 @@ namespace DataViewModelLib.UnitTests
 			database = new Database("ns", "MyDB");
 
 			foreignTable = new Table("ns", database.DatabaseName, "Child");
-			foreignColumn = new Column(foreignTable, "ParentID", "byte?", true); // nullable foreign key
+			foreignColumn = new Column(foreignTable, "ParentID", "DisplayName", "byte?", true); // nullable foreign key
 			foreignTable.Columns.Add(foreignColumn);
 			database.Tables.Add(foreignTable);
 
 			primaryTable = new Table("ns", database.DatabaseName, "Parent");
-			primaryColumn = new Column(primaryTable, "ParentID", "byte", false); 
+			primaryColumn = new Column(primaryTable, "ParentID", "DisplayName", "byte", false); 
 			primaryTable.Columns.Add(primaryColumn);
 			database.Tables.Add(primaryTable);
 
@@ -301,12 +301,12 @@ namespace DataViewModelLib.UnitTests
 			database = new Database("ns", "MyDB");
 
 			foreignTable = new Table("ns", database.DatabaseName, "Child");
-			foreignColumn = new Column(foreignTable, "ParentID", "byte", false); // not nullable foreign key
+			foreignColumn = new Column(foreignTable, "ParentID", "DisplayName", "byte", false); // not nullable foreign key
 			foreignTable.Columns.Add(foreignColumn);
 			database.Tables.Add(foreignTable);
 
 			primaryTable = new Table("ns", database.DatabaseName, "Parent");
-			primaryColumn = new Column(primaryTable, "ParentID", "byte", false);
+			primaryColumn = new Column(primaryTable, "ParentID", "DisplayName", "byte", false);
 			primaryTable.Columns.Add(primaryColumn);
 			database.Tables.Add(primaryTable);
 

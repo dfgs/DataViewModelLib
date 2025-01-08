@@ -94,7 +94,7 @@ namespace DataViewModelLib.SourceGenerator
 		{
 			string source =
 			$$"""
-			properties.Add( new ViewModelProperty<{{Column.TypeName}}>(nameof({{Column.ColumnName}}), () => this.{{Column.ColumnName}}, (val) => this.{{Column.ColumnName}}=val ) );
+			properties.Add( new TextViewModelProperty<{{Column.TypeName}}>("{{Column.DisplayName}}", () => this.{{Column.ColumnName}}, (val) => this.{{Column.ColumnName}}=val ) );
 			""";
 			return source;
 		}

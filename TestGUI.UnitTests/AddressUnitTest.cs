@@ -271,7 +271,7 @@ namespace TestGUI.UnitTests
 			properties = testDatabaseViewModel.AddressViewModelCollection.First().Properties.ToArray();
 
 			Assert.AreEqual(3, properties.Length);
-			Assert.AreEqual("AddressID", properties[0].Name);
+			Assert.AreEqual("Address id", properties[0].Name);
 			Assert.AreEqual("Street", properties[1].Name);
 			Assert.AreEqual("Number", properties[2].Name);
 		}
