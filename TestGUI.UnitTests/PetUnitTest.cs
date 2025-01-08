@@ -230,6 +230,22 @@ namespace TestGUI.UnitTests
 			Assert.AreEqual("SelectedItem", propertyName);
 		}
 
+		[TestMethod]
+		public void ShouldCreateViewModelProperties()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			IViewModelProperty[] properties;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			properties = testDatabaseViewModel.PetViewModelCollection.First().Properties.ToArray();
+
+			Assert.AreEqual(2, properties.Length);
+			Assert.AreEqual("PetID", properties[0].Name);
+			Assert.AreEqual("Name", properties[1].Name);
+		}
 
 
 	}

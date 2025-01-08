@@ -258,6 +258,23 @@ namespace TestGUI.UnitTests
 
 		}
 
+		[TestMethod]
+		public void ShouldCreateViewModelProperties()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			IViewModelProperty[] properties;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			properties = testDatabaseViewModel.AddressViewModelCollection.First().Properties.ToArray();
+
+			Assert.AreEqual(3, properties.Length);
+			Assert.AreEqual("AddressID", properties[0].Name);
+			Assert.AreEqual("Street", properties[1].Name);
+			Assert.AreEqual("Number", properties[2].Name);
+		}
 
 
 	}

@@ -15,6 +15,9 @@
 		<GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
 		<local:CollectionView Grid.Column="0" DataContext="{Binding}"/>
 		<TabControl Grid.Column="2">
+			<TabItem Header="Properties" DataContext="{Binding SelectedItem}">
+				<local:PropertiesView/>
+			</TabItem>
 			<TabItem Header="Delivered people">
 				<local:CollectionView Grid.Column="2" DataContext="{Binding SelectedItem.DeliveredPeople}"/>
 			</TabItem>

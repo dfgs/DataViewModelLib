@@ -16,14 +16,7 @@
 		<local:CollectionView Grid.Column="0" DataContext="{Binding}" Insert="CollectionView_Insert"	/>
 		<TabControl Grid.Column="2">
 			<TabItem Header="Properties" DataContext="{Binding SelectedItem}">
-				<StackPanel>
-					<TextBox Text="{Binding FirstName}"/>
-					<TextBox Text="{Binding LastName}"/>
-					<TextBox Text="{Binding Age}"/>
-					<ComboBox SelectedValue="{Binding BillingAddressID}" SelectedValuePath="AddressID" ItemsSource="{Binding Source={x:Static local:ViewModels.TestDatabaseViewModel}, Path=AddressViewModelCollection}"/>
-					<ComboBox SelectedValue="{Binding DeliveryAddressID}" SelectedValuePath="AddressID" ItemsSource="{Binding Source={x:Static local:ViewModels.TestDatabaseViewModel}, Path=AddressViewModelCollection}"/>
-					<ComboBox SelectedValue="{Binding PetID}" SelectedValuePath="PetID" ItemsSource="{Binding Source={x:Static local:ViewModels.TestDatabaseViewModel}, Path=PetViewModelCollection}"/>
-				</StackPanel>
+				<local:PropertiesView/>
 			</TabItem>
 		</TabControl>
 	</Grid>

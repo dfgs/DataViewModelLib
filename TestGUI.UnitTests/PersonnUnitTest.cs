@@ -315,5 +315,28 @@ namespace TestGUI.UnitTests
 			Assert.AreEqual("Turtle", viewModel.PreferedPet.Name);
 		}
 
+		[TestMethod]
+		public void ShouldCreateViewModelProperties()
+		{
+			TestDatabaseModel testDatabaseModel;
+			TestDatabaseViewModel testDatabaseViewModel;
+			IViewModelProperty[] properties;
+
+			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+
+			properties = testDatabaseViewModel.PersonnViewModelCollection.First().Properties.ToArray();
+
+			Assert.AreEqual(7, properties.Length);
+			Assert.AreEqual("PersonnID", properties[0].Name);
+			Assert.AreEqual("FirstName", properties[1].Name);
+			Assert.AreEqual("LastName", properties[2].Name);
+			Assert.AreEqual("Age", properties[3].Name);
+			Assert.AreEqual("DeliveryAddressID", properties[4].Name);
+			Assert.AreEqual("BillingAddressID", properties[5].Name);
+			Assert.AreEqual("PetID", properties[6].Name);
+		}
+
+
 	}
 }

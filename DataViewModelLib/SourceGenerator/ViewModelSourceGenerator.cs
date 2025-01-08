@@ -37,6 +37,12 @@ namespace DataViewModelLib.SourceGenerator
 						set;
 					}
 
+					private List<IViewModelProperty> properties;
+					public IEnumerable<IViewModelProperty> Properties
+					{
+						get => properties;
+					}
+
 					private {{Table.DatabaseName}}Model databaseModel;
 					private {{Table.DatabaseName}}ViewModel databaseViewModel;
 						
@@ -48,10 +54,12 @@ namespace DataViewModelLib.SourceGenerator
 						this.databaseModel=DatabaseModel; 
 						this.databaseViewModel=DatabaseViewModel; 
 						this.dataSource=DataSource;
-
-						{{Table.Relations.Where(item => item.PrimaryTable == Table).Select(item => $"this._{item.PrimaryPropertyName} = new {item.PrimaryPropertyName}ViewModelCollection(databaseViewModel, databaseModel, dataSource);").Join().Indent(3)}}
+						this.properties=new List<IViewModelProperty>();
+			{{Table.Columns.Select(item => GenerateAddViewModelProperty(item)).Join().Indent(3)}}
+			
+			{{Table.Relations.Where(item => item.PrimaryTable == Table).Select(item => $"this._{item.PrimaryPropertyName} = new {item.PrimaryPropertyName}ViewModelCollection(databaseViewModel, databaseModel, dataSource);").Join().Indent(3)}}
 						
-						{{Table.Relations.Where(item => item.ForeignTable == Table).Select(item => $"this.dataSource.{item.ForeignPropertyName}Changed += On{item.ForeignPropertyName}Changed;").Join().Indent(3)}}
+			{{Table.Relations.Where(item => item.ForeignTable == Table).Select(item => $"this.dataSource.{item.ForeignPropertyName}Changed += On{item.ForeignPropertyName}Changed;").Join().Indent(3)}}
 
 						DataSource.PropertyChanged += OnModelPropertyChanged;
 					}
@@ -80,6 +88,14 @@ namespace DataViewModelLib.SourceGenerator
 			}
 			""";
 
+			return source;
+		}
+		private string GenerateAddViewModelProperty(Column Column)
+		{
+			string source =
+			$$"""
+			properties.Add( new ViewModelProperty<{{Column.TypeName}}>(nameof({{Column.ColumnName}}), () => this.{{Column.ColumnName}}, (val) => this.{{Column.ColumnName}}=val ) );
+			""";
 			return source;
 		}
 

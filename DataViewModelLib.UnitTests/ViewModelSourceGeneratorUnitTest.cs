@@ -144,11 +144,13 @@ namespace DataViewModelLib.UnitTests
 
 			source = sourceGenerator.GenerateSource(parentTable);
 
+			Assert.IsTrue(source.Contains("public IEnumerable<IViewModelProperty> Properties"));
 			Assert.IsTrue(source.Contains("public string FirstName"));
 			Assert.IsTrue(source.Contains("public byte? PersonnID"));
 			Assert.IsTrue(source.Contains("public ChildsViewModelCollection Childs"));
 
 			source = sourceGenerator.GenerateSource(childTable);
+			Assert.IsTrue(source.Contains("public IEnumerable<IViewModelProperty> Properties"));
 			Assert.IsTrue(source.Contains("public byte PersonnID"));
 			Assert.IsTrue(source.Contains("public PersonnViewModel MyParent"));
 
