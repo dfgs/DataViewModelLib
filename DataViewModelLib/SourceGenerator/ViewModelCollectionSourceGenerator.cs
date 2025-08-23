@@ -1,15 +1,13 @@
-﻿using DataModelLib.Common;
-using DataModelLib.Common.Schema;
-using DataModelLib.Common.SourceGenerator;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace DataViewModelLib.SourceGenerator
 {
-	public class ViewModelCollectionSourceGenerator : SourceGenerator<Table>
+	public class ViewModelCollectionSourceGenerator 
 	{
+		/*
 		public override string GenerateSource(Table Table)
 		{
 			string source =
@@ -145,6 +143,6 @@ namespace DataViewModelLib.SourceGenerator
 
 			return source;
 		}
-
+		*/
 	}
 }

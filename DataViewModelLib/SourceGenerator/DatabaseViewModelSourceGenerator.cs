@@ -1,7 +1,4 @@
-﻿using DataModelLib.Common;
-using DataModelLib.Common.Schema;
-using DataModelLib.Common.SourceGenerator;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -9,8 +6,9 @@ using System.Text;
 
 namespace DataViewModelLib.SourceGenerator
 {
-	public class DatabaseViewModelSourceGenerator : SourceGenerator<Database>
+	public class DatabaseViewModelSourceGenerator// : SourceGenerator<Database>
 	{
+		/*
 		public override string GenerateSource(Database Database)
 		{
 			string source =
@@ -87,7 +85,8 @@ namespace DataViewModelLib.SourceGenerator
 		}
 
 
-
+*/
 	}
-	
+
+
 }

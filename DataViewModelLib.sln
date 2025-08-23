@@ -11,21 +11,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataViewModelLib.UnitTests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGUI.UnitTests", "TestGUI.UnitTests\TestGUI.UnitTests.csproj", "{29CA4032-F656-4BF5-8318-734585B9A983}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGUI.Data", "TestGUI.Data\TestGUI.Data.csproj", "{7C653773-0183-472D-B153-E8FBF7FB420C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataModelLib.Common", "..\DataModelLib\DataModelLib.Common\DataModelLib.Common.csproj", "{B6A696DE-B5E3-4920-A648-58FD6D1A5064}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataModelLib", "..\DataModelLib\DataModelLib\DataModelLib.csproj", "{13462452-2263-4084-B942-DB600D98B217}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3-Unit tests", "3-Unit tests", "{5A1A2827-9B58-481E-B565-619D4331E2D5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-ModelLibs", "1-ModelLibs", "{A474254D-C2BA-4CB2-97DF-32208490BB3B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-Libraries", "1-Libraries", "{A474254D-C2BA-4CB2-97DF-32208490BB3B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-ViewModelLibs", "2-ViewModelLibs", "{EF8894BF-6D65-41E5-AD93-9CF763A66622}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueprintLib", "..\BlueprintLib\BlueprintLib\BlueprintLib.csproj", "{B31A9FAA-D715-8F14-A7C4-56F92ACBEA90}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataModelLib.UnitTests", "..\DataModelLib\DataModelLib.UnitTests\DataModelLib.UnitTests.csproj", "{9F580F5A-36B6-4B95-8916-07D9A2102735}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DataViewModelLib.Shared", "DataViewModelLib.Shared\DataViewModelLib.Shared.shproj", "{C87D3706-F674-4B93-8985-FCDBFB30E86A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryExample.UnitTests", "..\DataModelLib\LibraryExample.UnitTests\LibraryExample.UnitTests.csproj", "{78EA3A11-C4FE-4695-BEDE-BAECBAA0F506}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DataModelLib.Shared", "..\DataModelLib\DataModelLib.Shared\DataModelLib.Shared.shproj", "{97CCAC7F-660E-42F0-AF29-16332FC30F7A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-Examples", "2-Examples", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryExample", "LibraryExample\LibraryExample.csproj", "{C938A0F3-C6F0-41C4-B59A-F1197B45C1D8}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LibraryExample.Shared", "LibraryExample.Shared\LibraryExample.Shared.shproj", "{B1CBA037-8408-4F5A-AD67-31368510734D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,40 +51,44 @@ Global
 		{29CA4032-F656-4BF5-8318-734585B9A983}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29CA4032-F656-4BF5-8318-734585B9A983}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29CA4032-F656-4BF5-8318-734585B9A983}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7C653773-0183-472D-B153-E8FBF7FB420C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7C653773-0183-472D-B153-E8FBF7FB420C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7C653773-0183-472D-B153-E8FBF7FB420C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7C653773-0183-472D-B153-E8FBF7FB420C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B6A696DE-B5E3-4920-A648-58FD6D1A5064}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B6A696DE-B5E3-4920-A648-58FD6D1A5064}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B6A696DE-B5E3-4920-A648-58FD6D1A5064}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B6A696DE-B5E3-4920-A648-58FD6D1A5064}.Release|Any CPU.Build.0 = Release|Any CPU
 		{13462452-2263-4084-B942-DB600D98B217}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{13462452-2263-4084-B942-DB600D98B217}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13462452-2263-4084-B942-DB600D98B217}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13462452-2263-4084-B942-DB600D98B217}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9F580F5A-36B6-4B95-8916-07D9A2102735}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F580F5A-36B6-4B95-8916-07D9A2102735}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F580F5A-36B6-4B95-8916-07D9A2102735}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F580F5A-36B6-4B95-8916-07D9A2102735}.Release|Any CPU.Build.0 = Release|Any CPU
-		{78EA3A11-C4FE-4695-BEDE-BAECBAA0F506}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{78EA3A11-C4FE-4695-BEDE-BAECBAA0F506}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{78EA3A11-C4FE-4695-BEDE-BAECBAA0F506}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{78EA3A11-C4FE-4695-BEDE-BAECBAA0F506}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B31A9FAA-D715-8F14-A7C4-56F92ACBEA90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B31A9FAA-D715-8F14-A7C4-56F92ACBEA90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B31A9FAA-D715-8F14-A7C4-56F92ACBEA90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B31A9FAA-D715-8F14-A7C4-56F92ACBEA90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C938A0F3-C6F0-41C4-B59A-F1197B45C1D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C938A0F3-C6F0-41C4-B59A-F1197B45C1D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C938A0F3-C6F0-41C4-B59A-F1197B45C1D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C938A0F3-C6F0-41C4-B59A-F1197B45C1D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{5C4272A9-572E-4759-8FE3-E9D7D4CA3AE0} = {EF8894BF-6D65-41E5-AD93-9CF763A66622}
+		{5C4272A9-572E-4759-8FE3-E9D7D4CA3AE0} = {A474254D-C2BA-4CB2-97DF-32208490BB3B}
+		{8F2BBF27-31AE-4372-B960-DA1EBE56A1D6} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{9C597197-0DFB-4A9A-892E-4EA6602D4415} = {5A1A2827-9B58-481E-B565-619D4331E2D5}
 		{29CA4032-F656-4BF5-8318-734585B9A983} = {5A1A2827-9B58-481E-B565-619D4331E2D5}
-		{B6A696DE-B5E3-4920-A648-58FD6D1A5064} = {A474254D-C2BA-4CB2-97DF-32208490BB3B}
 		{13462452-2263-4084-B942-DB600D98B217} = {A474254D-C2BA-4CB2-97DF-32208490BB3B}
-		{9F580F5A-36B6-4B95-8916-07D9A2102735} = {5A1A2827-9B58-481E-B565-619D4331E2D5}
-		{78EA3A11-C4FE-4695-BEDE-BAECBAA0F506} = {5A1A2827-9B58-481E-B565-619D4331E2D5}
+		{B31A9FAA-D715-8F14-A7C4-56F92ACBEA90} = {A474254D-C2BA-4CB2-97DF-32208490BB3B}
+		{C87D3706-F674-4B93-8985-FCDBFB30E86A} = {A474254D-C2BA-4CB2-97DF-32208490BB3B}
+		{97CCAC7F-660E-42F0-AF29-16332FC30F7A} = {A474254D-C2BA-4CB2-97DF-32208490BB3B}
+		{C938A0F3-C6F0-41C4-B59A-F1197B45C1D8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{B1CBA037-8408-4F5A-AD67-31368510734D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BAE4509A-DFF7-4656-BC42-96D845E1EB38}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\DataModelLib\DataModelLib.Shared\DataModelLib.Shared.projitems*{13462452-2263-4084-b942-db600d98b217}*SharedItemsImports = 5
+		DataViewModelLib.Shared\DataViewModelLib.Shared.projitems*{5c4272a9-572e-4759-8fe3-e9d7d4ca3ae0}*SharedItemsImports = 5
+		..\DataModelLib\DataModelLib.Shared\DataModelLib.Shared.projitems*{97ccac7f-660e-42f0-af29-16332fc30f7a}*SharedItemsImports = 13
+		LibraryExample.Shared\LibraryExample.Shared.projitems*{b1cba037-8408-4f5a-ad67-31368510734d}*SharedItemsImports = 13
+		DataViewModelLib.Shared\DataViewModelLib.Shared.projitems*{c87d3706-f674-4b93-8985-fcdbfb30e86a}*SharedItemsImports = 13
+		..\DataModelLib\DataModelLib.Shared\DataModelLib.Shared.projitems*{c938a0f3-c6f0-41c4-b59a-f1197b45c1d8}*SharedItemsImports = 5
+		LibraryExample.Shared\LibraryExample.Shared.projitems*{c938a0f3-c6f0-41c4-b59a-f1197b45c1d8}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
