@@ -17,5 +17,8 @@
 	<Import Project="..\..\DataModelLib\DataModelLib.Shared\DataModelLib.Shared.projitems" Label="Shared" />
 
 
+	<Import Project="..\DataViewModelLib.Shared\DataViewModelLib.Shared.projitems" Label="Shared" />
+
+
 
 </Project>

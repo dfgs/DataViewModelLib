@@ -9,6 +9,6 @@
     <Import_RootNamespace>DataViewModelLib.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Blueprints\" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)Blueprints\DatabaseViewModel.bp" />
   </ItemGroup>
 </Project>

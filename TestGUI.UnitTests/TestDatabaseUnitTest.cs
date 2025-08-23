@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TestGUI.Data.DataSources;
-using TestGUI.Data.DataSources.Models;
-using TestGUI.Data.DataSources.ViewModels;
+using LibraryExample.ViewModels;
 
 namespace TestGUI.UnitTests
 {

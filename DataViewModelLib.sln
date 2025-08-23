@@ -89,6 +89,7 @@ Global
 		LibraryExample.Shared\LibraryExample.Shared.projitems*{b1cba037-8408-4f5a-ad67-31368510734d}*SharedItemsImports = 13
 		DataViewModelLib.Shared\DataViewModelLib.Shared.projitems*{c87d3706-f674-4b93-8985-fcdbfb30e86a}*SharedItemsImports = 13
 		..\DataModelLib\DataModelLib.Shared\DataModelLib.Shared.projitems*{c938a0f3-c6f0-41c4-b59a-f1197b45c1d8}*SharedItemsImports = 5
+		DataViewModelLib.Shared\DataViewModelLib.Shared.projitems*{c938a0f3-c6f0-41c4-b59a-f1197b45c1d8}*SharedItemsImports = 5
 		LibraryExample.Shared\LibraryExample.Shared.projitems*{c938a0f3-c6f0-41c4-b59a-f1197b45c1d8}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
