@@ -47,18 +47,7 @@ namespace DataViewModelLib.SourceGenerator
 			return source;
 		}
 
-		private string GenerateProperties(Database Database,Table Table)
-		{
-			string source =
-			$$"""
-			public {{Table.TableName}}ViewModelCollection {{Table.TableName}}ViewModelCollection
-			{
-				get;
-				private set;
-			}
-			""";
-			return source;
-		}
+		
 
 		private string GenerateMethods(Table Table)
 		{
