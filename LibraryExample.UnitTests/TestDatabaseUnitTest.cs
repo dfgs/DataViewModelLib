@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibraryExample;
+using LibraryExample.Models;
 using LibraryExample.ViewModels;
 
-namespace TestGUI.UnitTests
+
+namespace LibraryExample.UnitTests
 {
 	[TestClass]
 	public class TestDatabaseUnitTest

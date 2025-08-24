@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TestGUI.Data.DataSources;
+using LibraryExample;
+using LibraryExample.Models;
+using LibraryExample.ViewModels;
 
-namespace TestGUI.UnitTests
+namespace LibraryExample.UnitTests
 {
 	public static class Utils
 	{

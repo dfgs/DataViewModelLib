@@ -7,13 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataViewModelLib", "DataVie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGUI", "TestGUI\TestGUI.csproj", "{8F2BBF27-31AE-4372-B960-DA1EBE56A1D6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataViewModelLib.UnitTests", "DataViewModelLib.UnitTests\DataViewModelLib.UnitTests.csproj", "{9C597197-0DFB-4A9A-892E-4EA6602D4415}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGUI.UnitTests", "TestGUI.UnitTests\TestGUI.UnitTests.csproj", "{29CA4032-F656-4BF5-8318-734585B9A983}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataModelLib", "..\DataModelLib\DataModelLib\DataModelLib.csproj", "{13462452-2263-4084-B942-DB600D98B217}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3-Unit tests", "3-Unit tests", "{5A1A2827-9B58-481E-B565-619D4331E2D5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-Libraries", "1-Libraries", "{A474254D-C2BA-4CB2-97DF-32208490BB3B}"
 EndProject
@@ -29,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryExample", "LibraryEx
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LibraryExample.Shared", "LibraryExample.Shared\LibraryExample.Shared.shproj", "{B1CBA037-8408-4F5A-AD67-31368510734D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryExample.UnitTests", "LibraryExample.UnitTests\LibraryExample.UnitTests.csproj", "{E266ABCC-C154-4A5B-987E-35391B63F5D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,14 +39,6 @@ Global
 		{8F2BBF27-31AE-4372-B960-DA1EBE56A1D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F2BBF27-31AE-4372-B960-DA1EBE56A1D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F2BBF27-31AE-4372-B960-DA1EBE56A1D6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9C597197-0DFB-4A9A-892E-4EA6602D4415}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C597197-0DFB-4A9A-892E-4EA6602D4415}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C597197-0DFB-4A9A-892E-4EA6602D4415}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C597197-0DFB-4A9A-892E-4EA6602D4415}.Release|Any CPU.Build.0 = Release|Any CPU
-		{29CA4032-F656-4BF5-8318-734585B9A983}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29CA4032-F656-4BF5-8318-734585B9A983}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29CA4032-F656-4BF5-8318-734585B9A983}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29CA4032-F656-4BF5-8318-734585B9A983}.Release|Any CPU.Build.0 = Release|Any CPU
 		{13462452-2263-4084-B942-DB600D98B217}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{13462452-2263-4084-B942-DB600D98B217}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13462452-2263-4084-B942-DB600D98B217}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,6 +51,10 @@ Global
 		{C938A0F3-C6F0-41C4-B59A-F1197B45C1D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C938A0F3-C6F0-41C4-B59A-F1197B45C1D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C938A0F3-C6F0-41C4-B59A-F1197B45C1D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E266ABCC-C154-4A5B-987E-35391B63F5D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E266ABCC-C154-4A5B-987E-35391B63F5D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E266ABCC-C154-4A5B-987E-35391B63F5D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E266ABCC-C154-4A5B-987E-35391B63F5D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,14 +62,13 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{5C4272A9-572E-4759-8FE3-E9D7D4CA3AE0} = {A474254D-C2BA-4CB2-97DF-32208490BB3B}
 		{8F2BBF27-31AE-4372-B960-DA1EBE56A1D6} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{9C597197-0DFB-4A9A-892E-4EA6602D4415} = {5A1A2827-9B58-481E-B565-619D4331E2D5}
-		{29CA4032-F656-4BF5-8318-734585B9A983} = {5A1A2827-9B58-481E-B565-619D4331E2D5}
 		{13462452-2263-4084-B942-DB600D98B217} = {A474254D-C2BA-4CB2-97DF-32208490BB3B}
 		{B31A9FAA-D715-8F14-A7C4-56F92ACBEA90} = {A474254D-C2BA-4CB2-97DF-32208490BB3B}
 		{C87D3706-F674-4B93-8985-FCDBFB30E86A} = {A474254D-C2BA-4CB2-97DF-32208490BB3B}
 		{97CCAC7F-660E-42F0-AF29-16332FC30F7A} = {A474254D-C2BA-4CB2-97DF-32208490BB3B}
 		{C938A0F3-C6F0-41C4-B59A-F1197B45C1D8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{B1CBA037-8408-4F5A-AD67-31368510734D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{E266ABCC-C154-4A5B-987E-35391B63F5D7} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BAE4509A-DFF7-4656-BC42-96D845E1EB38}
@@ -92,5 +83,6 @@ Global
 		..\DataModelLib\DataModelLib.Shared\DataModelLib.Shared.projitems*{c938a0f3-c6f0-41c4-b59a-f1197b45c1d8}*SharedItemsImports = 5
 		DataViewModelLib.Shared\DataViewModelLib.Shared.projitems*{c938a0f3-c6f0-41c4-b59a-f1197b45c1d8}*SharedItemsImports = 5
 		LibraryExample.Shared\LibraryExample.Shared.projitems*{c938a0f3-c6f0-41c4-b59a-f1197b45c1d8}*SharedItemsImports = 5
+		LibraryExample.Shared\LibraryExample.Shared.projitems*{e266abcc-c154-4a5b-987e-35391b63f5d7}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

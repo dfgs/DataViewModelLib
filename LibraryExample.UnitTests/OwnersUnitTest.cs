@@ -1,10 +1,9 @@
-using TestGUI.Data.DataSources;
-using TestGUI.Data.DataSources.Models;
-using TestGUI.Data.DataSources.ViewModels;
-using DataModelLib.Common;
+using LibraryExample;
+using LibraryExample.Models;
+using LibraryExample.ViewModels;
 using System.Collections.Specialized;
 
-namespace TestGUI.UnitTests
+namespace LibraryExample.UnitTests
 {
 	[TestClass]
 	public class OwnersUnitTest
