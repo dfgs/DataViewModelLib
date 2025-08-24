@@ -9,6 +9,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\BlueprintLib\BlueprintLib\BlueprintLib.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 		<ProjectReference Include="..\..\DataModelLib\DataModelLib\DataModelLib.csproj" />
+		<ProjectReference Include="..\DataViewModelLib\DataViewModelLib.csproj" />
 	</ItemGroup>
 
 	<Import Project="..\LibraryExample.Shared\LibraryExample.Shared.projitems" Label="Shared" />

@@ -7,7 +7,7 @@ using BlueprintLib.Attributes;
 
 namespace LibraryExample
 {
-	[DTO("Personn"), Blueprint("DTO"), Blueprint("TableModel")]
+	[DTO("Personn"), Blueprint("DTO"), Blueprint("TableModel"), Blueprint("TableViewModel"), Blueprint("TableViewModelCollection")]
 	public partial class Personn
 	{
 
