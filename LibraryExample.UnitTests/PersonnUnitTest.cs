@@ -7,7 +7,7 @@ using BlueprintLib.Attributes;
 
 namespace LibraryExample.UnitTests
 {
-	[DTO("Personn"),Table, Blueprint("TableViewModel.UnitTest.*"), MockCount(10), TestClass]
+	[TableUnitTest, DTO("Personn"), Blueprint("TableViewModel.UnitTest.*"), MockCount(10), TestClass]
 	public partial class PersonnUnitTest
 	{
 
