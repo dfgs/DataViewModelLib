@@ -8,7 +8,11 @@
     
     <PropertyDefinition Name="PersonnID" TypeName="byte">
 			<Attributes>
-				<AttributeDefinition Name="Column"/>
+				<AttributeDefinition Name="Column">
+					<Parameters>
+						<AttributeParameterDefinition Name="DisplayName" Value="Personn id" />
+					</Parameters>
+				</AttributeDefinition>
 				<AttributeDefinition Name="PrimaryKey"/>
 			</Attributes>    
     </PropertyDefinition>
@@ -25,7 +29,11 @@
     
     <PropertyDefinition Name="LastName" TypeName="string">
 			<Attributes>
-				<AttributeDefinition Name="Column"/>
+				<AttributeDefinition Name="Column">
+					<Parameters>
+						<AttributeParameterDefinition Name="DisplayName" Value="Last name" />
+					</Parameters>
+				</AttributeDefinition>
 			</Attributes>
     </PropertyDefinition>
     
@@ -37,7 +45,11 @@
     
     <PropertyDefinition Name="DeliveryAddressID" TypeName="byte">
 			<Attributes>
-				<AttributeDefinition Name="Column"/>
+				<AttributeDefinition Name="Column">
+					<Parameters>
+						<AttributeParameterDefinition Name="DisplayName" Value="Delivery address id" />
+					</Parameters>
+				</AttributeDefinition>
 				<AttributeDefinition Name="ForeignKey">
 					<Parameters>
 						<AttributeParameterDefinition Name="ForeignPropertyName" Value="DeliveryAddress" />
@@ -52,7 +64,11 @@
 
 		<PropertyDefinition Name="BillingAddressID" TypeName="byte?">
 			<Attributes>
-				<AttributeDefinition Name="Column"/>
+				<AttributeDefinition Name="Column">
+					<Parameters>
+						<AttributeParameterDefinition Name="DisplayName" Value="Billing address id" />
+					</Parameters>
+				</AttributeDefinition>
 				<AttributeDefinition Name="ForeignKey">
 					<Parameters>
 						<AttributeParameterDefinition Name="ForeignPropertyName" Value="BillingAddress" />
@@ -67,7 +83,11 @@
     
     <PropertyDefinition Name="PetID" TypeName="byte">
 			<Attributes>
-				<AttributeDefinition Name="Column"/>
+				<AttributeDefinition Name="Column">
+					<Parameters>
+						<AttributeParameterDefinition Name="DisplayName" Value="Pet id" />
+					</Parameters>
+				</AttributeDefinition>
 				<AttributeDefinition Name="ForeignKey">
 					<Parameters>
 						<AttributeParameterDefinition Name="ForeignPropertyName" Value="PreferedPet" />

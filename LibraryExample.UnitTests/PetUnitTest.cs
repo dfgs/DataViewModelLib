@@ -242,9 +242,10 @@ namespace LibraryExample.UnitTests
 
 			properties = testDatabaseViewModel.PetViewModelCollection.First().Properties.ToArray();
 
-			Assert.AreEqual(2, properties.Length);
+			Assert.AreEqual(3, properties.Length);
 			Assert.AreEqual("Pet id", properties[0].Name);
 			Assert.AreEqual("Name", properties[1].Name);
+			Assert.AreEqual("IsValid", properties[2].Name);
 		}
 
 

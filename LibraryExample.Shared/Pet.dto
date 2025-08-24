@@ -9,7 +9,7 @@
 			<Attributes>
 				<AttributeDefinition Name="Column">
 					<Parameters>
-						<AttributeParameterDefinition Name="DisplayName" Value="Pet ID" />
+						<AttributeParameterDefinition Name="DisplayName" Value="Pet id" />
 					</Parameters>
 				</AttributeDefinition>
 				<AttributeDefinition Name="PrimaryKey"/>
