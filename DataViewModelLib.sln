@@ -83,6 +83,8 @@ Global
 		..\DataModelLib\DataModelLib.Shared\DataModelLib.Shared.projitems*{c938a0f3-c6f0-41c4-b59a-f1197b45c1d8}*SharedItemsImports = 5
 		DataViewModelLib.Shared\DataViewModelLib.Shared.projitems*{c938a0f3-c6f0-41c4-b59a-f1197b45c1d8}*SharedItemsImports = 5
 		LibraryExample.Shared\LibraryExample.Shared.projitems*{c938a0f3-c6f0-41c4-b59a-f1197b45c1d8}*SharedItemsImports = 5
+		..\DataModelLib\DataModelLib.Shared\DataModelLib.Shared.projitems*{e266abcc-c154-4a5b-987e-35391b63f5d7}*SharedItemsImports = 5
+		DataViewModelLib.Shared\DataViewModelLib.Shared.projitems*{e266abcc-c154-4a5b-987e-35391b63f5d7}*SharedItemsImports = 5
 		LibraryExample.Shared\LibraryExample.Shared.projitems*{e266abcc-c154-4a5b-987e-35391b63f5d7}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
