@@ -1,7 +1,7 @@
 ﻿{{- func GetRelations
 	result = []
 
-	for foreignclass in project.classes
+	for foreignclass in project.classes | with_attribute "TableAttribute"
 		for property in foreignclass.properties
 			attribute = property.attributes | find "ForeignKey"
 			if attribute
@@ -25,6 +25,12 @@
 	ret result
 end -}}
 
+{{- dtoAttribute = class.attributes | find "DTOAttribute"  }}
+{{- if !dtoAttribute}}
+#warning no DTO attribute was set on unit test class {{class.name}}
+{{-ret}}
+{{-end}}
+{{- databaseName=(dtoAttribute.parameters | find "Name").value }}
 
 {{- -}}
 
@@ -37,15 +43,15 @@ using System.Linq;
 using System.ComponentModel;
 using System.Windows;
 using DataModelLib;
-using {{class.namespace}}.Models;
 using DataViewModelLib;
 
 
-namespace {{class.namespace}}.ViewModels
+namespace {{class.namespace}}
 {
 
 	{{-for relation in GetRelations}}
-
+	
+	
 	public partial class {{relation.PrimaryPropertyName}}ViewModelCollection : IViewModelCollection, IAddViewModelCollection,{{(relation.ForeignKeyIsNullable?" IRemoveViewModelCollection,":"")}} IEnumerable<{{relation.ForeignTable}}ViewModel>, INotifyPropertyChanged, INotifyCollectionChanged
 	{
 		#nullable enable
@@ -60,9 +66,9 @@ namespace {{class.namespace}}.ViewModels
 		}
 		#nullable disable
 
-		private {{class.name}}Model databaseModel;
-		private {{class.name}}ViewModel databaseViewModel;
-		private {{relation.PrimaryTable}}Model primaryRow;
+		private Models.{{databaseName}}Model databaseModel;
+		private {{databaseName}}ViewModel databaseViewModel;
+		private Models.{{relation.PrimaryTable}}Model primaryRow;
 
 		private List<{{relation.ForeignTable}}ViewModel> items;
 		public int Count
@@ -70,7 +76,7 @@ namespace {{class.namespace}}.ViewModels
 			get => items.Count;
 		}
 
-		public {{relation.PrimaryPropertyName}}ViewModelCollection({{class.name}}ViewModel DatabaseViewModel, {{class.name}}Model DatabaseModel, {{relation.PrimaryTable}}Model PrimaryRow)
+		public {{relation.PrimaryPropertyName}}ViewModelCollection({{databaseName}}ViewModel DatabaseViewModel, Models.{{databaseName}}Model DatabaseModel, Models.{{relation.PrimaryTable}}Model PrimaryRow)
 		{
 			this.databaseModel=DatabaseModel; 
 			this.databaseViewModel=DatabaseViewModel;

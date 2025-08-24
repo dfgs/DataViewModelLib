@@ -9,6 +9,7 @@
     <Import_RootNamespace>LibraryExample.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)TestDatabase.dto" />
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)Address.dto" />
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)Personn.dto" />
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)Pet.dto" />

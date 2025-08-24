@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace LibraryExample
 {
-	[DTO("Pet"), Blueprint("DTO"), Blueprint("TableModel"), Blueprint("TableViewModel"), Blueprint("TableViewModelCollection")]
+	[Table, DTO("Pet"), Blueprint("DTO"), Blueprint("TableModel")]
 	public partial class Pet
 	{
 

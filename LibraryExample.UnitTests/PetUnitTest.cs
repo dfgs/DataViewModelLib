@@ -1,6 +1,5 @@
 using DataModelLib;
 using DataViewModelLib;
-using LibraryExample;
 using LibraryExample.Models;
 using LibraryExample.ViewModels;
 using System.Collections.Specialized;

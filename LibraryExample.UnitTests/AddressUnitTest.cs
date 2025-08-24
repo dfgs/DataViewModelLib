@@ -17,7 +17,7 @@ namespace LibraryExample.UnitTests
 		{
 			TestDatabaseModel testDatabaseModel;
 			TestDatabaseViewModel testDatabaseViewModel;
-			AddressViewModel? address;
+			ViewModels.AddressViewModel? address;
 
 			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
 			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
