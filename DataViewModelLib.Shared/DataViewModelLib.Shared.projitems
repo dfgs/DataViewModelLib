@@ -11,6 +11,7 @@
   <ItemGroup>
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)Blueprints\DatabaseViewModel.UnitTest.CreateViewModel.bp" />
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)Blueprints\RelationViewModelCollection.bp" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)Blueprints\TableViewModel.UnitTest.ForeignProperties.bp" />
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)Blueprints\TableViewModel.UnitTest.Properties.bp" />
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)Blueprints\TableViewModel.UnitTest.Add.bp" />
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)Blueprints\TableViewModel.UnitTest.Delete.bp" />
