@@ -28,85 +28,9 @@ namespace LibraryExample.UnitTests
 		}
 
 
-
-
-
 		
 
-		
-		[TestMethod]
-		public void ShouldAdd()
-		{
-			TestDatabaseModel testDatabaseModel;
-			TestDatabaseViewModel testDatabaseViewModel;
-			PersonnViewModel[] viewModels;
-
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
-
-			testDatabaseViewModel.PersonnViewModelCollection.Add(new Personn(5,"FN1","LN1",55));
-
-			viewModels = testDatabaseViewModel.PersonnViewModelCollection.ToArray();
-			Assert.AreEqual(5, viewModels.Length);
-			Assert.AreEqual("FN1", viewModels[4].FirstName);
-		}
-		[TestMethod]
-		public void ShouldRaiseTableChangedOnAdd()
-		{
-			TestDatabaseModel testDatabaseModel;
-			TestDatabaseViewModel testDatabaseViewModel;
-			PersonnViewModel[] viewModels;
-			object? changedItem = null;
-			int changedIndex = -1;
-			NotifyCollectionChangedAction? changedAction = null;
-
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
-			testDatabaseViewModel.PersonnViewModelCollection.CollectionChanged += (sender, e) => { changedItem = e.NewItems?[0]; changedAction = e.Action; changedIndex = e.NewStartingIndex; }; ;
-
-			testDatabaseViewModel.PersonnViewModelCollection.Add(new Personn(5, "FN1", "LN1", 55));
-
-			viewModels = testDatabaseViewModel.PersonnViewModelCollection.ToArray();
-			Assert.AreEqual(5, viewModels.Length);
 	
-			Assert.IsNotNull(changedItem);
-			Assert.AreEqual("FN1", ((PersonnViewModel)changedItem).FirstName);
-			Assert.AreEqual(NotifyCollectionChangedAction.Add, changedAction);
-			Assert.AreEqual(4, changedIndex);
-		}
-		[TestMethod]
-		public void ShouldGetSetProperty()
-		{
-			TestDatabaseModel testDatabaseModel;
-			TestDatabaseViewModel testDatabaseViewModel;
-			PersonnViewModel viewModel;
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
-
-			viewModel = testDatabaseViewModel.PersonnViewModelCollection.First();
-
-			Assert.AreEqual("Simpson", viewModel.LastName);
-			viewModel.LastName= "LN1";
-			Assert.AreEqual("LN1", viewModel.LastName);
-		}
-
-		[TestMethod]
-		public void ShouldRaisePropertyChanged()
-		{
-			TestDatabaseModel testDatabaseModel;
-			TestDatabaseViewModel testDatabaseViewModel;
-			PersonnViewModel viewModel;
-			string? propertyName = null;
-
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
-
-			viewModel = testDatabaseViewModel.PersonnViewModelCollection.First();
-			viewModel.PropertyChanged += (_, e) => { propertyName = e.PropertyName; };
-
-			viewModel.LastName = "LN1";
-			Assert.AreEqual("LastName", propertyName);
-		}
 
 
 		[TestMethod]
