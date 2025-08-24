@@ -1,7 +1,7 @@
 ﻿{{- func GetRelations
 	result = []
 
-	for foreignclass in project.classes
+	for foreignclass in project.classes | with_attribute "TableAttribute"
 		for property in foreignclass.properties
 			attribute = property.attributes | find "ForeignKey"
 			if attribute
@@ -29,7 +29,7 @@ end -}}
 	result = []
 
 	for relation in $0
-		if relation.PrimaryTable==class.name
+		if relation.PrimaryTable==tableName
 			result = result + [relation]
 		end
 	end
@@ -41,7 +41,7 @@ end -}}
 	result = []
 
 	for relation in $0
-		if relation.ForeignTable==class.name
+		if relation.ForeignTable==tableName
 			result = result + [relation]
 		end
 	end
