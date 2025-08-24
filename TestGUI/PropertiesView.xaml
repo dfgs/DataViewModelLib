@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TestGUI"
-             xmlns:common="clr-namespace:DataModelLib.Common;assembly=TestGUI.Data"
+             xmlns:common="clr-namespace:DataViewModelLib;assembly=DataViewModelLib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 

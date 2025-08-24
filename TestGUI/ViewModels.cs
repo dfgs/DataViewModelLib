@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TestGUI.Data.DataSources.ViewModels;
-using TestGUI.Data.DataSources.Models;
-using TestGUI.Data.DataSources;
+using LibraryExample;
+using LibraryExample.ViewModels;
+using LibraryExample.Models;
 
 namespace TestGUI
 {

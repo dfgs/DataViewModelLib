@@ -12,9 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using TestGUI.Data.DataSources.ViewModels;
-using TestGUI.Data.DataSources.Models;
-using TestGUI.Data.DataSources;
+using LibraryExample;
+using LibraryExample.Models;
 
 namespace TestGUI
 {

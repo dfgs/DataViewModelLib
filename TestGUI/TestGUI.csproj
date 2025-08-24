@@ -12,6 +12,8 @@
     <ProjectReference Include="..\LibraryExample\LibraryExample.csproj" />
   </ItemGroup>
 
+  <Import Project="..\LibraryExample.Shared\LibraryExample.Shared.projitems" Label="Shared" />
+
 
 
 </Project>

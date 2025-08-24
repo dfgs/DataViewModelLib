@@ -85,6 +85,7 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\DataModelLib\DataModelLib.Shared\DataModelLib.Shared.projitems*{13462452-2263-4084-b942-db600d98b217}*SharedItemsImports = 5
 		DataViewModelLib.Shared\DataViewModelLib.Shared.projitems*{5c4272a9-572e-4759-8fe3-e9d7d4ca3ae0}*SharedItemsImports = 5
+		LibraryExample.Shared\LibraryExample.Shared.projitems*{8f2bbf27-31ae-4372-b960-da1ebe56a1d6}*SharedItemsImports = 5
 		..\DataModelLib\DataModelLib.Shared\DataModelLib.Shared.projitems*{97ccac7f-660e-42f0-af29-16332fc30f7a}*SharedItemsImports = 13
 		LibraryExample.Shared\LibraryExample.Shared.projitems*{b1cba037-8408-4f5a-ad67-31368510734d}*SharedItemsImports = 13
 		DataViewModelLib.Shared\DataViewModelLib.Shared.projitems*{c87d3706-f674-4b93-8985-fcdbfb30e86a}*SharedItemsImports = 13
