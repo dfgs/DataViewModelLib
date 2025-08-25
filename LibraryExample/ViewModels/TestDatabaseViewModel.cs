@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using DataModelLib;
 using BlueprintLib.Attributes;
+using DataViewModelLib;
 
 namespace LibraryExample.ViewModels
 {
-	[DTO("TestDatabase"),  Blueprint("DatabaseViewModel"), Blueprint("RelationViewModelCollection"),Using("LibraryExample.Models")]
+	[DatabaseViewModel, DTO("TestDatabase"),  Blueprint("DatabaseViewModel"), Blueprint("RelationViewModelCollection"),Using("LibraryExample.Models")]
 	public partial class TestDatabaseViewModel
 	{
 
