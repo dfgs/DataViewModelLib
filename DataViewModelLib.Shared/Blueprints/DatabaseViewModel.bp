@@ -11,7 +11,9 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using DataModelLib;
-
+{{-for usingAttribute in class.attributes | with_name "UsingAttribute" }}
+using {{(usingAttribute.parameters | find "Namespace").value}};
+{{-end}}
 
 namespace {{class.namespace}}
 {
@@ -19,10 +21,10 @@ namespace {{class.namespace}}
 	{
 
 		{{- for class in project.classes | with_attribute "TableAttribute" }}
-		private Dictionary<Models.{{class.name}}Model,{{class.name}}ViewModel> {{class.name}}Dictionary;
+		private Dictionary<{{class.name}}Model,{{class.name}}ViewModel> {{class.name}}Dictionary;
 		{{- end }}
 
-		private Models.{{databaseName}}Model dataSource;
+		private {{databaseName}}Model dataSource;
 
 		#region generated properties
 		{{- for class in project.classes | with_attribute "TableAttribute" }}
@@ -34,7 +36,7 @@ namespace {{class.namespace}}
 		{{- end }}
 		#endregion
 
-		public {{class.name}}(Models.{{databaseName}}Model DataSource)
+		public {{class.name}}({{databaseName}}Model DataSource)
 		{
 			this.dataSource=DataSource;
 	

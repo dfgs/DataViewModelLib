@@ -114,7 +114,9 @@ using System.ComponentModel;
 using System.Windows;
 using DataModelLib;
 using DataViewModelLib;
-
+{{-for usingAttribute in class.attributes | with_name "UsingAttribute" }}
+using {{(usingAttribute.parameters | find "Namespace").value}};
+{{-end}}
 
 namespace {{class.namespace}}
 {
@@ -124,7 +126,7 @@ namespace {{class.namespace}}
 		public event PropertyChangedEventHandler? PropertyChanged;
 		#nullable disable
 			
-		private Models.{{tableName}}Model dataSource
+		private {{tableName}}Model dataSource
 		{
 			get;
 			set;
@@ -136,7 +138,7 @@ namespace {{class.namespace}}
 			get => properties;
 		}
 
-		private Models.{{database.name}}Model databaseModel;
+		private {{database.name}}Model databaseModel;
 		private {{database.name}}ViewModel databaseViewModel;
 
 		#region generated properties
@@ -174,7 +176,7 @@ namespace {{class.namespace}}
 		{{- end }}
 		#endregion
 
-		public {{class.name}}({{database.name}}ViewModel DatabaseViewModel, Models.{{database.name}}Model DatabaseModel, Models.{{tableName}}Model DataSource)
+		public {{class.name}}({{database.name}}ViewModel DatabaseViewModel, {{database.name}}Model DatabaseModel, {{tableName}}Model DataSource)
 		{
 			this.databaseModel=DatabaseModel; 
 			this.databaseViewModel=DatabaseViewModel; 

@@ -44,7 +44,9 @@ using System.ComponentModel;
 using System.Windows;
 using DataModelLib;
 using DataViewModelLib;
-
+{{-for usingAttribute in class.attributes | with_name "UsingAttribute" }}
+using {{(usingAttribute.parameters | find "Namespace").value}};
+{{-end}}
 
 namespace {{class.namespace}}
 {
@@ -66,9 +68,9 @@ namespace {{class.namespace}}
 		}
 		#nullable disable
 
-		private Models.{{databaseName}}Model databaseModel;
+		private {{databaseName}}Model databaseModel;
 		private {{databaseName}}ViewModel databaseViewModel;
-		private Models.{{relation.PrimaryTable}}Model primaryRow;
+		private {{relation.PrimaryTable}}Model primaryRow;
 
 		private List<{{relation.ForeignTable}}ViewModel> items;
 		public int Count
@@ -76,7 +78,7 @@ namespace {{class.namespace}}
 			get => items.Count;
 		}
 
-		public {{relation.PrimaryPropertyName}}ViewModelCollection({{databaseName}}ViewModel DatabaseViewModel, Models.{{databaseName}}Model DatabaseModel, Models.{{relation.PrimaryTable}}Model PrimaryRow)
+		public {{relation.PrimaryPropertyName}}ViewModelCollection({{databaseName}}ViewModel DatabaseViewModel, {{databaseName}}Model DatabaseModel, {{relation.PrimaryTable}}Model PrimaryRow)
 		{
 			this.databaseModel=DatabaseModel; 
 			this.databaseViewModel=DatabaseViewModel;

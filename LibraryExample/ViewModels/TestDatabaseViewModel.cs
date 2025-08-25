@@ -5,7 +5,7 @@ using BlueprintLib.Attributes;
 
 namespace LibraryExample.ViewModels
 {
-	[DTO("TestDatabase"),  Blueprint("DatabaseViewModel"), Blueprint("RelationViewModelCollection")]
+	[DTO("TestDatabase"),  Blueprint("DatabaseViewModel"), Blueprint("RelationViewModelCollection"),Using("LibraryExample.Models")]
 	public partial class TestDatabaseViewModel
 	{
 

@@ -115,6 +115,9 @@ using System.ComponentModel;
 using System.Windows;
 using DataModelLib;
 using DataViewModelLib;
+{{-for usingAttribute in class.attributes | with_name "UsingAttribute" }}
+using {{(usingAttribute.parameters | find "Namespace").value}};
+{{-end}}
 
 namespace {{class.namespace}}
 {
@@ -132,7 +135,7 @@ namespace {{class.namespace}}
 		}
 		#nullable disable
 						
-		private Models.{{database.name}}Model databaseModel;
+		private {{database.name}}Model databaseModel;
 		private {{database.name}}ViewModel databaseViewModel;
 			
 		private List<{{tableName}}ViewModel> items;
@@ -141,7 +144,7 @@ namespace {{class.namespace}}
 			get => items.Count;
 		}
 
-		public {{tableName}}ViewModelCollection({{database.name}}ViewModel DatabaseViewModel, Models.{{database.name}}Model DatabaseModel)
+		public {{tableName}}ViewModelCollection({{database.name}}ViewModel DatabaseViewModel, {{database.name}}Model DatabaseModel)
 		{
 			this.databaseModel=DatabaseModel; 
 			this.databaseViewModel=DatabaseViewModel; 
