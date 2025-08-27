@@ -160,10 +160,10 @@ namespace {{class.namespace}}
 		void IAddViewModelCollection.Add(object Item)
 		{
 			#nullable enable
-			{{relation.ForeignTable}}? convertedItem;
+			Tables.{{relation.ForeignTable}}? convertedItem;
 			#nullable disable
 			
-			convertedItem = Item as {{relation.ForeignTable}};
+			convertedItem = Item as Tables.{{relation.ForeignTable}};
 			if (convertedItem==null) return;
 			Add(convertedItem);
 		}

@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LibraryExample;
 using LibraryExample.Models;
+using LibraryExample.Tables;
 
 namespace TestGUI
 {

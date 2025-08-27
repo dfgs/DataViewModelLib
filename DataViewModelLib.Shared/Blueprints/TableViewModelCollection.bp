@@ -207,10 +207,10 @@ namespace {{class.namespace}}
 		void IAddViewModelCollection.Add(object Item)
 		{
 			#nullable enable
-			{{dto}}? convertedItem;
+			Tables.{{dto}}? convertedItem;
 			#nullable disable
 			
-			convertedItem = Item as {{dto}};
+			convertedItem = Item as Tables.{{dto}};
 			if (convertedItem==null) return;
 			Add(convertedItem);
 		}

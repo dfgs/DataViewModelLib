@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LibraryExample;
 using LibraryExample.ViewModels;
 using LibraryExample.Models;
+using LibraryExample.Tables;
 
 namespace TestGUI
 {

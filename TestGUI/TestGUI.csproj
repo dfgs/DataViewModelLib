@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LibraryExample.Models\LibraryExample.Models.csproj" />
+    <ProjectReference Include="..\LibraryExample.ViewModels\LibraryExample.ViewModels.csproj" />
     <ProjectReference Include="..\LibraryExample\LibraryExample.csproj" />
   </ItemGroup>
 

@@ -38,7 +38,7 @@ namespace {{class.namespace}}
 
 		{{- for class in project.classes | with_attribute "TableViewModelAttribute" }}
 		{{-dto=class | GetDTO}}
-		private Dictionary<Models.{{dto}}Model,{{dto}}ViewModel> {{class.name}}Dictionary;
+		private Dictionary<Models.{{dto}}Model,{{dto}}ViewModel> {{dto}}Dictionary;
 		{{- end }}
 
 		private Models.{{databaseName}}Model dataSource;
@@ -80,7 +80,7 @@ namespace {{class.namespace}}
 			if (!{{dto}}Dictionary.TryGetValue(Item,out viewModel))
 			{
 				viewModel=new {{dto}}ViewModel(this, dataSource, Item);
-				{dto}}Dictionary.Add(Item,viewModel);
+				{{dto}}Dictionary.Add(Item,viewModel);
 			}
 			
 			return viewModel;
