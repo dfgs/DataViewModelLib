@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using LibraryExample;
 using LibraryExample.Models;
 using LibraryExample.ViewModels;
+using DataLib;
+using LibraryExample.Tables;
 
 namespace LibraryExample.UnitTests
 {

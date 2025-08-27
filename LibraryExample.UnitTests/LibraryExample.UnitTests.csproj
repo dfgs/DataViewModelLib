@@ -15,6 +15,8 @@
   <ItemGroup>
 		<ProjectReference Include="..\..\BlueprintLib\BlueprintLib\BlueprintLib.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 		<ProjectReference Include="..\DataViewModelLib\DataViewModelLib.csproj" />
+		<ProjectReference Include="..\LibraryExample.Models\LibraryExample.Models.csproj" />
+		<ProjectReference Include="..\LibraryExample.ViewModels\LibraryExample.ViewModels.csproj" />
 		<ProjectReference Include="..\LibraryExample\LibraryExample.csproj" />
   </ItemGroup>
 

@@ -128,7 +128,7 @@ namespace {{class.namespace}}
 			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
 			Models.TestDatabaseModel testDatabaseModel;
 			ViewModels.{{tableName}}ViewModel[] viewModels;
-			{{tableName}} new{{tableName}};
+			Tables.{{tableName}} new{{tableName}};
 
 			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
 			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
