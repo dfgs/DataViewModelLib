@@ -1,17 +1,28 @@
-﻿{{- func GetRelations
+﻿{{- func GetDTO }}
+	{{- localDTOAttribute = $0.attributes | find "DTOAttribute" }}
+	{{- if !localDTOAttribute}}
+		#warning no DTO attribute was set on table model class {{$0}}
+		{{-ret null}}
+	{{-end}}
+	{{-localDTO=(localDTOAttribute.parameters | find "Name").value}}
+	{{-ret localDTO}}
+{{-end }}
+
+{{- func GetRelations
 	result = []
 
-	for foreignclass in project.classes | with_attribute "TableAttribute"
+	for foreignclass in project.classes | with_attribute "TableViewModelAttribute"
 		for property in foreignclass.properties
 			attribute = property.attributes | find "ForeignKey"
 			if attribute
 				isnullable = property.type_name | string.ends_with "?"
 
 				relation = { 
-					ForeignTable: foreignclass.name,
+					ForeignTable: foreignclass | GetDTO,
 					ForeignKey: property.name,
 					ForeignPropertyName: (attribute.parameters | find "ForeignPropertyName").value, 
 					ForeignKeyIsNullable: isnullable,
+					ForeignKeyType: property.type_name,
 					PrimaryPropertyName: (attribute.parameters | find "PrimaryPropertyName").value, 
 					PrimaryTable: (attribute.parameters | find "PrimaryTable").value, 
 					PrimaryKey: (attribute.parameters | find "PrimaryKey").value, 
@@ -23,14 +34,16 @@
 	end
 
 	ret result
-end -}}
+end }}
 
-{{- dtoAttribute = class.attributes | find "DTOAttribute"  }}
-{{- if !dtoAttribute}}
-#warning no DTO attribute was set on unit test class {{class.name}}
+{{- databaseViewModels = (project.classes  | with_attribute "DatabaseViewModelAttribute") }}
+{{- databaseViewModel = databaseViewModels | array.first }}
+{{- if !databaseViewModel  }}
+#warning no DatabaseViewModel attribute defined in database view model class
 {{-ret}}
 {{-end}}
-{{- databaseName=(dtoAttribute.parameters | find "Name").value }}
+{{databaseName=databaseViewModel | GetDTO }}
+{{- dto= class | GetDTO }}
 
 {{- -}}
 
@@ -44,6 +57,9 @@ using System.ComponentModel;
 using System.Windows;
 using DataModelLib;
 using DataViewModelLib;
+{{- for reference in project.references }}
+using {{reference}};
+{{-end}}
 {{-for usingAttribute in class.attributes | with_name "UsingAttribute" }}
 using {{(usingAttribute.parameters | find "Namespace").value}};
 {{-end}}
@@ -68,9 +84,9 @@ namespace {{class.namespace}}
 		}
 		#nullable disable
 
-		private {{databaseName}}Model databaseModel;
+		private Models.{{databaseName}}Model databaseModel;
 		private {{databaseName}}ViewModel databaseViewModel;
-		private {{relation.PrimaryTable}}Model primaryRow;
+		private Models.{{relation.PrimaryTable}}Model primaryRow;
 
 		private List<{{relation.ForeignTable}}ViewModel> items;
 		public int Count
@@ -78,7 +94,7 @@ namespace {{class.namespace}}
 			get => items.Count;
 		}
 
-		public {{relation.PrimaryPropertyName}}ViewModelCollection({{databaseName}}ViewModel DatabaseViewModel, {{databaseName}}Model DatabaseModel, {{relation.PrimaryTable}}Model PrimaryRow)
+		public {{relation.PrimaryPropertyName}}ViewModelCollection({{databaseName}}ViewModel DatabaseViewModel, Models.{{databaseName}}Model DatabaseModel, Models.{{relation.PrimaryTable}}Model PrimaryRow)
 		{
 			this.databaseModel=DatabaseModel; 
 			this.databaseViewModel=DatabaseViewModel;
@@ -114,18 +130,18 @@ namespace {{class.namespace}}
 		}
 		#endregion
 
-		private void On{{relation.PrimaryPropertyName}}Changed({{relation.ForeignTable}} Item,TableChangedActions Action, int Index)
+		private void On{{relation.PrimaryPropertyName}}Changed(Tables.{{relation.ForeignTable}} Item, DataLib.TableChangedActions Action, int Index)
 		{
 			{{relation.ForeignTable}}ViewModel item;
 
 			switch(Action)
 			{
-				case TableChangedActions.Remove:
+				case DataLib.TableChangedActions.Remove:
 					item=items[Index];		
 					items.RemoveAt(Index);
 					OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, Index));
 					break;
-				case TableChangedActions.Add:
+				case DataLib.TableChangedActions.Add:
 					item = databaseViewModel.Create{{relation.ForeignTable}}ViewModel(databaseModel.Create{{relation.ForeignTable}}Model(Item));
 					items.Insert(Index,item);
 					OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, Index));
@@ -135,7 +151,7 @@ namespace {{class.namespace}}
 			}
 		}
 
-		public void Add({{relation.ForeignTable}} Item)
+		public void Add(Tables.{{relation.ForeignTable}} Item)
 		{
 			Item.{{relation.ForeignKey}} = primaryRow.{{relation.PrimaryKey}};
 			databaseModel.Add{{relation.ForeignTable}}(Item);

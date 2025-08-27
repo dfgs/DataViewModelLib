@@ -1,14 +1,14 @@
 ﻿using BlueprintLib.Attributes;
-using DataModelLib;
+using DataLib;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Xml.Linq;
 
-namespace LibraryExample
+namespace LibraryExample.Tables
 {
-	[Table, DTO("Pet"), Blueprint("DTO")]
+	[Table, DTO("Pet"), Blueprint("Table")]
 	public partial class Pet
 	{
 

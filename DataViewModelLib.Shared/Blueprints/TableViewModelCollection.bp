@@ -1,17 +1,28 @@
-﻿{{- func GetRelations
+﻿{{- func GetDTO }}
+	{{- localDTOAttribute = $0.attributes | find "DTOAttribute" }}
+	{{- if !localDTOAttribute}}
+		#warning no DTO attribute was set on table model class {{$0}}
+		{{-ret null}}
+	{{-end}}
+	{{-localDTO=(localDTOAttribute.parameters | find "Name").value}}
+	{{-ret localDTO}}
+{{-end }}
+
+{{- func GetRelations
 	result = []
 
-	for foreignclass in project.classes
+	for foreignclass in project.classes | with_attribute "TableViewModelAttribute"
 		for property in foreignclass.properties
 			attribute = property.attributes | find "ForeignKey"
 			if attribute
 				isnullable = property.type_name | string.ends_with "?"
 
 				relation = { 
-					ForeignTable: foreignclass.name,
+					ForeignTable: foreignclass | GetDTO,
 					ForeignKey: property.name,
 					ForeignPropertyName: (attribute.parameters | find "ForeignPropertyName").value, 
 					ForeignKeyIsNullable: isnullable,
+					ForeignKeyType: property.type_name,
 					PrimaryPropertyName: (attribute.parameters | find "PrimaryPropertyName").value, 
 					PrimaryTable: (attribute.parameters | find "PrimaryTable").value, 
 					PrimaryKey: (attribute.parameters | find "PrimaryKey").value, 
@@ -23,13 +34,14 @@
 	end
 
 	ret result
-end -}}
+end }}
+
 
 {{- func where_is_primary
 	result = []
 
 	for relation in $0
-		if relation.PrimaryTable==class.name
+		if relation.PrimaryTable==dto
 			result = result + [relation]
 		end
 	end
@@ -41,26 +53,12 @@ end -}}
 	result = []
 
 	for relation in $0
-		if relation.ForeignTable==class.name
+		if relation.ForeignTable==dto
 			result = result + [relation]
 		end
 	end
 
 	ret result
-end -}}
-
-{{- func where_column_is_foreign
-	
-
-	for relation in $0
-		if relation.ForeignTable==class.name
-			if relation.ForeignKey==$1
-				ret relation
-			end
-		end
-	end
-
-	ret null
 end -}}
 
 {{- func group_by_foreign_table
@@ -88,20 +86,14 @@ end -}}
 	ret result
 end -}}
 
-{{- databases = (project.classes  | with_attribute "DatabaseAttribute") }}
-{{- database = databases | array.first }}
-{{- if !database  }}
-#warning no database attribute defined in database class
+{{- databaseViewModels = (project.classes  | with_attribute "DatabaseViewModelAttribute") }}
+{{- databaseViewModel = databaseViewModels | array.first }}
+{{- if !databaseViewModel  }}
+#warning no DatabaseViewModel attribute defined in database view model class
 {{-ret}}
 {{-end}}
-
-{{- dtoAttribute = class.attributes | find "DTOAttribute"  }}
-{{- if !dtoAttribute}}
-#warning no DTO attribute was set on unit test class {{class.name}}
-{{-ret}}
-{{-end}}
-{{- tableName=(dtoAttribute.parameters | find "Name").value }}
-
+{{databaseName=databaseViewModel | GetDTO }}
+{{- dto= class | GetDTO }}
 
 {{- -}}
 
@@ -115,59 +107,61 @@ using System.ComponentModel;
 using System.Windows;
 using DataModelLib;
 using DataViewModelLib;
+{{- for reference in project.references }}
+using {{reference}};
+{{-end}}
 {{-for usingAttribute in class.attributes | with_name "UsingAttribute" }}
 using {{(usingAttribute.parameters | find "Namespace").value}};
 {{-end}}
-
 namespace {{class.namespace}}
 {
-	public partial class {{tableName}}ViewModelCollection : IViewModelCollection, IAddViewModelCollection, IRemoveViewModelCollection, IEnumerable<{{tableName}}ViewModel>, INotifyPropertyChanged, INotifyCollectionChanged
+	public partial class {{dto}}ViewModelCollection : IViewModelCollection, IAddViewModelCollection, IRemoveViewModelCollection, IEnumerable<{{dto}}ViewModel>, INotifyPropertyChanged, INotifyCollectionChanged
 	{
 		#nullable enable
 		public event PropertyChangedEventHandler? PropertyChanged;
 		public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
-		private {{tableName}}ViewModel? selectedItem;
-		public {{tableName}}ViewModel? SelectedItem
+		private {{dto}}ViewModel? selectedItem;
+		public {{dto}}ViewModel? SelectedItem
 		{
 			get => selectedItem;
 			set { selectedItem=value; OnPropertyChanged("SelectedItem"); }
 		}
 		#nullable disable
 						
-		private {{database.name}}Model databaseModel;
-		private {{database.name}}ViewModel databaseViewModel;
+		private Models.{{databaseName}}Model databaseModel;
+		private {{databaseName}}ViewModel databaseViewModel;
 			
-		private List<{{tableName}}ViewModel> items;
+		private List<{{dto}}ViewModel> items;
 		public int Count
 		{
 			get => items.Count;
 		}
 
-		public {{tableName}}ViewModelCollection({{database.name}}ViewModel DatabaseViewModel, {{database.name}}Model DatabaseModel)
+		public {{dto}}ViewModelCollection({{databaseName}}ViewModel DatabaseViewModel, Models.{{databaseName}}Model DatabaseModel)
 		{
 			this.databaseModel=DatabaseModel; 
 			this.databaseViewModel=DatabaseViewModel; 
 			
-			this.items=new List<{{tableName}}ViewModel>();
-			this.items.AddRange( databaseModel.Get{{tableName}}Table().Select( item => databaseViewModel.Create{{tableName}}ViewModel(item) ));
+			this.items=new List<{{dto}}ViewModel>();
+			this.items.AddRange( databaseModel.Get{{dto}}Table().Select( item => databaseViewModel.Create{{dto}}ViewModel(item) ));
 			
-			this.databaseModel.{{tableName}}TableChanged += On{{tableName}}TableChanged;
+			this.databaseModel.{{dto}}TableChanged += On{{dto}}TableChanged;
 		}
 
-		protected virtual void On{{tableName}}TableChanged({{tableName}} Item,TableChangedActions Action, int Index)
+		protected virtual void On{{dto}}TableChanged(Tables.{{dto}} Item, DataLib.TableChangedActions Action, int Index)
 		{
-			{{tableName}}ViewModel item;
+			{{dto}}ViewModel item;
 						
 			switch(Action)
 			{
-				case TableChangedActions.Remove:
+				case DataLib.TableChangedActions.Remove:
 					item=items[Index];		
 					items.RemoveAt(Index);
 					OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, Index));
 					break;
-				case TableChangedActions.Add:
-					item = databaseViewModel.Create{{tableName}}ViewModel(databaseModel.Create{{tableName}}Model(Item));
+				case DataLib.TableChangedActions.Add:
+					item = databaseViewModel.Create{{dto}}ViewModel(databaseModel.Create{{dto}}Model(Item));
 					items.Insert(Index,item);
 					OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, Index));
 					break;
@@ -183,7 +177,7 @@ namespace {{class.namespace}}
 			
 
 		#region IEnumerable
-		public IEnumerator<{{tableName}}ViewModel> GetEnumerator()
+		public IEnumerator<{{dto}}ViewModel> GetEnumerator()
 		{
 			return items.GetEnumerator();
 		}
@@ -200,23 +194,23 @@ namespace {{class.namespace}}
 		}
 		#endregion
 			
-		public void Remove({{tableName}}ViewModel Item)
+		public void Remove({{dto}}ViewModel Item)
 		{
 			Item.Delete();
 		}
 
-		public void Add({{tableName}} Item)
+		public void Add(Tables.{{dto}} Item)
 		{
-			databaseModel.Add{{tableName}}(Item);
+			databaseModel.Add{{dto}}(Item);
 		}
 
 		void IAddViewModelCollection.Add(object Item)
 		{
 			#nullable enable
-			{{tableName}}? convertedItem;
+			{{dto}}? convertedItem;
 			#nullable disable
 			
-			convertedItem = Item as {{tableName}};
+			convertedItem = Item as {{dto}};
 			if (convertedItem==null) return;
 			Add(convertedItem);
 		}
@@ -224,10 +218,10 @@ namespace {{class.namespace}}
 		void IRemoveViewModelCollection.Remove(object Item)
 		{
 			#nullable enable
-			{{tableName}}ViewModel? convertedItem;
+			{{dto}}ViewModel? convertedItem;
 			#nullable disable
 			
-			convertedItem = Item as {{tableName}}ViewModel;
+			convertedItem = Item as {{dto}}ViewModel;
 			if (convertedItem==null) return;
 			Remove(convertedItem);
 		}

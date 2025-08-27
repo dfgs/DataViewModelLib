@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LibraryExample.ViewModels
 {
-	[TableViewModel, DTO("Address"),Blueprint("TableViewModel"), Blueprint("TableViewModelCollection"), Using("LibraryExample.Models")]
+	[TableViewModel, DTO("Address"),Blueprint("TableViewModel"), Blueprint("TableViewModelCollection")]
 	public partial class AddressViewModel
 	{
 	}

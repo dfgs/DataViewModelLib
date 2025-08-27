@@ -1,5 +1,5 @@
 ﻿using BlueprintLib.Attributes;
-using DataModelLib;
+using DataLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,10 +7,10 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace LibraryExample
+namespace LibraryExample.Tables
 {
 
-	[Table, DTO("Address"), Blueprint("DTO")]
+	[Table, DTO("Address"), Blueprint("Table")]
 	public partial class Address
 	{
 

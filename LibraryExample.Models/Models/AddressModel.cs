@@ -10,7 +10,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace LibraryExample.Models
 {
 
-	[DTO("Address"),  Blueprint("TableModel")]
+	[TableModel, DTO("Address"),  Blueprint("TableModel")]
 	public partial class AddressModel
 	{
 

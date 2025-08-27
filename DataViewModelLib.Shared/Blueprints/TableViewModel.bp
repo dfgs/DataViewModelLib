@@ -1,17 +1,28 @@
-﻿{{- func GetRelations
+﻿{{- func GetDTO }}
+	{{- localDTOAttribute = $0.attributes | find "DTOAttribute" }}
+	{{- if !localDTOAttribute}}
+		#warning no DTO attribute was set on table model class {{$0}}
+		{{-ret null}}
+	{{-end}}
+	{{-localDTO=(localDTOAttribute.parameters | find "Name").value}}
+	{{-ret localDTO}}
+{{-end }}
+
+{{- func GetRelations
 	result = []
 
-	for foreignclass in project.classes | with_attribute "TableAttribute"
+	for foreignclass in project.classes | with_attribute "TableViewModelAttribute"
 		for property in foreignclass.properties
 			attribute = property.attributes | find "ForeignKey"
 			if attribute
 				isnullable = property.type_name | string.ends_with "?"
 
 				relation = { 
-					ForeignTable: foreignclass.name,
+					ForeignTable: foreignclass | GetDTO,
 					ForeignKey: property.name,
 					ForeignPropertyName: (attribute.parameters | find "ForeignPropertyName").value, 
 					ForeignKeyIsNullable: isnullable,
+					ForeignKeyType: property.type_name,
 					PrimaryPropertyName: (attribute.parameters | find "PrimaryPropertyName").value, 
 					PrimaryTable: (attribute.parameters | find "PrimaryTable").value, 
 					PrimaryKey: (attribute.parameters | find "PrimaryKey").value, 
@@ -23,13 +34,14 @@
 	end
 
 	ret result
-end -}}
+end }}
+
 
 {{- func where_is_primary
 	result = []
 
 	for relation in $0
-		if relation.PrimaryTable==tableName
+		if relation.PrimaryTable==dto
 			result = result + [relation]
 		end
 	end
@@ -41,7 +53,7 @@ end -}}
 	result = []
 
 	for relation in $0
-		if relation.ForeignTable==tableName
+		if relation.ForeignTable==dto
 			result = result + [relation]
 		end
 	end
@@ -53,7 +65,7 @@ end -}}
 	
 
 	for relation in $0
-		if relation.ForeignTable==class.name
+		if relation.ForeignTable==dto
 			if relation.ForeignKey==$1
 				ret relation
 			end
@@ -88,20 +100,14 @@ end -}}
 	ret result
 end -}}
 
-{{- databases = (project.classes  | with_attribute "DatabaseAttribute") }}
-{{- database = databases | array.first }}
-{{- if !database  }}
-#warning no database attribute defined in database class
+{{- databaseViewModels = (project.classes  | with_attribute "DatabaseViewModelAttribute") }}
+{{- databaseViewModel = databaseViewModels | array.first }}
+{{- if !databaseViewModel  }}
+#warning no DatabaseViewModel attribute defined in database view model class
 {{-ret}}
 {{-end}}
-
-{{- dtoAttribute = class.attributes | find "DTOAttribute"  }}
-{{- if !dtoAttribute}}
-#warning no DTO attribute was set on unit test class {{class.name}}
-{{-ret}}
-{{-end}}
-{{- tableName=(dtoAttribute.parameters | find "Name").value }}
-
+{{databaseName=databaseViewModel | GetDTO }}
+{{- dto= class | GetDTO }}
 
 {{- -}}
 
@@ -114,6 +120,9 @@ using System.ComponentModel;
 using System.Windows;
 using DataModelLib;
 using DataViewModelLib;
+{{- for reference in project.references }}
+using {{reference}};
+{{-end}}
 {{-for usingAttribute in class.attributes | with_name "UsingAttribute" }}
 using {{(usingAttribute.parameters | find "Namespace").value}};
 {{-end}}
@@ -126,7 +135,7 @@ namespace {{class.namespace}}
 		public event PropertyChangedEventHandler? PropertyChanged;
 		#nullable disable
 			
-		private {{tableName}}Model dataSource
+		private Models.{{dto}}Model dataSource
 		{
 			get;
 			set;
@@ -138,8 +147,8 @@ namespace {{class.namespace}}
 			get => properties;
 		}
 
-		private {{database.name}}Model databaseModel;
-		private {{database.name}}ViewModel databaseViewModel;
+		private Models.{{databaseName}}Model databaseModel;
+		private {{databaseName}}ViewModel databaseViewModel;
 
 		#region generated properties
 		{{- for column in class.properties | with_attribute "Column" }}
@@ -176,7 +185,7 @@ namespace {{class.namespace}}
 		{{- end }}
 		#endregion
 
-		public {{class.name}}({{database.name}}ViewModel DatabaseViewModel, {{database.name}}Model DatabaseModel, {{tableName}}Model DataSource)
+		public {{class.name}}({{databaseName}}ViewModel DatabaseViewModel, Models.{{databaseName}}Model DatabaseModel, Models.{{dto}}Model DataSource)
 		{
 			this.databaseModel=DatabaseModel; 
 			this.databaseViewModel=DatabaseViewModel; 
@@ -231,7 +240,7 @@ namespace {{class.namespace}}
 			
 		public void Delete()
 		{
-			this.databaseModel.Remove{{tableName}}(dataSource);
+			this.databaseModel.Remove{{dto}}(dataSource);
 		}
 		public override string ToString()
 		{

@@ -6,7 +6,7 @@ using DataViewModelLib;
 
 namespace LibraryExample.ViewModels
 {
-	[DatabaseViewModel, DTO("TestDatabase"),  Blueprint("DatabaseViewModel"), Blueprint("RelationViewModelCollection"),Using("LibraryExample.Models")]
+	[DatabaseViewModel, DTO("TestDatabase"),  Blueprint("DatabaseViewModel"), Blueprint("RelationViewModelCollection")]
 	public partial class TestDatabaseViewModel
 	{
 

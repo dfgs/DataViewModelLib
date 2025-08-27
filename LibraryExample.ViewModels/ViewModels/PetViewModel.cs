@@ -8,7 +8,7 @@ using DataViewModelLib;
 
 namespace LibraryExample.ViewModels
 {
-	[TableViewModel, DTO("Pet"),Blueprint("TableViewModel"), Blueprint("TableViewModelCollection"), Using("LibraryExample.Models")]
+	[TableViewModel, DTO("Pet"),Blueprint("TableViewModel"), Blueprint("TableViewModelCollection")]
 	public partial class PetViewModel
 	{
 	}
