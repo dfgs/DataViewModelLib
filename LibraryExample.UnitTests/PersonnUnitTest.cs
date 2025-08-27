@@ -12,20 +12,6 @@ namespace LibraryExample.UnitTests
 	public partial class PersonnUnitTest
 	{
 
-		[TestMethod]
-		public void ShouldReturnToString()
-		{
-			TestDatabaseModel testDatabaseModel;
-			TestDatabaseViewModel testDatabaseViewModel;
-			PersonnViewModel? personn;
-
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
-			personn = testDatabaseViewModel.PersonnViewModelCollection.ElementAt(0);
-
-			Assert.IsNotNull(personn);
-			Assert.AreEqual("Homer Simpson", personn.ToString());
-		}
 
 
 

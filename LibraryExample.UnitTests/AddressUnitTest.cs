@@ -13,20 +13,7 @@ namespace LibraryExample.UnitTests
 	public partial class AddressUnitTest
 	{
 
-		[TestMethod]
-		public void ShouldReturnToString()
-		{
-			TestDatabaseModel testDatabaseModel;
-			TestDatabaseViewModel testDatabaseViewModel;
-			ViewModels.AddressViewModel? address;
-
-			testDatabaseModel = new TestDatabaseModel(Utils.CreateTestDatabase());
-			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
-			address = testDatabaseViewModel.AddressViewModelCollection.ElementAt(0);
-
-			Assert.IsNotNull(address);
-			Assert.AreEqual("123 Home", address.ToString());
-		}
+		
 
 
 		

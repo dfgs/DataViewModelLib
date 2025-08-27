@@ -12,7 +12,7 @@ using DataLib;
 
 namespace LibraryExample.UnitTests
 {
-	[DTO("TestDatabase"), Database, Blueprint("DatabaseModel.UnitTest.Mock"), Blueprint("DatabaseViewModel.UnitTest.*"), TestClass]
+	[DTO("TestDatabase"), DatabaseUnitTest, Blueprint("DatabaseModel.UnitTest.Mock"), Blueprint("DatabaseViewModel.UnitTest.*"), TestClass]
 	public partial class TestDatabaseUnitTest
 	{
 
