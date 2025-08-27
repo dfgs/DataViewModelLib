@@ -1,27 +1,79 @@
-﻿
-{{- func GetMockCount
+﻿{{- func GetMockCount
 	ret (($0.attributes | find "MockCountAttribute")?.parameters | find "Value")?.value??"5" | string.to_int
 end -}}
 
-{{- databaseClass = project.classes | with_attribute "DatabaseAttribute" | array.first}}
-{{- if !databaseClass}}
-#warning no Database attribute was set on unit test class
-{{-ret}}
-{{-end}}
+{{- func GetDTO }}
+	{{- localDTOAttribute = $0.attributes | find "DTOAttribute" }}
+	{{- if !localDTOAttribute}}
+		#warning no DTO attribute was set on table model class {{$0}}
+		{{-ret null}}
+	{{-end}}
+	{{-localDTO=(localDTOAttribute.parameters | find "Name").value}}
+	{{-ret localDTO}}
+{{-end }}
 
-{{- dtoAttribute = databaseClass.attributes | find "DTOAttribute"}}
-{{- if !dtoAttribute}}
-#warning no DTO attribute was set on class {{databaseClass.name}}
-{{-ret}}
-{{-end}}
-{{- databaseName=(dtoAttribute.parameters | find "Name").value }}
+{{- func GetRelations
+	result = []
 
-{{- dtoAttribute = class.attributes | find "DTOAttribute"  }}
-{{- if !dtoAttribute}}
-#warning no DTO attribute was set on unit test class {{class.name}}
+	for foreignclass in project.classes | with_attribute "TableUnitTestAttribute"
+		for property in foreignclass.properties
+			attribute = property.attributes | find "ForeignKey"
+			if attribute
+				isnullable = property.type_name | string.ends_with "?"
+
+				relation = { 
+					ForeignTable: foreignclass | GetDTO,
+					ForeignKey: property.name,
+					ForeignPropertyName: (attribute.parameters | find "ForeignPropertyName").value, 
+					ForeignKeyIsNullable: isnullable,
+					ForeignKeyType: property.type_name,
+					PrimaryPropertyName: (attribute.parameters | find "PrimaryPropertyName").value, 
+					PrimaryTable: (attribute.parameters | find "PrimaryTable").value, 
+					PrimaryKey: (attribute.parameters | find "PrimaryKey").value, 
+					CascadeTrigger: (attribute.parameters | find "CascadeTrigger").value 
+				} 
+				result = result + [relation]
+			end
+		end
+	end
+
+	ret result
+end }}
+
+
+{{- func where_is_primary
+	result = []
+
+	for relation in $0
+		if relation.PrimaryTable==dto
+			result = result + [relation]
+		end
+	end
+
+	ret result
+end -}}
+
+{{- func where_is_foreign
+	result = []
+
+	for relation in $0
+		if relation.ForeignTable==dto
+			result = result + [relation]
+		end
+	end
+
+	ret result
+end -}}
+
+{{- databaseModels = (project.classes  | with_attribute "DatabaseUnitTestAttribute") }}
+{{- databaseModel = databaseModels | array.first }}
+{{- if !databaseModel  }}
+#warning no DatabaseModel attribute defined in database model class
 {{-ret}}
 {{-end}}
-{{- tableName=(dtoAttribute.parameters | find "Name").value }}
+{{databaseName = databaseModel | GetDTO}}
+
+{{- dto= class | GetDTO }}
 
 {{- mockCount = GetMockCount class }}
 {{-primaryKey=class.properties | with_attribute "PrimaryKey" | array.first}}
@@ -35,6 +87,9 @@ using DataViewModelLib;
 {{- for reference in project.references }}
 using {{reference}};
 {{-end}}
+{{-for usingAttribute in class.attributes | with_name "UsingAttribute" }}
+using {{(usingAttribute.parameters | find "Namespace").value}};
+{{-end}}
 
 
 
@@ -43,7 +98,7 @@ namespace {{class.namespace}}
 	public partial class {{class.name}}
 	{
 	
-		#region {{tableName}} table
+		#region {{dto}} table
 		{{-if primaryKey}}
 		
 		[TestMethod]
@@ -51,11 +106,11 @@ namespace {{class.namespace}}
 		{
 			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
 			Models.TestDatabaseModel testDatabaseModel;
-			ViewModels.{{tableName}}ViewModel viewModel;
+			ViewModels.{{dto}}ViewModel viewModel;
 
 			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
 			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
-			viewModel = testDatabaseViewModel.{{tableName}}ViewModelCollection.ElementAt(0);
+			viewModel = testDatabaseViewModel.{{dto}}ViewModelCollection.ElementAt(0);
 
 			{{for property in class.properties }}
 			{{-if (property.attributes | find "Column")}}
@@ -82,14 +137,14 @@ namespace {{class.namespace}}
 		{
 			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
 			Models.TestDatabaseModel testDatabaseModel;
-			ViewModels.{{tableName}}ViewModel viewModel;
+			ViewModels.{{dto}}ViewModel viewModel;
 			#nullable enable
 			string? propertyName = null;
 			#nullable disable
 
 			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
 			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
-			viewModel = testDatabaseViewModel.{{tableName}}ViewModelCollection.ElementAt(0);
+			viewModel = testDatabaseViewModel.{{dto}}ViewModelCollection.ElementAt(0);
 			viewModel.PropertyChanged += (_, e) => { propertyName = e.PropertyName; };
 
 
@@ -115,14 +170,14 @@ namespace {{class.namespace}}
 		{
 			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
 			Models.TestDatabaseModel testDatabaseModel;
-			ViewModels.{{tableName}}ViewModel viewModel;
+			ViewModels.{{dto}}ViewModel viewModel;
 			#nullable enable
 			string? propertyName = null;
 			#nullable disable
 
 			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
 			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
-			viewModel = testDatabaseViewModel.{{tableName}}ViewModelCollection.ElementAt(0);
+			viewModel = testDatabaseViewModel.{{dto}}ViewModelCollection.ElementAt(0);
 			viewModel.PropertyChanged += (_, e) => { Assert.Fail(); };
 
 
@@ -154,12 +209,12 @@ namespace {{class.namespace}}
 
 			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
 			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
-			testDatabaseViewModel.{{tableName}}ViewModelCollection.PropertyChanged += (_, e) => { propertyName = e.PropertyName; };
+			testDatabaseViewModel.{{dto}}ViewModelCollection.PropertyChanged += (_, e) => { propertyName = e.PropertyName; };
 
-			Assert.IsNull(testDatabaseViewModel.{{tableName}}ViewModelCollection.SelectedItem);
-			testDatabaseViewModel.{{tableName}}ViewModelCollection.SelectedItem = testDatabaseViewModel.{{tableName}}ViewModelCollection.ElementAt(0);
-			Assert.IsNotNull(testDatabaseViewModel.{{tableName}}ViewModelCollection.SelectedItem);
-			Assert.AreEqual(1, testDatabaseViewModel.{{tableName}}ViewModelCollection.SelectedItem.{{primaryKey.name}});
+			Assert.IsNull(testDatabaseViewModel.{{dto}}ViewModelCollection.SelectedItem);
+			testDatabaseViewModel.{{dto}}ViewModelCollection.SelectedItem = testDatabaseViewModel.{{dto}}ViewModelCollection.ElementAt(0);
+			Assert.IsNotNull(testDatabaseViewModel.{{dto}}ViewModelCollection.SelectedItem);
+			Assert.AreEqual(1, testDatabaseViewModel.{{dto}}ViewModelCollection.SelectedItem.{{primaryKey.name}});
 			Assert.AreEqual("SelectedItem", propertyName);
 			
 		}
@@ -174,7 +229,7 @@ namespace {{class.namespace}}
 			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
 			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
 
-			properties = testDatabaseViewModel.{{tableName}}ViewModelCollection.First().Properties.ToArray();
+			properties = testDatabaseViewModel.{{dto}}ViewModelCollection.First().Properties.ToArray();
 
 			{{-counter=0}}
 			Assert.AreEqual({{class.properties | with_attribute "Column" | array.size}}, properties.Length);
@@ -187,7 +242,7 @@ namespace {{class.namespace}}
 		
 
 		{{-else}}
-		#warning No primary key defined for table {{tableName}}
+		#warning No primary key defined for table {{dto}}
 		{{-end}}
 	
 		#endregion
