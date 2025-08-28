@@ -84,10 +84,10 @@ namespace {{class.namespace}}
 			ViewModels.{{relation.PrimaryTable}}ViewModel primaryItem;
 			#nullable enable
 			object? changedItem = null;
+			NotifyCollectionChangedAction? changedAction = null;
 			#nullable disable
 			int changedIndex = -1;
 			int count;
-			NotifyCollectionChangedAction? changedAction = null;
 
 			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
 			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
@@ -118,10 +118,10 @@ namespace {{class.namespace}}
 			ViewModels.{{relation.PrimaryTable}}ViewModel primaryItem;
 			#nullable enable
 			object? changedItem = null;
+			NotifyCollectionChangedAction? changedAction = null;
 			#nullable disable
 			int changedIndex = -1;
 			int count;
-			NotifyCollectionChangedAction? changedAction = null;
 
 			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
 			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
@@ -152,10 +152,10 @@ namespace {{class.namespace}}
 			ViewModels.{{relation.PrimaryTable}}ViewModel primaryItem;
 			#nullable enable
 			object? changedItem = null;
+			NotifyCollectionChangedAction? changedAction = null;
 			#nullable disable
 			int changedIndex = -1;
 			int count;
-			NotifyCollectionChangedAction? changedAction = null;
 			
 			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
 			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
@@ -186,10 +186,10 @@ namespace {{class.namespace}}
 			ViewModels.{{relation.PrimaryTable}}ViewModel primaryItem;
 			#nullable enable
 			object? changedItem = null;
+			NotifyCollectionChangedAction? changedAction = null;
 			#nullable disable
 			int changedIndex = -1;
 			int count;
-			NotifyCollectionChangedAction? changedAction = null;
 
 			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
 			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
@@ -218,9 +218,9 @@ namespace {{class.namespace}}
 			ViewModels.{{databaseName}}ViewModel testDatabaseViewModel;
 			ViewModels.{{relation.PrimaryPropertyName}}ViewModelCollection collection;
 			ViewModels.{{relation.PrimaryTable}}ViewModel primaryItem;
-
-
+			#nullable enable
 			string? propertyName = null;
+			#nullable disable
 
 			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
 			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);

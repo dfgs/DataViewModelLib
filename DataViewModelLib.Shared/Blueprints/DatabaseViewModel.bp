@@ -23,7 +23,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using DataModelLib;
 {{- for reference in project.references }}
 using {{reference}};
 {{-end}}
