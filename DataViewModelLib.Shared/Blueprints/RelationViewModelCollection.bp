@@ -66,10 +66,7 @@ using {{(usingAttribute.parameters | find "Namespace").value}};
 
 namespace {{class.namespace}}
 {
-
 	{{-for relation in GetRelations}}
-	
-	
 	public partial class {{relation.PrimaryPropertyName}}ViewModelCollection : IViewModelCollection, IAddViewModelCollection,{{(relation.ForeignKeyIsNullable?" IRemoveViewModelCollection,":"")}} IEnumerable<{{relation.ForeignTable}}ViewModel>, INotifyPropertyChanged, INotifyCollectionChanged
 	{
 		#nullable enable
