@@ -88,8 +88,8 @@ namespace {{class.namespace}}
 			int changedIndex = -1;
 			int count;
 
-			testDatabaseModel = new TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 
 			primaryItem=testDatabaseViewModel.{{relation.PrimaryTable}}ViewModelCollection.ElementAt(0);
 			primaryItem.{{relation.PrimaryPropertyName}}.CollectionChanged += (sender, e) => { changedItem = e.OldItems?[0]; changedAction = e.Action; changedIndex = e.OldStartingIndex; };
@@ -122,8 +122,8 @@ namespace {{class.namespace}}
 			int changedIndex = -1;
 			int count;
 
-			testDatabaseModel = new TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 
 			primaryItem=testDatabaseViewModel.{{relation.PrimaryTable}}ViewModelCollection.ElementAt(0);
 			primaryItem.{{relation.PrimaryPropertyName}}.CollectionChanged += (sender, e) => { changedItem = e.OldItems?[0]; changedAction = e.Action; changedIndex = e.OldStartingIndex; };
@@ -156,8 +156,8 @@ namespace {{class.namespace}}
 			int changedIndex = -1;
 			int count;
 			
-			testDatabaseModel = new TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+				testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 
 			primaryItem=testDatabaseViewModel.{{relation.PrimaryTable}}ViewModelCollection.ElementAt(0);
 			primaryItem.{{relation.PrimaryPropertyName}}.CollectionChanged += (sender, e) => { changedItem = e.NewItems?[0]; changedAction = e.Action; changedIndex = e.NewStartingIndex; };
@@ -190,8 +190,8 @@ namespace {{class.namespace}}
 			int changedIndex = -1;
 			int count;
 
-			testDatabaseModel = new TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 
 			primaryItem=testDatabaseViewModel.{{relation.PrimaryTable}}ViewModelCollection.ElementAt(0);
 			primaryItem.{{relation.PrimaryPropertyName}}.CollectionChanged += (sender, e) => { changedItem = e.NewItems?[0]; changedAction = e.Action; changedIndex = e.NewStartingIndex; };
@@ -221,8 +221,8 @@ namespace {{class.namespace}}
 			string? propertyName = null;
 			#nullable disable
 
-			testDatabaseModel = new TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 
 			primaryItem=testDatabaseViewModel.{{relation.PrimaryTable}}ViewModelCollection.ElementAt(0);
 

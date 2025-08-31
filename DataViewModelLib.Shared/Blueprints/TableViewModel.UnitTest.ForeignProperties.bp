@@ -102,12 +102,12 @@ namespace {{class.namespace}}
 		[TestMethod]
 		public void ShouldGet{{relation.ForeignPropertyName}}()
 		{
-			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
-			Models.TestDatabaseModel testDatabaseModel;
-			ViewModels.{{dto}}ViewModel viewModel;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{databaseName}}Model testDatabaseModel;
+			{{dto}}ViewModel viewModel;
 
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 
 			viewModel = testDatabaseViewModel.{{dto}}ViewModelCollection.ElementAt(0);
 			Assert.IsNotNull(viewModel.{{relation.ForeignPropertyName}});
@@ -118,12 +118,12 @@ namespace {{class.namespace}}
 		[TestMethod]
 		public void ShouldNotGet{{relation.ForeignPropertyName}}()
 		{
-			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
-			Models.TestDatabaseModel testDatabaseModel;
-			ViewModels.{{dto}}ViewModel viewModel;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{databaseName}}Model testDatabaseModel;
+			{{dto}}ViewModel viewModel;
 
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 
 			viewModel = testDatabaseViewModel.{{dto}}ViewModelCollection.First(item=>item.{{relation.ForeignKey}} is null);
 			Assert.IsNull(viewModel.{{relation.ForeignPropertyName}});
@@ -133,15 +133,15 @@ namespace {{class.namespace}}
 		[TestMethod]
 		public void ShouldRaise{{relation.ForeignPropertyName}}PropertyChanged()
 		{
-			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
-			Models.TestDatabaseModel testDatabaseModel;
-			ViewModels.{{dto}}ViewModel viewModel;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{databaseName}}Model testDatabaseModel;
+			{{dto}}ViewModel viewModel;
 			#nullable enable
 			string? propertyName = null;
 			#nullable disable
 			
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 		
 			viewModel = testDatabaseViewModel.{{dto}}ViewModelCollection.ElementAt(0);
 			viewModel.PropertyChanged += (_, e) => { propertyName = e.PropertyName; };
@@ -156,11 +156,11 @@ namespace {{class.namespace}}
 		[TestMethod]
 		public void ShouldGet{{relation.PrimaryPropertyName}}()
 		{
-			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
-			Models.TestDatabaseModel testDatabaseModel;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{databaseName}}Model testDatabaseModel;
 
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 
 			var foreignViewModels = testDatabaseViewModel.{{dto}}ViewModelCollection.ElementAt(0).{{relation.PrimaryPropertyName}}.ToArray();
 

@@ -104,24 +104,24 @@ namespace {{class.namespace}}
 		[TestMethod]
 		public void ShouldNotCreateUnique{{dto}}ViewModel()
 		{
-			ViewModels.{{databaseName}}ViewModel testDatabaseViewModel;
-			Models.{{databaseName}}Model testDatabaseModel;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{databaseName}}Model testDatabaseModel;
 
-			testDatabaseModel = new Models.{{databaseName}}Model(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.{{databaseName}}ViewModel(testDatabaseModel);
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 			// provided parameter should not be null
 			Assert.ThrowsException<ArgumentNullException>(()=> testDatabaseModel.Create{{dto}}Model(null));
 		}
 		[TestMethod]
 		public void ShouldCreateUnique{{dto}}ViewModel()
 		{
-			ViewModels.{{databaseName}}ViewModel testDatabaseViewModel;
-			Models.{{databaseName}}Model testDatabaseModel;
-			Models.{{dto}}Model new{{dto}}1, new{{dto}}2;
-			ViewModels.{{dto}}ViewModel viewModel1, viewModel2, viewModel3;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{databaseName}}Model testDatabaseModel;
+			{{dto}}Model new{{dto}}1, new{{dto}}2;
+			{{dto}}ViewModel viewModel1, viewModel2, viewModel3;
 
-			testDatabaseModel = new Models.{{databaseName}}Model(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.{{databaseName}}ViewModel(testDatabaseModel);
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 
 			new{{dto}}1 = testDatabaseModel.Create{{dto}}Model(MockDatabase.Create{{dto}}({{mockCount+1}}));
 			new{{dto}}2 = testDatabaseModel.Create{{dto}}Model(MockDatabase.Create{{dto}}({{mockCount+2}}));

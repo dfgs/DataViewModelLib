@@ -101,12 +101,12 @@ namespace {{class.namespace}}
 		[TestMethod]
 		public void ShouldGetSetProperty()
 		{
-			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
-			Models.TestDatabaseModel testDatabaseModel;
-			ViewModels.{{dto}}ViewModel viewModel;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{databaseName}}Model testDatabaseModel;
+			{{dto}}ViewModel viewModel;
 
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 			viewModel = testDatabaseViewModel.{{dto}}ViewModelCollection.ElementAt(0);
 
 			{{for property in class.properties }}
@@ -132,15 +132,15 @@ namespace {{class.namespace}}
 		[TestMethod]
 		public void ShouldRaisePropertyChangedEvent()
 		{
-			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
-			Models.TestDatabaseModel testDatabaseModel;
-			ViewModels.{{dto}}ViewModel viewModel;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{databaseName}}Model testDatabaseModel;
+			{{dto}}ViewModel viewModel;
 			#nullable enable
 			string? propertyName = null;
 			#nullable disable
 
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 			viewModel = testDatabaseViewModel.{{dto}}ViewModelCollection.ElementAt(0);
 			viewModel.PropertyChanged += (_, e) => { propertyName = e.PropertyName; };
 
@@ -165,15 +165,15 @@ namespace {{class.namespace}}
 		[TestMethod]
 		public void ShouldNotRaisePropertyChangedEvent()
 		{
-			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
-			Models.TestDatabaseModel testDatabaseModel;
-			ViewModels.{{dto}}ViewModel viewModel;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{databaseName}}Model testDatabaseModel;
+			{{dto}}ViewModel viewModel;
 			#nullable enable
 			string? propertyName = null;
 			#nullable disable
 
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 			viewModel = testDatabaseViewModel.{{dto}}ViewModelCollection.ElementAt(0);
 			viewModel.PropertyChanged += (_, e) => { Assert.Fail(); };
 
@@ -198,14 +198,14 @@ namespace {{class.namespace}}
 		[TestMethod]
 		public void ShouldGetSetSelectedItem()
 		{
-			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
-			Models.TestDatabaseModel testDatabaseModel;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{databaseName}}Model testDatabaseModel;
 			#nullable enable
 			string? propertyName = null;
 			#nullable disable
 
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 			testDatabaseViewModel.{{dto}}ViewModelCollection.PropertyChanged += (_, e) => { propertyName = e.PropertyName; };
 
 			Assert.IsNull(testDatabaseViewModel.{{dto}}ViewModelCollection.SelectedItem);
@@ -219,12 +219,12 @@ namespace {{class.namespace}}
 		[TestMethod]
 		public void ShouldCreateViewModelProperties()
 		{
-			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
-			Models.TestDatabaseModel testDatabaseModel;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{databaseName}}Model testDatabaseModel;
 			IViewModelProperty[] properties;
 
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 
 			properties = testDatabaseViewModel.{{dto}}ViewModelCollection.First().Properties.ToArray();
 

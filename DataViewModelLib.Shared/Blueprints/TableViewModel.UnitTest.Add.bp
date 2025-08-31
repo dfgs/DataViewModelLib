@@ -100,12 +100,12 @@ namespace {{class.namespace}}
 		[TestMethod]
 		public void ShouldAdd{{dto}}()
 		{
-			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
-			Models.TestDatabaseModel testDatabaseModel;
-			ViewModels.{{dto}}ViewModel[] viewModels;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{databaseName}}Model testDatabaseModel;
+			{{dto}}ViewModel[] viewModels;
 
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 
 			// add new item
 			testDatabaseModel.Add{{dto}}(MockDatabase.Create{{dto}}({{mockCount+1}}));
@@ -121,13 +121,13 @@ namespace {{class.namespace}}
 		[TestMethod]
 		public void ShouldNotAdd{{dto}}Twice()
 		{
-			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
-			Models.TestDatabaseModel testDatabaseModel;
-			ViewModels.{{dto}}ViewModel[] viewModels;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{databaseName}}Model testDatabaseModel;
+			{{dto}}ViewModel[] viewModels;
 			Tables.{{dto}} new{{dto}};
 
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 
 			new{{dto}} = MockDatabase.Create{{dto}}({{mockCount+1}});
 			// item should be added once
@@ -144,19 +144,19 @@ namespace {{class.namespace}}
 		[TestMethod]
 		public void ShouldRaiseCollectionChangedOnAdd()
 		{
-			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
-			Models.TestDatabaseModel testDatabaseModel;
-			ViewModels.{{dto}}ViewModel[] viewModels;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{databaseName}}Model testDatabaseModel;
+			{{dto}}ViewModel[] viewModels;
 			int changedIndex = -1;
 			#nullable enable
-			ViewModels.{{dto}}ViewModel? changedItem = null;
+			{{dto}}ViewModel? changedItem = null;
 			System.Collections.Specialized.NotifyCollectionChangedAction? changedAction = null;
 			#nullable disable
 
 
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
-			testDatabaseViewModel.{{dto}}ViewModelCollection.CollectionChanged += (sender, e) => { changedItem = e.NewItems?[0] as ViewModels.{{dto}}ViewModel; changedAction = e.Action; changedIndex = e.NewStartingIndex; }; ;
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
+			testDatabaseViewModel.{{dto}}ViewModelCollection.CollectionChanged += (sender, e) => { changedItem = e.NewItems?[0] as {{dto}}ViewModel; changedAction = e.Action; changedIndex = e.NewStartingIndex; }; ;
 
 			// add new item
 			testDatabaseModel.Add{{dto}}(MockDatabase.Create{{dto}}({{mockCount+1}}));

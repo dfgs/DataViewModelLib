@@ -100,12 +100,12 @@ namespace {{class.namespace}}
 		[TestMethod]
 		public void ShouldDelete()
 		{
-			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
-			Models.TestDatabaseModel testDatabaseModel;
-			ViewModels.{{dto}}ViewModel[] viewModels;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{databaseName}}Model testDatabaseModel;
+			{{dto}}ViewModel[] viewModels;
 
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 
 			// delete last item
 			testDatabaseViewModel.{{dto}}ViewModelCollection.ElementAt({{mockCount-1}}).Delete();
@@ -118,19 +118,19 @@ namespace {{class.namespace}}
 		[TestMethod]
 		public void ShouldRaiseCollectionChangedOnDelete()
 		{
-			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
-			Models.TestDatabaseModel testDatabaseModel;
-			ViewModels.{{dto}}ViewModel[] viewModels;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{databaseName}}Model testDatabaseModel;
+			{{dto}}ViewModel[] viewModels;
 			int changedIndex = -1;
 			#nullable enable
-			ViewModels.{{dto}}ViewModel? changedItem = null;
+			{{dto}}ViewModel? changedItem = null;
 			System.Collections.Specialized.NotifyCollectionChangedAction? changedAction = null;
 			#nullable disable
 
 
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
-			testDatabaseViewModel.{{dto}}ViewModelCollection.CollectionChanged += (sender, e) => { changedItem = e.OldItems?[0] as ViewModels.{{dto}}ViewModel; changedAction = e.Action; changedIndex = e.OldStartingIndex; }; ;
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
+			testDatabaseViewModel.{{dto}}ViewModelCollection.CollectionChanged += (sender, e) => { changedItem = e.OldItems?[0] as {{dto}}ViewModel; changedAction = e.Action; changedIndex = e.OldStartingIndex; }; ;
 
 			// delete last item
 			testDatabaseViewModel.{{dto}}ViewModelCollection.ElementAt({{mockCount-1}}).Delete();
@@ -147,13 +147,13 @@ namespace {{class.namespace}}
 		[TestMethod]
 		public void ShouldRemove()
 		{
-			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
-			Models.TestDatabaseModel testDatabaseModel;
-			ViewModels.{{dto}}ViewModel[] viewModels;
-			ViewModels.{{dto}}ViewModel item;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{databaseName}}Model testDatabaseModel;
+			{{dto}}ViewModel[] viewModels;
+			{{dto}}ViewModel item;
 
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 
 			// remove last item
 			item=testDatabaseViewModel.{{dto}}ViewModelCollection.ElementAt({{mockCount-1}});
@@ -168,20 +168,20 @@ namespace {{class.namespace}}
 		[TestMethod]
 		public void ShouldRaiseCollectionChangedOnRemove()
 		{
-			ViewModels.TestDatabaseViewModel testDatabaseViewModel;
-			Models.TestDatabaseModel testDatabaseModel;
-			ViewModels.{{dto}}ViewModel[] viewModels;
-			ViewModels.{{dto}}ViewModel item;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{databaseName}}Model testDatabaseModel;
+			{{dto}}ViewModel[] viewModels;
+			{{dto}}ViewModel item;
 			int changedIndex = -1;
 			#nullable enable
-			ViewModels.{{dto}}ViewModel? changedItem = null;
+			{{dto}}ViewModel? changedItem = null;
 			System.Collections.Specialized.NotifyCollectionChangedAction? changedAction = null;
 			#nullable disable
 
 
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
-			testDatabaseViewModel.{{dto}}ViewModelCollection.CollectionChanged += (sender, e) => { changedItem = e.OldItems?[0] as ViewModels.{{dto}}ViewModel; changedAction = e.Action; changedIndex = e.OldStartingIndex; }; ;
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
+			testDatabaseViewModel.{{dto}}ViewModelCollection.CollectionChanged += (sender, e) => { changedItem = e.OldItems?[0] as {{dto}}ViewModel; changedAction = e.Action; changedIndex = e.OldStartingIndex; }; ;
 
 			// remove last item
 			item=testDatabaseViewModel.{{dto}}ViewModelCollection.ElementAt({{mockCount-1}});
