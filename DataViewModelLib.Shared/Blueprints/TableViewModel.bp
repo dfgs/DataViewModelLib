@@ -118,14 +118,13 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.ComponentModel;
 using System.Windows;
-using DataModelLib;
 using DataViewModelLib;
-{{- for reference in project.references }}
-using {{reference}};
-{{-end}}
+//
 {{-for usingAttribute in class.attributes | with_name "UsingAttribute" }}
 using {{(usingAttribute.parameters | find "Namespace").value}};
 {{-end}}
+
+
 
 namespace {{class.namespace}}
 {
@@ -135,7 +134,7 @@ namespace {{class.namespace}}
 		public event PropertyChangedEventHandler? PropertyChanged;
 		#nullable disable
 			
-		private Models.{{dto}}Model dataSource
+		private {{dto}}Model dataSource
 		{
 			get;
 			set;
@@ -147,7 +146,7 @@ namespace {{class.namespace}}
 			get => properties;
 		}
 
-		private Models.{{databaseName}}Model databaseModel;
+		private {{databaseName}}Model databaseModel;
 		private {{databaseName}}ViewModel databaseViewModel;
 
 		#region generated properties
@@ -175,7 +174,7 @@ namespace {{class.namespace}}
 			{
 				if (this._{{relation.ForeignPropertyName}}==null)
 				{
-					Models.{{relation.PrimaryTable}}Model model = dataSource.Get{{relation.ForeignPropertyName}}();
+					{{relation.PrimaryTable}}Model model = dataSource.Get{{relation.ForeignPropertyName}}();
 					if (model==null) return null;
 					this._{{relation.ForeignPropertyName}} = databaseViewModel.Create{{relation.PrimaryTable}}ViewModel(model);
 				}
@@ -185,7 +184,7 @@ namespace {{class.namespace}}
 		{{- end }}
 		#endregion
 
-		public {{class.name}}({{databaseName}}ViewModel DatabaseViewModel, Models.{{databaseName}}Model DatabaseModel, Models.{{dto}}Model DataSource)
+		public {{class.name}}({{databaseName}}ViewModel DatabaseViewModel, {{databaseName}}Model DatabaseModel, {{dto}}Model DataSource)
 		{
 			this.databaseModel=DatabaseModel; 
 			this.databaseViewModel=DatabaseViewModel; 

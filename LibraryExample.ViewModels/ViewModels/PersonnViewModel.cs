@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LibraryExample.ViewModels
 {
-	[TableViewModel, DTO("Personn"),Blueprint("TableViewModel"), Blueprint("TableViewModelCollection")]
+	[TableViewModel, DTO("Personn"),Blueprint("TableViewModel"), Blueprint("TableViewModelCollection"), Using("LibraryExample.Tables"), Using("LibraryExample.Models")]
 	public partial class PersonnViewModel
 	{
 	}

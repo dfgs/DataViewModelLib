@@ -57,12 +57,11 @@ using System.ComponentModel;
 using System.Windows;
 using DataModelLib;
 using DataViewModelLib;
-{{- for reference in project.references }}
-using {{reference}};
-{{-end}}
+//
 {{-for usingAttribute in class.attributes | with_name "UsingAttribute" }}
 using {{(usingAttribute.parameters | find "Namespace").value}};
 {{-end}}
+
 
 namespace {{class.namespace}}
 {
@@ -81,9 +80,9 @@ namespace {{class.namespace}}
 		}
 		#nullable disable
 
-		private Models.{{databaseName}}Model databaseModel;
+		private {{databaseName}}Model databaseModel;
 		private {{databaseName}}ViewModel databaseViewModel;
-		private Models.{{relation.PrimaryTable}}Model primaryRow;
+		private {{relation.PrimaryTable}}Model primaryRow;
 
 		private List<{{relation.ForeignTable}}ViewModel> items;
 		public int Count
@@ -91,7 +90,7 @@ namespace {{class.namespace}}
 			get => items.Count;
 		}
 
-		public {{relation.PrimaryPropertyName}}ViewModelCollection({{databaseName}}ViewModel DatabaseViewModel, Models.{{databaseName}}Model DatabaseModel, Models.{{relation.PrimaryTable}}Model PrimaryRow)
+		public {{relation.PrimaryPropertyName}}ViewModelCollection({{databaseName}}ViewModel DatabaseViewModel, {{databaseName}}Model DatabaseModel, {{relation.PrimaryTable}}Model PrimaryRow)
 		{
 			this.databaseModel=DatabaseModel; 
 			this.databaseViewModel=DatabaseViewModel;
@@ -127,7 +126,7 @@ namespace {{class.namespace}}
 		}
 		#endregion
 
-		private void On{{relation.PrimaryPropertyName}}Changed(Tables.{{relation.ForeignTable}} Item, DataLib.TableChangedActions Action, int Index)
+		private void On{{relation.PrimaryPropertyName}}Changed({{relation.ForeignTable}} Item, DataLib.TableChangedActions Action, int Index)
 		{
 			{{relation.ForeignTable}}ViewModel item;
 
@@ -148,7 +147,7 @@ namespace {{class.namespace}}
 			}
 		}
 
-		public void Add(Tables.{{relation.ForeignTable}} Item)
+		public void Add({{relation.ForeignTable}} Item)
 		{
 			Item.{{relation.ForeignKey}} = primaryRow.{{relation.PrimaryKey}};
 			databaseModel.Add{{relation.ForeignTable}}(Item);
@@ -157,10 +156,10 @@ namespace {{class.namespace}}
 		void IAddViewModelCollection.Add(object Item)
 		{
 			#nullable enable
-			Tables.{{relation.ForeignTable}}? convertedItem;
+			{{relation.ForeignTable}}? convertedItem;
 			#nullable disable
 			
-			convertedItem = Item as Tables.{{relation.ForeignTable}};
+			convertedItem = Item as {{relation.ForeignTable}};
 			if (convertedItem==null) return;
 			Add(convertedItem);
 		}

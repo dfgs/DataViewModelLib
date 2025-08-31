@@ -8,7 +8,7 @@ using DataLib;
 
 namespace LibraryExample.UnitTests
 {
-	[TableUnitTest, DTO("Pet"),  Blueprint("TableViewModel.UnitTest.*"), MockCount(6), TestClass]
+	[TableUnitTest, DTO("Pet"),  Blueprint("TableViewModel.UnitTest.*"), MockCount(6), TestClass, Using("LibraryExample.Tables"), Using("LibraryExample.Models"), Using("LibraryExample.ViewModels")]
 	public partial class PetUnitTest
 	{
 

@@ -58,12 +58,11 @@ using System.ComponentModel;
 using System.Windows;
 using DataModelLib;
 using DataViewModelLib;
-{{- for reference in project.references }}
-using {{reference}};
-{{-end}}
+//
 {{-for usingAttribute in class.attributes | with_name "UsingAttribute" }}
 using {{(usingAttribute.parameters | find "Namespace").value}};
 {{-end}}
+
 
 namespace {{class.namespace}}
 {
@@ -77,11 +76,11 @@ namespace {{class.namespace}}
 		[TestMethod]
 		public void ShouldRaiseTableChangedOnRemove()
 		{
-			Models.{{databaseName}}Model testDatabaseModel;
-			ViewModels.{{databaseName}}ViewModel testDatabaseViewModel;
-			ViewModels.{{relation.ForeignTable}}ViewModel[] viewModels;
-			ViewModels.{{relation.ForeignTable}}ViewModel itemToDelete;
-			ViewModels.{{relation.PrimaryTable}}ViewModel primaryItem;
+			{{databaseName}}Model testDatabaseModel;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{relation.ForeignTable}}ViewModel[] viewModels;
+			{{relation.ForeignTable}}ViewModel itemToDelete;
+			{{relation.PrimaryTable}}ViewModel primaryItem;
 			#nullable enable
 			object? changedItem = null;
 			NotifyCollectionChangedAction? changedAction = null;
@@ -89,8 +88,8 @@ namespace {{class.namespace}}
 			int changedIndex = -1;
 			int count;
 
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new TestDatabaseModel(MockDatabase.Create());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
 
 			primaryItem=testDatabaseViewModel.{{relation.PrimaryTable}}ViewModelCollection.ElementAt(0);
 			primaryItem.{{relation.PrimaryPropertyName}}.CollectionChanged += (sender, e) => { changedItem = e.OldItems?[0]; changedAction = e.Action; changedIndex = e.OldStartingIndex; };
@@ -105,17 +104,17 @@ namespace {{class.namespace}}
 			Assert.IsNotNull(changedItem);
 			Assert.AreEqual(changedItem, itemToDelete);
 			Assert.AreEqual(NotifyCollectionChangedAction.Remove, changedAction);
-			Assert.AreEqual(({{relation.ForeignKeyType}})1, ((ViewModels.{{relation.ForeignTable}}ViewModel)changedItem).{{relation.ForeignKey}});
+			Assert.AreEqual(({{relation.ForeignKeyType}})1, (({{relation.ForeignTable}}ViewModel)changedItem).{{relation.ForeignKey}});
 			Assert.AreEqual(0, changedIndex);
 		}
 		[TestMethod]
 		public void ShouldRaiseTableChangedOnChange_RemoveEvent()
 		{
-			Models.{{databaseName}}Model testDatabaseModel;
-			ViewModels.{{databaseName}}ViewModel testDatabaseViewModel;
-			ViewModels.{{relation.ForeignTable}}ViewModel[] viewModels;
-			ViewModels.{{relation.ForeignTable}}ViewModel itemToUpdate;
-			ViewModels.{{relation.PrimaryTable}}ViewModel primaryItem;
+			{{databaseName}}Model testDatabaseModel;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{relation.ForeignTable}}ViewModel[] viewModels;
+			{{relation.ForeignTable}}ViewModel itemToUpdate;
+			{{relation.PrimaryTable}}ViewModel primaryItem;
 			#nullable enable
 			object? changedItem = null;
 			NotifyCollectionChangedAction? changedAction = null;
@@ -123,8 +122,8 @@ namespace {{class.namespace}}
 			int changedIndex = -1;
 			int count;
 
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new TestDatabaseModel(MockDatabase.Create());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
 
 			primaryItem=testDatabaseViewModel.{{relation.PrimaryTable}}ViewModelCollection.ElementAt(0);
 			primaryItem.{{relation.PrimaryPropertyName}}.CollectionChanged += (sender, e) => { changedItem = e.OldItems?[0]; changedAction = e.Action; changedIndex = e.OldStartingIndex; };
@@ -139,17 +138,17 @@ namespace {{class.namespace}}
 			Assert.IsNotNull(changedItem);
 			Assert.AreEqual(changedItem, itemToUpdate);
 			Assert.AreEqual(NotifyCollectionChangedAction.Remove, changedAction);
-			Assert.AreEqual(({{relation.ForeignKeyType}})2, ((ViewModels.{{relation.ForeignTable}}ViewModel)changedItem).{{relation.ForeignKey}});
+			Assert.AreEqual(({{relation.ForeignKeyType}})2, (({{relation.ForeignTable}}ViewModel)changedItem).{{relation.ForeignKey}});
 			Assert.AreNotEqual(-1, changedIndex);
 		}
 		[TestMethod]
 		public void ShouldRaiseTableChangedOnAdd()
 		{
-			Models.{{databaseName}}Model testDatabaseModel;
-			ViewModels.{{databaseName}}ViewModel testDatabaseViewModel;
-			ViewModels.{{relation.ForeignTable}}ViewModel[] viewModels;
+			{{databaseName}}Model testDatabaseModel;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{relation.ForeignTable}}ViewModel[] viewModels;
 			Tables.{{relation.ForeignTable}} itemToAdd;
-			ViewModels.{{relation.PrimaryTable}}ViewModel primaryItem;
+			{{relation.PrimaryTable}}ViewModel primaryItem;
 			#nullable enable
 			object? changedItem = null;
 			NotifyCollectionChangedAction? changedAction = null;
@@ -157,8 +156,8 @@ namespace {{class.namespace}}
 			int changedIndex = -1;
 			int count;
 			
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new TestDatabaseModel(MockDatabase.Create());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
 
 			primaryItem=testDatabaseViewModel.{{relation.PrimaryTable}}ViewModelCollection.ElementAt(0);
 			primaryItem.{{relation.PrimaryPropertyName}}.CollectionChanged += (sender, e) => { changedItem = e.NewItems?[0]; changedAction = e.Action; changedIndex = e.NewStartingIndex; };
@@ -173,17 +172,17 @@ namespace {{class.namespace}}
 
 			Assert.IsNotNull(changedItem);
 			Assert.AreEqual(NotifyCollectionChangedAction.Add, changedAction);
-			Assert.AreEqual(({{relation.ForeignKeyType}})1, ((ViewModels.{{relation.ForeignTable}}ViewModel)changedItem).{{relation.ForeignKey}});
+			Assert.AreEqual(({{relation.ForeignKeyType}})1, (({{relation.ForeignTable}}ViewModel)changedItem).{{relation.ForeignKey}});
 			Assert.AreNotEqual(-1, changedIndex);
 		}
 		[TestMethod]
 		public void ShouldRaiseTableChangedOnChange_AddEvent()
 		{
-			Models.{{databaseName}}Model testDatabaseModel;
-			ViewModels.{{databaseName}}ViewModel testDatabaseViewModel;
-			ViewModels.{{relation.ForeignTable}}ViewModel[] viewModels;
-			ViewModels.{{relation.ForeignTable}}ViewModel itemToUpdate;
-			ViewModels.{{relation.PrimaryTable}}ViewModel primaryItem;
+			{{databaseName}}Model testDatabaseModel;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{relation.ForeignTable}}ViewModel[] viewModels;
+			{{relation.ForeignTable}}ViewModel itemToUpdate;
+			{{relation.PrimaryTable}}ViewModel primaryItem;
 			#nullable enable
 			object? changedItem = null;
 			NotifyCollectionChangedAction? changedAction = null;
@@ -191,8 +190,8 @@ namespace {{class.namespace}}
 			int changedIndex = -1;
 			int count;
 
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new TestDatabaseModel(MockDatabase.Create());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
 
 			primaryItem=testDatabaseViewModel.{{relation.PrimaryTable}}ViewModelCollection.ElementAt(0);
 			primaryItem.{{relation.PrimaryPropertyName}}.CollectionChanged += (sender, e) => { changedItem = e.NewItems?[0]; changedAction = e.Action; changedIndex = e.NewStartingIndex; };
@@ -207,23 +206,23 @@ namespace {{class.namespace}}
 			Assert.IsNotNull(changedItem);
 			Assert.AreEqual(changedItem, itemToUpdate);
 			Assert.AreEqual(NotifyCollectionChangedAction.Add, changedAction);
-			Assert.AreEqual(({{relation.ForeignKeyType}})1, ((ViewModels.{{relation.ForeignTable}}ViewModel)changedItem).{{relation.ForeignKey}});
+			Assert.AreEqual(({{relation.ForeignKeyType}})1, (({{relation.ForeignTable}}ViewModel)changedItem).{{relation.ForeignKey}});
 			Assert.AreNotEqual(-1, changedIndex);
 		}
 
 		[TestMethod]
 		public void ShouldGetSetSelectedItem()
 		{
-			Models.{{databaseName}}Model testDatabaseModel;
-			ViewModels.{{databaseName}}ViewModel testDatabaseViewModel;
-			ViewModels.{{relation.PrimaryPropertyName}}ViewModelCollection collection;
-			ViewModels.{{relation.PrimaryTable}}ViewModel primaryItem;
+			{{databaseName}}Model testDatabaseModel;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{relation.PrimaryPropertyName}}ViewModelCollection collection;
+			{{relation.PrimaryTable}}ViewModel primaryItem;
 			#nullable enable
 			string? propertyName = null;
 			#nullable disable
 
-			testDatabaseModel = new Models.TestDatabaseModel(MockDatabase.Create());
-			testDatabaseViewModel = new ViewModels.TestDatabaseViewModel(testDatabaseModel);
+			testDatabaseModel = new TestDatabaseModel(MockDatabase.Create());
+			testDatabaseViewModel = new TestDatabaseViewModel(testDatabaseModel);
 
 			primaryItem=testDatabaseViewModel.{{relation.PrimaryTable}}ViewModelCollection.ElementAt(0);
 

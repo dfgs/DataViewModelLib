@@ -105,14 +105,12 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.ComponentModel;
 using System.Windows;
-using DataModelLib;
 using DataViewModelLib;
-{{- for reference in project.references }}
-using {{reference}};
-{{-end}}
+//
 {{-for usingAttribute in class.attributes | with_name "UsingAttribute" }}
 using {{(usingAttribute.parameters | find "Namespace").value}};
 {{-end}}
+
 namespace {{class.namespace}}
 {
 	public partial class {{dto}}ViewModelCollection : IViewModelCollection, IAddViewModelCollection, IRemoveViewModelCollection, IEnumerable<{{dto}}ViewModel>, INotifyPropertyChanged, INotifyCollectionChanged
@@ -129,7 +127,7 @@ namespace {{class.namespace}}
 		}
 		#nullable disable
 						
-		private Models.{{databaseName}}Model databaseModel;
+		private {{databaseName}}Model databaseModel;
 		private {{databaseName}}ViewModel databaseViewModel;
 			
 		private List<{{dto}}ViewModel> items;
@@ -138,7 +136,7 @@ namespace {{class.namespace}}
 			get => items.Count;
 		}
 
-		public {{dto}}ViewModelCollection({{databaseName}}ViewModel DatabaseViewModel, Models.{{databaseName}}Model DatabaseModel)
+		public {{dto}}ViewModelCollection({{databaseName}}ViewModel DatabaseViewModel, {{databaseName}}Model DatabaseModel)
 		{
 			this.databaseModel=DatabaseModel; 
 			this.databaseViewModel=DatabaseViewModel; 
@@ -149,7 +147,7 @@ namespace {{class.namespace}}
 			this.databaseModel.{{dto}}TableChanged += On{{dto}}TableChanged;
 		}
 
-		protected virtual void On{{dto}}TableChanged(Tables.{{dto}} Item, DataLib.TableChangedActions Action, int Index)
+		protected virtual void On{{dto}}TableChanged({{dto}} Item, DataLib.TableChangedActions Action, int Index)
 		{
 			{{dto}}ViewModel item;
 						
@@ -199,7 +197,7 @@ namespace {{class.namespace}}
 			Item.Delete();
 		}
 
-		public void Add(Tables.{{dto}} Item)
+		public void Add({{dto}} Item)
 		{
 			databaseModel.Add{{dto}}(Item);
 		}
@@ -207,10 +205,10 @@ namespace {{class.namespace}}
 		void IAddViewModelCollection.Add(object Item)
 		{
 			#nullable enable
-			Tables.{{dto}}? convertedItem;
+			{{dto}}? convertedItem;
 			#nullable disable
 			
-			convertedItem = Item as Tables.{{dto}};
+			convertedItem = Item as {{dto}};
 			if (convertedItem==null) return;
 			Add(convertedItem);
 		}
