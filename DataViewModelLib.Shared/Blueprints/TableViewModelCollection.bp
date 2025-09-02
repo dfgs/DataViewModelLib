@@ -136,6 +136,11 @@ namespace {{class.namespace}}
 			get => items.Count;
 		}
 
+		public {{dto}}ViewModel this[int Index]
+		{
+			get => items[Index];
+		}
+
 		public {{dto}}ViewModelCollection({{databaseName}}ViewModel DatabaseViewModel, {{databaseName}}Model DatabaseModel)
 		{
 			this.databaseModel=DatabaseModel; 
