@@ -102,7 +102,6 @@ namespace {{class.namespace}}
 		{
 			{{databaseName}}ViewModel testDatabaseViewModel;
 			{{databaseName}}Model testDatabaseModel;
-			{{dto}}ViewModel[] viewModels;
 			int count;
 
 			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
@@ -119,7 +118,6 @@ namespace {{class.namespace}}
 		{
 			{{databaseName}}ViewModel testDatabaseViewModel;
 			{{databaseName}}Model testDatabaseModel;
-			{{dto}}ViewModel[] viewModels;
 			{{dto}}ViewModel item;
 
 			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());

@@ -247,10 +247,6 @@ namespace {{class.namespace}}
 			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
 			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 
-			
-			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
-			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
-
 			primaryItem=testDatabaseViewModel.{{relation.PrimaryTable}}ViewModelCollection.ElementAt(0);
 
 			collection = primaryItem.{{relation.PrimaryPropertyName}};
@@ -273,10 +269,6 @@ namespace {{class.namespace}}
 			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
 			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
 
-			
-			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
-			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
-
 			primaryItem=testDatabaseViewModel.{{relation.PrimaryTable}}ViewModelCollection.ElementAt(0);
 
 			collection = primaryItem.{{relation.PrimaryPropertyName}};
@@ -285,7 +277,7 @@ namespace {{class.namespace}}
 			item=collection[0];
 						
 			Assert.IsNotNull(item);	
-			Assert.AreEqual(1, item.{{primaryKey.name}});
+			Assert.AreEqual(1, item.{{relation.ForeignKey}});
 		}
 
 
