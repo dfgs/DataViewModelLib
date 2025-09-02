@@ -235,6 +235,59 @@ namespace {{class.namespace}}
 			Assert.AreEqual("SelectedItem", propertyName);
 		}
 
+		[TestMethod]
+		public void ShouldGetCount()
+		{
+			{{databaseName}}Model testDatabaseModel;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{relation.PrimaryPropertyName}}ViewModelCollection collection;
+			{{relation.PrimaryTable}}ViewModel primaryItem;
+			int count;
+
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
+
+			
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
+
+			primaryItem=testDatabaseViewModel.{{relation.PrimaryTable}}ViewModelCollection.ElementAt(0);
+
+			collection = primaryItem.{{relation.PrimaryPropertyName}};
+
+			
+			count=collection.Count;
+						
+			Assert.AreEqual(testDatabaseViewModel.{{relation.ForeignTable}}ViewModelCollection.Where(item=>item.{{relation.ForeignKey}}==primaryItem.{{relation.PrimaryKey}}).Count() , count);
+		}
+				
+		[TestMethod]
+		public void ShouldGetIndexer()
+		{
+			{{databaseName}}Model testDatabaseModel;
+			{{databaseName}}ViewModel testDatabaseViewModel;
+			{{relation.PrimaryPropertyName}}ViewModelCollection collection;
+			{{relation.PrimaryTable}}ViewModel primaryItem;
+			{{relation.ForeignTable}}ViewModel item;
+
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
+
+			
+			testDatabaseModel = new {{databaseName}}Model(MockDatabase.Create());
+			testDatabaseViewModel = new {{databaseName}}ViewModel(testDatabaseModel);
+
+			primaryItem=testDatabaseViewModel.{{relation.PrimaryTable}}ViewModelCollection.ElementAt(0);
+
+			collection = primaryItem.{{relation.PrimaryPropertyName}};
+
+			
+			item=collection[0];
+						
+			Assert.IsNotNull(item);	
+			Assert.AreEqual(1, item.{{primaryKey.name}});
+		}
+
 
 	}
 	{{-end}}

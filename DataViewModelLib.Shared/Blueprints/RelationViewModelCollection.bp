@@ -89,6 +89,11 @@ namespace {{class.namespace}}
 		{
 			get => items.Count;
 		}
+		
+		public {{relation.ForeignTable}}ViewModel this[int Index]
+		{
+			get => items[Index];
+		}
 
 		public {{relation.PrimaryPropertyName}}ViewModelCollection({{databaseName}}ViewModel DatabaseViewModel, {{databaseName}}Model DatabaseModel, {{relation.PrimaryTable}}Model PrimaryRow)
 		{
